@@ -19,7 +19,7 @@ const Card: Component<{ game: Game }> = (props) => {
       <HorizontalLine
         style={`w-[70px] h-[3px] mb-3 ${statusMapping[game().status]}`}
       />
-      <div class='flex gap-5'>
+      <div class='flex gap-5 mb-5'>
         <Nation nation={game().home.team} />
         <span class='text-4xl font-semibold mt-2'>
           {game().home.score} : {game().away.score}

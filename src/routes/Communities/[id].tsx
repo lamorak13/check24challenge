@@ -1,6 +1,6 @@
 import { Component } from "solid-js";
 import PreviewTable from "../../components/groups/PreviewTable";
-import Carousel from "../../components/groups/Carousel";
+import Carousel from "../../components/shared/Carousel";
 import Card from "../../components/games/Card";
 import { GameStatus } from "../../utils/types/GameStatus";
 

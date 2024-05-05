@@ -8,6 +8,7 @@ const Carousel: Component<{
   itemWidth: number;
   children: JSX.Element[];
   style?: string;
+  buttonSize?: number;
 }> = (props) => {
   let carousel: HTMLDivElement | undefined;
 
@@ -17,7 +18,10 @@ const Carousel: Component<{
         <button
           onClick={() => (carousel!.scrollLeft -= props.itemWidth)}
           class='border-light-blue border-2 rounded-full hover:bg-light-blue/10'>
-          <RiArrowsArrowDropLeftLine class='text-[50px] text-light-blue' />
+          <RiArrowsArrowDropLeftLine
+            size={props.buttonSize || 50}
+            class='text-light-blue'
+          />
         </button>
         <div
           ref={carousel}
@@ -27,7 +31,10 @@ const Carousel: Component<{
         <button
           onClick={() => (carousel!.scrollLeft += props.itemWidth)}
           class='border-light-blue border-2 rounded-full hover:bg-light-blue/10'>
-          <RiArrowsArrowDropRightLine class='text-[50px] text-light-blue ' />
+          <RiArrowsArrowDropRightLine
+            size={props.buttonSize || 50}
+            class='text-light-blue '
+          />
         </button>
       </div>
     </section>
