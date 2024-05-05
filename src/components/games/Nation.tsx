@@ -1,5 +1,5 @@
 import { Component } from "solid-js";
-import getFlagEmoji from "../../utils/types/getFlagEmoji";
+import getFlagEmoji from "../../utils/getFlagEmoji";
 
 const Nation: Component<{ nation: string }> = (props) => {
   return (

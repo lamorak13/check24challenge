@@ -1,6 +1,6 @@
 import { Component } from "solid-js";
 import { UserRanking } from "../../utils/types/UserRanking";
-import RankingTable from "../../components/groups/RankingTable";
+import RankingTable from "../../components/communities/RankingTable";
 
 const Communities: Component = () => {
   const rankings: UserRanking[] = [

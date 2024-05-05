@@ -6,7 +6,7 @@ const Table: Component<{
   style?: string;
 }> = (props) => {
   return (
-    <table class={`w-[700px] custom-gradient rounded-sm ${props.style}`}>
+    <table class={`custom-gradient rounded-sm ${props.style}`}>
       <thead class='text-left bg-black uppercase tracking-widest text-silver '>
         <tr>
           <For each={props.headings}>

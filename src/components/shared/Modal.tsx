@@ -16,7 +16,7 @@ const Modal: Component<{
       ref={modal}
       onClose={() => props.setShow(false)}
       onClick={() => modal!.close()}
-      class='bg-black text-white'>
+      class='bg-black text-white backdrop:bg-[#000]/40 rounded-base'>
       <div
         onClick={(e) => e.stopPropagation()}
         class='py-16 px-12 min-w-[500px] custom-gradient'>

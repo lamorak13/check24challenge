@@ -1,7 +1,7 @@
 import { Component } from "solid-js";
 import { Game } from "../../utils/types/Game";
 import Pill from "../shared/Pill";
-import getFlagEmoji from "../../utils/types/getFlagEmoji";
+import getFlagEmoji from "../../utils/getFlagEmoji";
 
 const Banner: Component<{ game: Game }> = (props) => {
   return (

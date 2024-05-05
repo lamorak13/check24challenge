@@ -2,42 +2,59 @@ import {
   RiArrowsArrowDropLeftLine,
   RiArrowsArrowDropRightLine,
 } from "solid-icons/ri";
-import { Component, JSX } from "solid-js";
+import { Component, JSX, Show } from "solid-js";
+import CarouselButton from "./CarouselButton";
 
 const Carousel: Component<{
   itemWidth: number;
   children: JSX.Element[];
   style?: string;
   buttonSize?: number;
+  buttonPosition?: "Botton" | "Side";
 }> = (props) => {
   let carousel: HTMLDivElement | undefined;
 
   return (
-    <section>
-      <div class='flex gap-5 mx-auto w-fit items-center'>
-        <button
-          onClick={() => (carousel!.scrollLeft -= props.itemWidth)}
-          class='border-light-blue border-2 rounded-full hover:bg-light-blue/10'>
-          <RiArrowsArrowDropLeftLine
-            size={props.buttonSize || 50}
-            class='text-light-blue'
+    <>
+      <div class='flex w-fit items-center'>
+        <Show when={!props.buttonPosition || props.buttonPosition == "Side"}>
+          <CarouselButton
+            buttonSize={props.buttonSize}
+            onClick={() => (carousel!.scrollLeft -= props.itemWidth)}
+            Icon={RiArrowsArrowDropLeftLine}
           />
-        </button>
+        </Show>
+
         <div
           ref={carousel}
-          class={`py-10 px-[50px] flex gap-[75px] w-[500px] overflow-x-hidden scroll-smooth snap-mandatory snap-x ${props.style}`}>
+          class={` px-[50px] flex items-stretch gap-[75px] w-[500px] overflow-x-hidden scroll-smooth snap-mandatory snap-x ${props.style}`}>
           {props.children}
         </div>
-        <button
-          onClick={() => (carousel!.scrollLeft += props.itemWidth)}
-          class='border-light-blue border-2 rounded-full hover:bg-light-blue/10'>
-          <RiArrowsArrowDropRightLine
-            size={props.buttonSize || 50}
-            class='text-light-blue '
+
+        <Show when={!props.buttonPosition || props.buttonPosition == "Side"}>
+          <CarouselButton
+            buttonSize={props.buttonSize}
+            onClick={() => (carousel!.scrollLeft += props.itemWidth)}
+            Icon={RiArrowsArrowDropRightLine}
           />
-        </button>
+        </Show>
       </div>
-    </section>
+
+      <Show when={props.buttonPosition == "Botton"}>
+        <div class='flex justify-center gap-8 mt-5'>
+          <CarouselButton
+            buttonSize={props.buttonSize}
+            onClick={() => (carousel!.scrollLeft -= props.itemWidth)}
+            Icon={RiArrowsArrowDropLeftLine}
+          />
+          <CarouselButton
+            buttonSize={props.buttonSize}
+            onClick={() => (carousel!.scrollLeft += props.itemWidth)}
+            Icon={RiArrowsArrowDropRightLine}
+          />
+        </div>
+      </Show>
+    </>
   );
 };
 
