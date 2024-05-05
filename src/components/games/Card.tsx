@@ -14,7 +14,7 @@ const Card: Component<{ game: Game }> = (props) => {
   };
 
   return (
-    <div class='custom-gradient py-5 px-20 w-fit flex flex-col items-center min-w-[400px]'>
+    <div class='custom-gradient py-5 px-20 flex flex-col items-center w-[400px] flex-shrink-0 snap-center'>
       <h3 class='text-silver font-medium'>{game().arena}</h3>
       <HorizontalLine
         style={`w-[70px] h-[3px] mb-3 ${statusMapping[game().status]}`}

@@ -1,37 +1,35 @@
 import { Component } from "solid-js";
-import Preview from "../../components/groups/Preview";
-import {
-  RiArrowsArrowDropLeftLine,
-  RiArrowsArrowDropRightLine,
-} from "solid-icons/ri";
+import PreviewTable from "../../components/groups/PreviewTable";
+import Carousel from "../../components/groups/Carousel";
+import Card from "../../components/games/Card";
+import { GameStatus } from "../../utils/types/GameStatus";
 
 const Community: Component = () => {
-  let carousel: HTMLDivElement | undefined;
-  const ItemWidth = 300;
+  const game = {
+    home: {
+      score: 3,
+      team: "GER",
+    },
+    away: {
+      score: 2,
+      team: "ESP",
+    },
+    status: GameStatus.UPCOMING,
+    arena: "BVB Stadion Dortmund",
+  };
 
   return (
     <section>
-      <div class='flex gap-5 mx-auto w-fit items-center'>
-        <button
-          onClick={() => (carousel!.scrollLeft -= ItemWidth)}
-          class='border-light-blue border-2 rounded-full hover:bg-light-blue/10'>
-          <RiArrowsArrowDropLeftLine class='text-[50px] text-light-blue' />
-        </button>
-        <div
-          ref={carousel}
-          class='py-10 px-[50px] flex gap-[75px] w-[500px] overflow-x-hidden scroll-smooth snap-mandatory snap-x'>
-          <Preview />
-          <Preview />
-          <Preview />
-          <Preview />
-          <Preview />
-        </div>
-        <button
-          onClick={() => (carousel!.scrollLeft += ItemWidth)}
-          class='border-light-blue border-2 rounded-full hover:bg-light-blue/10'>
-          <RiArrowsArrowDropRightLine class='text-[50px] text-light-blue ' />
-        </button>
-      </div>
+      <Carousel itemWidth={400}>
+        <PreviewTable />
+        <PreviewTable />
+        <PreviewTable />
+      </Carousel>
+      <Carousel itemWidth={300}>
+        <Card game={game} />
+        <Card game={game} />
+        <Card game={game} />
+      </Carousel>
     </section>
   );
 };

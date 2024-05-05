@@ -2,7 +2,7 @@ import { Component, For } from "solid-js";
 import { UserRanking } from "../../utils/types/UserRanking";
 import Table from "../shared/Table";
 
-const Preview: Component<{}> = () => {
+const PreviewTable: Component<{}> = () => {
   const rankings: UserRanking[] = [
     { username: "JohnDoe", rank: 1, points: 1000 },
     { username: "JaneDoe", rank: 2, points: 900 },
@@ -34,4 +34,4 @@ const Preview: Component<{}> = () => {
   );
 };
 
-export default Preview;
+export default PreviewTable;
