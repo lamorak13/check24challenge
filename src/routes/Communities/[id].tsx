@@ -1,43 +1,37 @@
-import { Component, For } from "solid-js";
-import { UserRanking } from "../../utils/types/UserRanking";
+import { Component } from "solid-js";
+import Preview from "../../components/groups/Preview";
+import {
+  RiArrowsArrowDropLeftLine,
+  RiArrowsArrowDropRightLine,
+} from "solid-icons/ri";
 
 const Community: Component = () => {
-  const rankings: UserRanking[] = [
-    { username: "JohnDoe", rank: 1, points: 1000 },
-    { username: "JaneDoe", rank: 2, points: 900 },
-    { username: "AliceSmith", rank: 3, points: 800 },
-    { username: "MasonWhite", rank: 16, points: 90 },
-    { username: "MiaLopez", rank: 17, points: 80 },
-    { username: "EthanLee", rank: 18, points: 70 },
-    { username: "LiamHarris", rank: 20, points: 50 },
-  ];
-  const userRank = 17;
+  let carousel: HTMLDivElement | undefined;
+  const ItemWidth = 300;
 
   return (
-    <section class='py-10 overflow-auto grid justify-center'>
-      <table class='w-[400px] custom-gradient border-none'>
-        <thead class='text-left bg-black uppercase tracking-widest text-silver'>
-          <tr>
-            <th class='px-4 py-3 font-semibold'>Rank</th>
-            <th class='font-semibold'>User</th>
-            <th class='font-semibold'>Points</th>
-          </tr>
-        </thead>
-        <tbody class=''>
-          <For each={rankings}>
-            {(ranking) => (
-              <tr
-                class={`border-b border-silver/10 ${
-                  ranking.rank == userRank && "bg-light-blue/40"
-                }`}>
-                <td class='pl-4 py-4 text-silver'>{ranking.rank}</td>
-                <td>{ranking.username}</td>
-                <td>{ranking.points}</td>
-              </tr>
-            )}
-          </For>
-        </tbody>
-      </table>
+    <section>
+      <div class='flex gap-5 mx-auto w-fit items-center'>
+        <button
+          onClick={() => (carousel!.scrollLeft -= ItemWidth)}
+          class='border-light-blue border-2 rounded-full hover:bg-light-blue/10'>
+          <RiArrowsArrowDropLeftLine class='text-[50px] text-light-blue' />
+        </button>
+        <div
+          ref={carousel}
+          class='py-10 px-[50px] flex gap-[75px] w-[500px] overflow-x-hidden scroll-smooth snap-mandatory snap-x'>
+          <Preview />
+          <Preview />
+          <Preview />
+          <Preview />
+          <Preview />
+        </div>
+        <button
+          onClick={() => (carousel!.scrollLeft += ItemWidth)}
+          class='border-light-blue border-2 rounded-full hover:bg-light-blue/10'>
+          <RiArrowsArrowDropRightLine class='text-[50px] text-light-blue ' />
+        </button>
+      </div>
     </section>
   );
 };
