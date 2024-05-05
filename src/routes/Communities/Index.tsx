@@ -1,6 +1,6 @@
-import { Component, For, Show, createSignal } from "solid-js";
+import { Component } from "solid-js";
 import { UserRanking } from "../../utils/types/UserRanking";
-import { IoChevronDownOutline, IoChevronUpOutline } from "solid-icons/io";
+import RankingTable from "../../components/groups/RankingTable";
 
 const Communities: Component = () => {
   const rankings: UserRanking[] = [
@@ -26,71 +26,10 @@ const Communities: Component = () => {
     { username: "LiamHarris", rank: 20, points: 50 },
   ];
   const userRank = 11;
-  const [pageSize, setPageSize] = createSignal(10);
-  const [upperLimit, setUpperLimit] = createSignal(3);
-  const [lowerLimit, setLowerLImit] = createSignal(userRank);
 
   return (
     <section class='py-10 overflow-auto grid justify-center'>
-      <table class='w-[700px] custom-gradient rounded-sm'>
-        <thead class='text-left bg-black uppercase tracking-widest text-silver'>
-          <tr>
-            <th class='px-4 py-3 font-semibold'>Rank</th>
-            <th class='font-semibold'>User</th>
-            <th class='font-semibold'>Points</th>
-          </tr>
-        </thead>
-        <tbody class=''>
-          <For each={rankings.slice(0, upperLimit())}>
-            {(ranking) => (
-              <tr class='border-b border-silver/10'>
-                <td class='pl-4 py-4 text-silver'>{ranking.rank}</td>
-                <td>{ranking.username}</td>
-                <td>{ranking.points}</td>
-              </tr>
-            )}
-          </For>
-          <Show when={upperLimit() < lowerLimit() - 1}>
-            <tr class='border-b border-silver/10'>
-              <td
-                colSpan={3}
-                class='pl-4 py-4 text-center'
-                onClick={() =>
-                  setUpperLimit((l) =>
-                    Math.min(l + pageSize(), lowerLimit() - 1)
-                  )
-                }>
-                Show more
-                <IoChevronDownOutline class='inline-block ml-2 text-xl' />
-              </td>
-            </tr>
-
-            <tr class='border-b border-silver/10'>
-              <td
-                colSpan={3}
-                class='pl-4 py-4 text-center'
-                onClick={() =>
-                  setLowerLImit((l) =>
-                    Math.max(l - pageSize(), upperLimit() + 1)
-                  )
-                }>
-                Show more
-                <IoChevronUpOutline class='inline-block ml-2 text-xl' />
-              </td>
-            </tr>
-          </Show>
-
-          <For each={rankings.slice(lowerLimit() - 1)}>
-            {(ranking) => (
-              <tr class='border-b border-silver/10'>
-                <td class='pl-4 py-4 text-silver'>{ranking.rank}</td>
-                <td>{ranking.username}</td>
-                <td>{ranking.points}</td>
-              </tr>
-            )}
-          </For>
-        </tbody>
-      </table>
+      <RankingTable rankings={rankings} userRank={userRank} />
     </section>
   );
 };

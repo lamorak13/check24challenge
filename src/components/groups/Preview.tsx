@@ -1,7 +1,8 @@
 import { Component, For } from "solid-js";
 import { UserRanking } from "../../utils/types/UserRanking";
+import Table from "../shared/Table";
 
-const Preview: Component<{}> = (props) => {
+const Preview: Component<{}> = () => {
   const rankings: UserRanking[] = [
     { username: "JohnDoe", rank: 1, points: 1000 },
     { username: "JaneDoe", rank: 2, points: 900 },
@@ -14,29 +15,22 @@ const Preview: Component<{}> = (props) => {
   const userRank = 17;
 
   return (
-    <table class='w-[400px] custom-gradient border-none flex-shrink-0 snap-center'>
-      <thead class='text-left bg-black uppercase tracking-widest text-silver'>
-        <tr>
-          <th class='px-4 py-3 font-semibold'>Rank</th>
-          <th class='font-semibold'>User</th>
-          <th class='font-semibold'>Points</th>
-        </tr>
-      </thead>
-      <tbody class=''>
-        <For each={rankings}>
-          {(ranking) => (
-            <tr
-              class={`border-b border-silver/10 ${
-                ranking.rank == userRank && "bg-light-blue/40"
-              }`}>
-              <td class='pl-4 py-4 text-silver'>{ranking.rank}</td>
-              <td>{ranking.username}</td>
-              <td>{ranking.points}</td>
-            </tr>
-          )}
-        </For>
-      </tbody>
-    </table>
+    <Table
+      headings={["Rank", "User", "Points"]}
+      style='w-[400px] border-none flex-shrink-0 snap-center'>
+      <For each={rankings}>
+        {(ranking) => (
+          <tr
+            class={`border-b border-silver/10 ${
+              ranking.rank == userRank && "bg-light-blue/40"
+            }`}>
+            <td class='pl-4 py-4 text-silver'>{ranking.rank}</td>
+            <td>{ranking.username}</td>
+            <td>{ranking.points}</td>
+          </tr>
+        )}
+      </For>
+    </Table>
   );
 };
 

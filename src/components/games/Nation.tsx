@@ -1,13 +1,15 @@
-import { Component } from 'solid-js';
-import getFlagEmoji from '../../utils/types/getFlagEmoji';
+import { Component } from "solid-js";
+import getFlagEmoji from "../../utils/types/getFlagEmoji";
 
 const Nation: Component<{ nation: string }> = (props) => {
-    return (
-        <div class='flex flex-col items-center'>
-            <span class='text-5xl'>{getFlagEmoji(props.nation)}</span>
-            <span class='text-xl font-semibold uppercase tracking-wider'>{props.nation}</span>
-        </div>
-    );
+  return (
+    <div class='flex flex-col items-center'>
+      {getFlagEmoji(props.nation, "text-5xl")}
+      <span class='text-xl font-semibold uppercase tracking-wider'>
+        {props.nation}
+      </span>
+    </div>
+  );
 };
 
 export default Nation;
