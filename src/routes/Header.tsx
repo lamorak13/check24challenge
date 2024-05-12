@@ -2,20 +2,17 @@ import { Component, createSignal } from "solid-js";
 import Carousel from "../components/shared/Carousel";
 import Banner from "../components/games/Banner";
 import { GameStatus } from "../utils/types/GameStatus";
+import { Game } from "../utils/types/Game";
 
 const Header: Component<{}> = (props) => {
-  const [game, setGame] = createSignal(
+  const [game, setGame] = createSignal<Game>(
     {
-      home: {
-        score: 3,
-        team: "GER",
-      },
-      away: {
-        score: 2,
-        team: "ESP",
-      },
+      home: "FRA",
+      away: "ESP",
+      score: { away: 2, home: 3 },
       status: GameStatus.UPCOMING,
-      arena: "BVB Stadion Dortmund",
+      date: new Date("2024-05-12"),
+      bet: undefined,
     },
     { equals: false }
   );

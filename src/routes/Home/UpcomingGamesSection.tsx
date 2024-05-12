@@ -1,82 +1,59 @@
 import { Component, createSignal } from "solid-js";
 import { GameStatus } from "../../utils/types/GameStatus";
-import GameTable from "../../components/games/GameTable";
 import { A } from "@solidjs/router";
 import { RiArrowsArrowDropRightLine } from "solid-icons/ri";
+import UpcomingGamesTable from "../../components/games/UpcomingGamesTable";
+import { Game } from "../../utils/types/Game";
 
 const UpcomingGamesSection: Component<{}> = (props) => {
-  const [games, setGames] = createSignal([
+  const [games, setGames] = createSignal<Game[]>([
     {
-      home: {
-        score: 3,
-        team: "GER",
-      },
-      away: {
-        score: 2,
-        team: "ESP",
-      },
+      home: "FRA",
+      away: "ESP",
+      score: { away: 2, home: 3 },
       status: GameStatus.UPCOMING,
-      arena: "BVB Stadion Dortmund",
+      date: new Date("2024-05-12"),
+      bet: undefined,
     },
     {
-      home: {
-        score: 3,
-        team: "GER",
-      },
-      away: {
-        score: 2,
-        team: "ESP",
-      },
+      home: "GER",
+      away: "AUT",
+      score: { away: 2, home: 3 },
       status: GameStatus.UPCOMING,
-      arena: "BVB Stadion Dortmund",
+      date: new Date("2024-05-12"),
+      bet: undefined,
     },
     {
-      home: {
-        score: 3,
-        team: "GER",
-      },
-      away: {
-        score: 2,
-        team: "ESP",
-      },
+      home: "ITA",
+      away: "FIN",
+      score: { away: 2, home: 3 },
       status: GameStatus.UPCOMING,
-      arena: "BVB Stadion Dortmund",
+      date: new Date("2024-05-12"),
+      bet: undefined,
     },
     {
-      home: {
-        score: 3,
-        team: "GER",
-      },
-      away: {
-        score: 2,
-        team: "ESP",
-      },
+      home: "FRA",
+      away: "ESP",
+      score: { away: 2, home: 3 },
       status: GameStatus.UPCOMING,
-      arena: "BVB Stadion Dortmund",
+      date: new Date("2024-05-12"),
+      bet: undefined,
     },
     {
-      home: {
-        score: 3,
-        team: "GER",
-      },
-      away: {
-        score: 2,
-        team: "ESP",
-      },
+      home: "FRA",
+      away: "ESP",
+      score: { away: 2, home: 3 },
       status: GameStatus.UPCOMING,
-      arena: "BVB Stadion Dortmund",
+      date: new Date("2024-05-12"),
+      bet: { home: 5, away: 1 },
     },
     {
-      home: {
-        score: 3,
-        team: "GER",
-      },
-      away: {
-        score: 2,
-        team: "ESP",
-      },
+      home: "FRA",
+      away: "ESP",
+      score: { away: 2, home: 3 },
       status: GameStatus.UPCOMING,
-      arena: "BVB Stadion Dortmund",
+      date: new Date("2024-05-12"),
+      bet: undefined,
     },
   ]);
 
@@ -90,7 +67,7 @@ const UpcomingGamesSection: Component<{}> = (props) => {
         </A>
       </div>
 
-      <GameTable games={games()} />
+      <UpcomingGamesTable games={games()} />
     </section>
   );
 };

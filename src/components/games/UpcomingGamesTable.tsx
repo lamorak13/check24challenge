@@ -8,21 +8,15 @@ import ScoreDisplay from "./ScoreDisplay";
 import DateDisplay from "./DateDisplay";
 import BettingModal from "./BettingModal";
 
-const GameTable: Component<{ games: Game[] }> = (props) => {
+const UpcomingGamesTable: Component<{ games: Game[] }> = (props) => {
   const [openBettingModal, setOpenBettingModal] = createSignal(false);
   const [currentGame, setCurrentGame] = createSignal(props.games[0]);
-
-  const statusMapping: Record<GameStatus, "green" | "blue" | "beige"> = {
-    "In progress": "green",
-    Finished: "beige",
-    Upcoming: "blue",
-  };
 
   return (
     <>
       <Table
-        headings={["Kick-off", "Home", "Away", "Your bet", "Score", "Status"]}
-        style='w-[1000px] border-none'>
+        headings={["Kick-off", "Home", "Away", "Your bet"]}
+        style='w-[600px] border-none'>
         <For each={props.games}>
           {(game) => (
             <tr
@@ -56,12 +50,6 @@ const GameTable: Component<{ games: Game[] }> = (props) => {
                   />
                 </Show>
               </td>
-              <td>
-                <ScoreDisplay score={game.score} />
-              </td>
-              <td>
-                <Pill color={statusMapping[game.status]} text={game.status} />
-              </td>
             </tr>
           )}
         </For>
@@ -75,4 +63,4 @@ const GameTable: Component<{ games: Game[] }> = (props) => {
   );
 };
 
-export default GameTable;
+export default UpcomingGamesTable;

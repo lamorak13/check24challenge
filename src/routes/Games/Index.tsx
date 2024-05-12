@@ -1,56 +1,57 @@
 import { Component, createSignal } from "solid-js";
 import { GameStatus } from "../../utils/types/GameStatus";
 import GameTable from "../../components/games/GameTable";
+import { Game } from "../../utils/types/Game";
 
 const Games: Component<{}> = () => {
-  const [games, setGames] = createSignal([
+  const [games, setGames] = createSignal<Game[]>([
     {
-      home: {
-        score: 3,
-        team: "GER",
-      },
-      away: {
-        score: 2,
-        team: "ESP",
-      },
-      status: GameStatus.UPCOMING,
-      arena: "BVB Stadion Dortmund",
+      home: "FRA",
+      away: "ESP",
+      score: { away: 2, home: 3 },
+      status: GameStatus.FINISHED,
+      date: new Date("2024-05-12"),
+      bet: undefined,
     },
     {
-      home: {
-        score: 3,
-        team: "GER",
-      },
-      away: {
-        score: 2,
-        team: "ESP",
-      },
+      home: "FRA",
+      away: "ESP",
+      score: { away: 2, home: 3 },
       status: GameStatus.UPCOMING,
-      arena: "BVB Stadion Dortmund",
+      date: new Date("2024-05-12"),
+      bet: undefined,
     },
     {
-      home: {
-        score: 3,
-        team: "GER",
-      },
-      away: {
-        score: 2,
-        team: "ESP",
-      },
-      status: GameStatus.UPCOMING,
-      arena: "BVB Stadion Dortmund",
+      home: "FRA",
+      away: "ESP",
+      score: { away: 2, home: 3 },
+      status: GameStatus.IN_PROGRESS,
+      date: new Date("2024-05-12"),
+      bet: undefined,
     },
     {
-      home: {
-        score: 3,
-        team: "GER",
-      },
-      away: {
-        score: 2,
-        team: "ESP",
-      },
+      home: "FRA",
+      away: "ESP",
+      score: { away: 2, home: 3 },
+      status: GameStatus.FINISHED,
+      date: new Date("2024-05-12"),
+      bet: undefined,
+    },
+    {
+      home: "FRA",
+      away: "ESP",
+      score: { away: 2, home: 3 },
       status: GameStatus.UPCOMING,
-      arena: "BVB Stadion Dortmund",
+      date: new Date("2024-05-12"),
+      bet: { home: 5, away: 1 },
+    },
+    {
+      home: "FRA",
+      away: "ESP",
+      score: { away: 2, home: 3 },
+      status: GameStatus.UPCOMING,
+      date: new Date("2024-05-12"),
+      bet: undefined,
     },
   ]);
 

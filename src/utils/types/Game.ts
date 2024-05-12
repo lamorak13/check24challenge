@@ -1,14 +1,11 @@
-import { GameStatus } from './GameStatus';
+import { GameStatus } from "./GameStatus";
+import { Score } from "./Score";
 
 export type Game = {
-    home: {
-        team: string;
-        score: number;
-    };
-    away: {
-        team: string;
-        score: number;
-    };
-    arena: string;
-    status: GameStatus;
+  home: string;
+  away: string;
+  score: Score;
+  date: Date;
+  status: GameStatus;
+  bet: Score | undefined;
 };

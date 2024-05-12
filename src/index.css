@@ -21,3 +21,14 @@ h3 {
 .custom-gradient {
   @apply bg-gradient-to-br from-dark-gray/20 to-silver/20 border-silver/20 border-2 rounded-base;
 }
+
+input[type="number"]::-webkit-inner-spin-button {
+  display: none;
+}
+
+/* Fallback for other browsers */
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+}

@@ -9,13 +9,13 @@ import { A } from "@solidjs/router";
 
 const PreviewTable: Component<{ communityName: string }> = (props) => {
   const rankings: UserRanking[] = [
-    { username: "JohnDoe", rank: 1, points: 1000 },
-    { username: "JaneDoe", rank: 2, points: 900 },
-    { username: "AliceSmith", rank: 3, points: 800 },
-    { username: "MasonWhite", rank: 16, points: 90 },
-    { username: "MiaLopez", rank: 17, points: 80 },
-    { username: "EthanLee", rank: 18, points: 70 },
-    { username: "LiamHarris", rank: 20, points: 50 },
+    { id: "1", username: "JohnDoe", rank: 1, points: 1000, pinned: false },
+    { id: "10", username: "JaneDoe", rank: 2, points: 900, pinned: false },
+    { id: "11", username: "AliceSmith", rank: 3, points: 800, pinned: false },
+    { id: "12", username: "MasonWhite", rank: 16, points: 90, pinned: false },
+    { id: "13", username: "MiaLopez", rank: 17, points: 80, pinned: false },
+    { id: "14", username: "EthanLee", rank: 18, points: 70, pinned: false },
+    { id: "15", username: "LiamHarris", rank: 20, points: 50, pinned: false },
   ];
   const userRank = 17;
 

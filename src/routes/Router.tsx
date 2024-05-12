@@ -12,7 +12,6 @@ const Communities = lazy(() => import("./Communities/Index"));
 const Community = lazy(() => import("./Communities/[id]"));
 
 const Games = lazy(() => import("./Games/Index"));
-const Game = lazy(() => import("./Games/[id]"));
 
 const Router: Component = () => {
   return (
@@ -30,10 +29,7 @@ const Router: Component = () => {
           <Route path='/:id' component={Community} />
         </Route>
 
-        <Route path='/games'>
-          <Route path='/' component={Games} />
-          <Route path='/:id' component={Game} />
-        </Route>
+        <Route path='/games' component={Games} />
       </Route>
     </BaseRouter>
   );
