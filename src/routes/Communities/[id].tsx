@@ -75,15 +75,31 @@ const Community: Component = () => {
     },
     { id: "28", username: "LiamHarris", rank: 20, points: 50, pinned: false },
   ]);
-  const [pinnedRankings, setPinnedRankings] = createSignal<UserRanking[]>([]);
   const userRank = 11;
 
+  function handlePinUser(id: string) {
+    setRankings(
+      (r) => r.id == id,
+      "pinned",
+      (pinned) => !pinned
+    );
+  }
+
   return (
-    <section>
-      <h3 class='mb-5'>Pinned Users</h3>
-      <PinnedRankingTable rankings={pinnedRankings()} />
-      <h3 class='mb-5 mt-20'>All Users</h3>
-      <RankingTable rankings={rankings} userRank={userRank} />
+    <section class='flex justify-between'>
+      <div>
+        <h3 class='mb-5'>Pinned Users</h3>
+        <PinnedRankingTable rankings={rankings} />
+      </div>
+
+      <div>
+        <h3 class='mb-5'>All Users</h3>
+        <RankingTable
+          rankings={rankings}
+          userRank={userRank}
+          handlePinUser={handlePinUser}
+        />
+      </div>
     </section>
   );
 };

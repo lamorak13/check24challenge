@@ -7,6 +7,7 @@ import { RiMapMapPin4Line } from "solid-icons/ri";
 const RankingTable: Component<{
   rankings: UserRanking[];
   userRank: number;
+  handlePinUser: (id: string) => void;
 }> = (props) => {
   const [pageSize, setPageSize] = createSignal(5);
   const [upperLimit, setUpperLimit] = createSignal(3);
@@ -21,10 +22,12 @@ const RankingTable: Component<{
             <td class='pl-4 py-4'>{ranking.username}</td>
             <td class='pl-4 py-4'>{ranking.points}</td>
             <td class='pl-4 py-4'>
-              <RiMapMapPin4Line
-                size={20}
-                class='text-dark-gray hover:text-light-blue cursor-pointer'
-              />
+              <button onClick={() => props.handlePinUser(ranking.id)}>
+                <RiMapMapPin4Line
+                  size={20}
+                  class='text-dark-gray hover:text-light-blue cursor-pointer'
+                />
+              </button>
             </td>
           </tr>
         )}
@@ -62,10 +65,12 @@ const RankingTable: Component<{
             <td class='pl-4 py-4'>{ranking.username}</td>
             <td class='pl-4 py-4'>{ranking.points}</td>
             <td class='pl-4 py-4'>
-              <RiMapMapPin4Line
-                size={20}
-                class='text-dark-gray hover:text-light-blue cursor-pointer'
-              />
+              <button onClick={() => props.handlePinUser(ranking.id)}>
+                <RiMapMapPin4Line
+                  size={20}
+                  class='text-dark-gray hover:text-light-blue cursor-pointer'
+                />
+              </button>
             </td>
           </tr>
         )}

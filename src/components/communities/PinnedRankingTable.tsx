@@ -8,7 +8,7 @@ const PinnedRankingTable: Component<{
 }> = (props) => {
   return (
     <Table headings={["Rank", "User", "Points", ""]} style='w-[600px]'>
-      <For each={props.rankings}>
+      <For each={props.rankings.filter((r) => r.pinned)}>
         {(ranking) => (
           <tr class='border-b border-silver/10'>
             <td class='pl-4 py-4 text-silver'>{ranking.rank}</td>
