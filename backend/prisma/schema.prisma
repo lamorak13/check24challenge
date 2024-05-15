@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String @id @default(uuid())
+  name        String @unique
+  points      Int    @default(0)
+  Bet         Bet[]  @relation(name: "BettingUser")
+  pinnedUsers Pin[]  @relation("PinningUser")
+  pinnedBy    Pin[]  @relation("PinnedUser")
+}
+
+model Game {
+  id        String     @id @default(uuid())
+  kickoff   DateTime
+  home      String
+  Away      String
+  homescore Int        @default(0)
+  awayscore Int        @default(0)
+  status    GameStatus @default(Upcoming)
+  bet       Bet[]      @relation(name: "GameOfBet")
+}
+
+model Community {
+  id   String @id @default(uuid())
+  name String @unique
+}
+
+model Bet {
+  id        String @id @default(uuid())
+  homescore Int
+  awayscore Int
+  game      Game   @relation(name: "GameOfBet", fields: [gameId], references: [id])
+  gameId    String
+  user      User   @relation(name: "BettingUser", fields: [userId], references: [id])
+  userId    String
+}
+
+model Pin {
+  id           String @id @default(uuid())
+  user         User   @relation(name: "PinningUser", fields: [userId], references: [id])
+  userId       String
+  pinnedUser   User   @relation(name: "PinnedUser", fields: [pinnedUserId], references: [id])
+  pinnedUserId String
+}
+
+enum GameStatus {
+  Upcoming
+  In_progress
+  Finished
+}
