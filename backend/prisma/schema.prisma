@@ -26,7 +26,7 @@ model Game {
   id        String     @id @default(uuid())
   kickoff   DateTime
   home      String
-  Away      String
+  away      String
   homescore Int        @default(0)
   awayscore Int        @default(0)
   status    GameStatus @default(Upcoming)
