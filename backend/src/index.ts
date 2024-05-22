@@ -124,7 +124,7 @@ app.get("/games/:id/start", async (req, res) => {
 });
 
 app.get("/games/:id/finish", async (req, res) => {
-  const result = await prisma.game.update({
+  await prisma.game.update({
     where: {
       id: req.params.id,
       status: "In_progress",
@@ -133,6 +133,13 @@ app.get("/games/:id/finish", async (req, res) => {
       status: "Finished",
     },
   });
+
+  const sqlFromFile = await readFile("./src/queries/UpdateRanking.sql", {
+    encoding: "utf8",
+  });
+
+  const result = await prisma.$queryRawUnsafe(sqlFromFile, req.params.id);
+
   res.json(result);
 });
 
