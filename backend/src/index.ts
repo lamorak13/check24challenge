@@ -1,9 +1,32 @@
 import express from "express";
+import ws from "ws";
 import { setup } from "./setup";
 const cors = require("cors");
 
 import { PrismaClient } from "@prisma/client";
 import { readFile } from "fs/promises";
+
+const wss = new ws.Server({ port: 8080 });
+
+wss.on("connection", function connection(ws) {
+  console.log("new connection");
+
+  ws.on("close", function () {
+    console.log("Closing connection..");
+  });
+});
+
+function sendGameStartedUpdate() {
+  wss.clients.forEach((ws) => ws.send("Game Started"));
+}
+
+function sendGameFinishedUpdate() {
+  wss.clients.forEach((ws) => ws.send("Game Finished"));
+}
+
+function sendGameScoredUpdate() {
+  wss.clients.forEach((ws) => ws.send("Game Score"));
+}
 
 const prisma = new PrismaClient();
 const app = express();
@@ -120,6 +143,7 @@ app.get("/games/:id/start", async (req, res) => {
       status: "In_progress",
     },
   });
+  sendGameStartedUpdate();
   res.json(result);
 });
 
@@ -140,6 +164,7 @@ app.get("/games/:id/finish", async (req, res) => {
 
   const result = await prisma.$queryRawUnsafe(sqlFromFile, req.params.id);
 
+  sendGameFinishedUpdate();
   res.json(result);
 });
 
@@ -262,6 +287,8 @@ app.put("/games/:id/score/home", async (req, res) => {
       },
     },
   });
+
+  sendGameScoredUpdate();
   res.json(result);
 });
 
@@ -276,6 +303,8 @@ app.put("/games/:id/score/away", async (req, res) => {
       },
     },
   });
+
+  sendGameScoredUpdate();
   res.json(result);
 });
 
