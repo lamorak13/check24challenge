@@ -22,7 +22,7 @@ const UpcomingGamesSection: Component<{}> = (props) => {
         </A>
       </div>
       <Show when={games() != undefined}>
-        <UpcomingGamesTable games={games()!} />
+        <UpcomingGamesTable games={games()!} onSubmit={refetch} />
       </Show>
     </section>
   );

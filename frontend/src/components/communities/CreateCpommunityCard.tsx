@@ -5,7 +5,7 @@ import CreateCommunityModal from "./CreateCommunityModal";
 import JoinCommunityModal from "./JoinCommunityModal";
 
 const CreateCpommunityCard: Component<{
-  refetch: any;
+  refetch: () => any;
   numberOfCommunities: number;
 }> = (props) => {
   const [showCreatePopup, setShowCreatePopup] = createSignal(false);

@@ -15,6 +15,7 @@ const BettingModal: Component<{
   game: Game;
   show: Accessor<boolean>;
   setShow: Setter<boolean>;
+  onSubmit: () => any;
 }> = (props) => {
   const { name } = useUserNameContext();
   const [bet, setBet] = createStore<Score>({ home: 0, away: 0 });
@@ -41,7 +42,11 @@ const BettingModal: Component<{
         </div>
         <Button
           text='Save'
-          onClick={async () => postUserBet(props.game.id, bet, name()!)}
+          onClick={async () => {
+            await postUserBet(props.game.id, bet, name()!);
+            console.log("refetching...");
+            props.onSubmit();
+          }}
         />
         <Button text='Cancel' type='Secondary' />
       </form>

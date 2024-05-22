@@ -8,7 +8,9 @@ import ScoreDisplay from "./ScoreDisplay";
 import DateDisplay from "./DateDisplay";
 import BettingModal from "./BettingModal";
 
-const GameTable: Component<{ games: Game[] }> = (props) => {
+const GameTable: Component<{ games: Game[]; onSubmit: () => any }> = (
+  props
+) => {
   const [openBettingModal, setOpenBettingModal] = createSignal(false);
   const [currentGame, setCurrentGame] = createSignal(props.games[0]);
 
@@ -70,6 +72,7 @@ const GameTable: Component<{ games: Game[] }> = (props) => {
         game={currentGame()}
         show={openBettingModal}
         setShow={setOpenBettingModal}
+        onSubmit={props.onSubmit}
       />
     </>
   );

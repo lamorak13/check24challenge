@@ -245,6 +245,6 @@ app.get("/communities/:id/ranking", async (req, res) => {
 });
 
 app.listen(port, async () => {
-  await setup();
+  /* await setup(); */
   console.log(`Server is running on http://localhost:${port}`);
 });

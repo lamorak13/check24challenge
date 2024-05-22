@@ -13,7 +13,7 @@ const Games: Component<{}> = () => {
 
   return (
     <Show when={games() != undefined}>
-      <GameTable games={games()!} />
+      <GameTable games={games()!} onSubmit={refetch} />
     </Show>
   );
 };
