@@ -1,10 +1,4 @@
-import {
-  Accessor,
-  Component,
-  Setter,
-  createEffect,
-  createSignal,
-} from "solid-js";
+import { Accessor, Component, Setter, createEffect } from "solid-js";
 import { Game } from "../../utils/types/Game";
 import Modal from "../shared/Modal";
 import Card from "./Card";
@@ -14,18 +8,22 @@ import Nation from "./Nation";
 import { Score } from "../../utils/types/Score";
 import ScoreInput from "../form/ScoreInput";
 import { createStore } from "solid-js/store";
+import { postUserBet } from "../../utils/api";
+import { useUserNameContext } from "../../routes/UserNameContext";
 
 const BettingModal: Component<{
   game: Game;
   show: Accessor<boolean>;
   setShow: Setter<boolean>;
 }> = (props) => {
+  const { name } = useUserNameContext();
   const [bet, setBet] = createStore<Score>({ home: 0, away: 0 });
 
-  createEffect(() => console.log(bet.home));
-
   return (
-    <Modal show={props.show} setShow={props.setShow}>
+    <Modal
+      show={props.show}
+      setShow={props.setShow}
+      onClose={() => setBet({ home: 0, away: 0 })}>
       <form method='dialog' class='flex flex-col gap-2 '>
         <h1 class='text-center'>Make a bet!</h1>
         <HorizontalLine />
@@ -41,8 +39,11 @@ const BettingModal: Component<{
           </span>
           <Nation nation={props.game.away} />
         </div>
-        <Button text='Save' onClick={() => {}} />
-        <Button text='Cancel' type='Secondary' onClick={() => {}} />
+        <Button
+          text='Save'
+          onClick={async () => postUserBet(props.game.id, bet, name()!)}
+        />
+        <Button text='Cancel' type='Secondary' />
       </form>
     </Modal>
   );

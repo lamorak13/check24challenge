@@ -1,8 +1,15 @@
-import { Component } from "solid-js";
+import { Component, createEffect } from "solid-js";
 import Header from "./Header";
-import { RouteSectionProps } from "@solidjs/router";
+import { RouteSectionProps, useNavigate } from "@solidjs/router";
+import { useUserNameContext } from "./UserNameContext";
 
 const Layout: Component<RouteSectionProps<unknown>> = (props) => {
+  const { name } = useUserNameContext();
+  const navigate = useNavigate();
+  createEffect(() => {
+    if (name() == undefined) navigate("/signin", { replace: true });
+  });
+
   return (
     <>
       <Header />

@@ -14,11 +14,11 @@ const Card: Component<{ game: Game }> = (props) => {
   return (
     <div class='custom-gradient py-5 px-20 flex flex-col items-center w-[400px] flex-shrink-0 snap-center'>
       <div class='flex gap-5 mb-5'>
-        <Nation nation={props.game.home.team} />
+        <Nation nation={props.game.home} />
         <span class='text-4xl font-semibold mt-2'>
-          {props.game.home.score} : {props.game.away.score}
+          {props.game.score.home} : {props.game.score.away}
         </span>
-        <Nation nation={props.game.away.team} />
+        <Nation nation={props.game.away} />
       </div>
       <Pill color={statusMapping[props.game.status]} text={props.game.status} />
     </div>

@@ -3,15 +3,22 @@ import Input from "../form/Input";
 import Button from "../form/Button";
 import HorizontalLine from "../shared/HorizontalLine";
 import Modal from "../shared/Modal";
+import { createCommunity } from "../../utils/api";
+import { useUserNameContext } from "../../routes/UserNameContext";
 
 const CreateCommunityModal: Component<{
   show: Accessor<boolean>;
   setShow: Setter<boolean>;
+  onSubmit: () => any;
 }> = (props) => {
+  const context = useUserNameContext();
   const [groupName, setGroupName] = createSignal("");
 
   return (
-    <Modal show={props.show} setShow={props.setShow}>
+    <Modal
+      show={props.show}
+      setShow={props.setShow}
+      onClose={() => setGroupName("")}>
       <form method='dialog' class='flex flex-col gap-2 '>
         <h1 class='text-center'>Create new group</h1>
         <HorizontalLine />
@@ -20,7 +27,13 @@ const CreateCommunityModal: Component<{
           value={groupName()}
           onInput={setGroupName}
         />
-        <Button text='Create group' />
+        <Button
+          text='Create group'
+          onClick={async () => {
+            await createCommunity(context.name() || "", groupName());
+            props.onSubmit();
+          }}
+        />
       </form>
     </Modal>
   );

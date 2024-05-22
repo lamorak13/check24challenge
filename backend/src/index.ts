@@ -1,11 +1,15 @@
 import express from "express";
-import { setup } from "./setup";
+const cors = require("cors");
+/* const express = require("express"); */
 
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 const app = express();
 const port = 5000;
+
+app.use(cors());
+app.use(express.json());
 
 app.post("/signup", async (req, res) => {
   const name = req.body.name;
@@ -31,36 +35,67 @@ app.post("/signin", async (req, res) => {
 });
 
 app.get("/games", async (req, res) => {
-  const { status, team, date, bet, username } = req.body;
+  const { status, team, date, bet } = req.query;
+  const userName = req.headers["x-user-name"];
+
   const result = await prisma.game.findMany({
-    where: {
-      status: status ? status : true,
+    /* where: {
+      status: status ? status : undefined,
       kickoff: {
-        lte: date,
+        lte: date ? date : undefined,
       },
       bet: {
         some: {
-          userName: bet ? username : true,
+          userName: bet && typeof userName == "string" ? userName : undefined,
         },
       },
-      OR: [{ away: team ? team : true }, { home: team ? team : true }],
+      OR: [
+        { away: team ? team : undefined },
+        { home: team ? team : undefined },
+      ],
+    }, */
+    include: {
+      bet: {
+        where: {
+          userName: typeof userName == "string" ? userName : "",
+        },
+      },
     },
+    orderBy: { kickoff: "asc" },
   });
   res.json(result);
 });
 
 app.get("/games/upcoming", async (req, res) => {
+  const userName = req.headers["x-user-name"];
+
   const result = await prisma.game.findMany({
     where: { status: "Upcoming" },
-    orderBy: { kickoff: "desc" },
+    include: {
+      bet: {
+        where: {
+          userName: typeof userName == "string" ? userName : "",
+        },
+      },
+    },
+    orderBy: { kickoff: "asc" },
     take: 10,
   });
+
   res.json(result);
 });
 
 app.get("/games/in_progress", async (req, res) => {
   const result = await prisma.game.findMany({
     where: { status: "In_progress" },
+    include: {
+      bet: {
+        where: {
+          userName: "test",
+        },
+      },
+    },
+    orderBy: { kickoff: "asc" },
   });
   res.json(result);
 });
@@ -136,6 +171,75 @@ app.delete("user/:username/pin", async (req, res) => {
     },
   });
 
+  res.json(result);
+});
+
+app.post("/communities/:communitName/join", async (req, res) => {
+  const userName = req.headers["x-user-name"];
+
+  const result = await prisma.belongsToCommunity.upsert({
+    where: {
+      userName_communityName: {
+        communityName: req.params.communitName,
+        userName: typeof userName == "string" ? userName : "",
+      },
+    },
+    update: {},
+    create: {
+      communityName: req.params.communitName,
+      userName: typeof userName == "string" ? userName : "",
+    },
+  });
+  res.json(result);
+});
+
+app.post("/communities/create", async (req, res) => {
+  const userName = req.headers["x-user-name"];
+  const { communitName } = req.body;
+
+  await prisma.community.create({
+    data: {
+      name: communitName,
+    },
+  });
+
+  const result = await prisma.belongsToCommunity.create({
+    data: {
+      communityName: communitName,
+      userName: typeof userName == "string" ? userName : "",
+    },
+  });
+  res.json(result);
+});
+
+app.get("/communities", async (req, res) => {
+  const userName = req.headers["x-user-name"];
+
+  const result = await prisma.community.findMany({
+    where: {
+      belongsToCommunity: {
+        some: {
+          userName: typeof userName == "string" ? userName : "",
+        },
+      },
+    },
+  });
+  res.json(result);
+});
+
+app.get("/communities/:id/ranking", async (req, res) => {
+  const result = await prisma.user.findMany({
+    where: {
+      belongsToCommunity: {
+        some: {
+          communityName: req.params.id,
+        },
+      },
+    },
+    orderBy: {
+      points: "desc",
+    },
+  });
   res.json(result);
 });
 

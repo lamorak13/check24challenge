@@ -4,6 +4,9 @@ export default function getFlagEmoji(
   countryCode: string,
   style?: string
 ): JSX.Element {
+  if (!(countryCode in countryISOMapping)) {
+    return <span class={`${style} text-lg font-bold`}>{countryCode}</span>;
+  }
   const codePoints = countryISOMapping[countryCode].iso2
     .toUpperCase()
     .split("")
@@ -139,6 +142,8 @@ const countryISOMapping: Record<string, { iso2: string; iso3: string }> = {
   ECU: { iso2: "EC", iso3: "ECU" },
 
   EGY: { iso2: "EG", iso3: "EGY" },
+
+  ENG: { iso2: "GB-ENG", iso3: "ENG" },
 
   ESA: { iso2: "SV", iso3: "SLV" },
 
@@ -395,6 +400,8 @@ const countryISOMapping: Record<string, { iso2: string; iso3: string }> = {
   SRI: { iso2: "LK", iso3: "LKA" },
 
   PLE: { iso2: "PS", iso3: "PSE" },
+
+  SCO: { iso2: "GB-SCT", iso3: "SCO" },
 
   SUD: { iso2: "SD", iso3: "SDN" },
 

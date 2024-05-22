@@ -26,7 +26,7 @@ const UpcomingGamesTable: Component<{ games: Game[] }> = (props) => {
                 }
               }}>
               <td class='text-silver pl-4 py-4'>
-                <DateDisplay date={game.date} />
+                <DateDisplay date={game.kickoff} />
               </td>
               <td class='uppercase font-semibold text-lg tracking-wider pl-4 py-4'>
                 {getFlagEmoji(game.home, "text-2xl mr-2")}

@@ -2,10 +2,11 @@ import { GameStatus } from "./GameStatus";
 import { Score } from "./Score";
 
 export type Game = {
+  id: string;
   home: string;
   away: string;
   score: Score;
-  date: Date;
+  kickoff: Date;
   status: GameStatus;
   bet: Score | undefined;
 };

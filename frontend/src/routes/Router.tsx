@@ -1,5 +1,6 @@
 import { Route, Router as BaseRouter } from "@solidjs/router";
 import { Component, lazy } from "solid-js";
+import { UserNameProvider } from "./UserNameContext";
 
 const GeneralLayout = lazy(() => import("./Layout"));
 const Home = lazy(() => import("./Home/Home"));
@@ -15,23 +16,25 @@ const Games = lazy(() => import("./Games/Index"));
 
 const Router: Component = () => {
   return (
-    <BaseRouter>
-      <Route path='/' component={GeneralLayout}>
-        <Route path='/' component={Home} />
+    <UserNameProvider>
+      <BaseRouter>
+        <Route path='/' component={GeneralLayout}>
+          <Route path='/' component={Home} />
 
-        <Route path='/' component={AuthLayout}>
-          <Route path='/signin' component={Signin} />
-          <Route path='/signup' component={Signup} />
+          <Route path='/' component={AuthLayout}>
+            <Route path='/signin' component={Signin} />
+            <Route path='/signup' component={Signup} />
+          </Route>
+
+          <Route path='/communities'>
+            <Route path='/' component={Communities} />
+            <Route path='/:id' component={Community} />
+          </Route>
+
+          <Route path='/games' component={Games} />
         </Route>
-
-        <Route path='/communities'>
-          <Route path='/' component={Communities} />
-          <Route path='/:id' component={Community} />
-        </Route>
-
-        <Route path='/games' component={Games} />
-      </Route>
-    </BaseRouter>
+      </BaseRouter>
+    </UserNameProvider>
   );
 };
 

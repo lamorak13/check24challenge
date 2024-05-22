@@ -1,61 +1,16 @@
-import { Component, createSignal } from "solid-js";
-import { GameStatus } from "../../utils/types/GameStatus";
+import { Component, Show, createResource, useContext } from "solid-js";
 import { A } from "@solidjs/router";
 import { RiArrowsArrowDropRightLine } from "solid-icons/ri";
 import UpcomingGamesTable from "../../components/games/UpcomingGamesTable";
 import { Game } from "../../utils/types/Game";
+import { fetchUpcomingGames } from "../../utils/api.ts";
+import { useUserNameContext } from "../UserNameContext.tsx";
 
 const UpcomingGamesSection: Component<{}> = (props) => {
-  const [games, setGames] = createSignal<Game[]>([
-    {
-      home: "FRA",
-      away: "ESP",
-      score: { away: 2, home: 3 },
-      status: GameStatus.UPCOMING,
-      date: new Date("2024-05-12"),
-      bet: undefined,
-    },
-    {
-      home: "GER",
-      away: "AUT",
-      score: { away: 2, home: 3 },
-      status: GameStatus.UPCOMING,
-      date: new Date("2024-05-12"),
-      bet: undefined,
-    },
-    {
-      home: "ITA",
-      away: "FIN",
-      score: { away: 2, home: 3 },
-      status: GameStatus.UPCOMING,
-      date: new Date("2024-05-12"),
-      bet: undefined,
-    },
-    {
-      home: "FRA",
-      away: "ESP",
-      score: { away: 2, home: 3 },
-      status: GameStatus.UPCOMING,
-      date: new Date("2024-05-12"),
-      bet: undefined,
-    },
-    {
-      home: "FRA",
-      away: "ESP",
-      score: { away: 2, home: 3 },
-      status: GameStatus.UPCOMING,
-      date: new Date("2024-05-12"),
-      bet: { home: 5, away: 1 },
-    },
-    {
-      home: "FRA",
-      away: "ESP",
-      score: { away: 2, home: 3 },
-      status: GameStatus.UPCOMING,
-      date: new Date("2024-05-12"),
-      bet: undefined,
-    },
-  ]);
+  const context = useUserNameContext();
+  const [games, { mutate, refetch }] = createResource<Game[]>(() =>
+    fetchUpcomingGames(context.name() || "")
+  );
 
   return (
     <section class='w-fit'>
@@ -66,8 +21,9 @@ const UpcomingGamesSection: Component<{}> = (props) => {
           <RiArrowsArrowDropRightLine class='inline-block' size={30} />
         </A>
       </div>
-
-      <UpcomingGamesTable games={games()} />
+      <Show when={games() != undefined}>
+        <UpcomingGamesTable games={games()!} />
+      </Show>
     </section>
   );
 };

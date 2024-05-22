@@ -7,7 +7,7 @@ import CarouselButton from "./CarouselButton";
 
 const Carousel: Component<{
   itemWidth: number;
-  children: JSX.Element[];
+  children: JSX.Element[] | JSX.Element;
   style?: string;
   buttonSize?: number;
   buttonPosition?: "Botton" | "Side";
@@ -27,7 +27,7 @@ const Carousel: Component<{
 
         <div
           ref={carousel}
-          class={` px-[50px] flex items-stretch gap-[75px] w-[500px] overflow-x-hidden scroll-smooth snap-mandatory snap-x ${props.style}`}>
+          class={`px-[50px] flex items-stretch gap-[75px] w-[500px] overflow-x-hidden scroll-smooth snap-mandatory snap-x ${props.style}`}>
           {props.children}
         </div>
 

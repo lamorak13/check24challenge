@@ -14,9 +14,9 @@ const Banner: Component<{ game: Game }> = (props) => {
   };
 
   return (
-    <div class='custom-gradient flex justify-between items-center gap-10 px-4 py-2 flex-shrink-0 snap-center w-[600px]'>
+    <div class='custom-gradient flex justify-between items-center px-4 py-2 flex-shrink-0 snap-center w-[600px]'>
       <span class='text-silver'>
-        <DateDisplay date={props.game.date} />
+        <DateDisplay date={props.game.kickoff} />
       </span>
       <span class='uppercase font-semibold text-lg tracking-wider'>
         {getFlagEmoji(props.game.home, "text-2xl mr-2")}
