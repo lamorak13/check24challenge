@@ -31,12 +31,16 @@ const UpcomingGamesTable: Component<{ games: Game[]; onSubmit: () => any }> = (
                 <DateDisplay date={game.kickoff} />
               </td>
               <td class='uppercase font-semibold text-lg tracking-wider pl-4 py-4'>
-                {getFlagEmoji(game.home, "text-2xl mr-2")}
-                {game.home}
+                <div class=' flex items-center'>
+                  {getFlagEmoji(game.home, "text-2xl mr-2")}
+                  {game.home}
+                </div>
               </td>
-              <td class='uppercase font-semibold text-lg tracking-wider pl-4 py-4'>
-                {game.away}
-                {getFlagEmoji(game.away, "text-2xl ml-2")}
+              <td class='uppercase font-semibold text-lg tracking-wider pl-4 py-4 flex'>
+                <div class=' flex items-center'>
+                  {game.away}
+                  {getFlagEmoji(game.away, "text-2xl ml-2")}
+                </div>
               </td>
               <td class='pl-4 py-4'>
                 <Show

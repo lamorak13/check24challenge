@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 body {
+  font-family: "Twemoji Country Flags", sans-serif;
+}
+
+body {
   @apply bg-black text-white;
 }
 
