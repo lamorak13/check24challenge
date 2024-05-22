@@ -11,13 +11,13 @@ const RankingTable: Component<{
 }> = (props) => {
   const { name } = useUserNameContext();
   const userRank = props.rankings.findIndex((r) => r.name == name());
-  const [pageSize, setPageSize] = createSignal(5);
+  const [pageSize, setPageSize] = createSignal(23);
   const [upperLimit, setUpperLimit] = createSignal(3);
   const [lowerLimit, setLowerLImit] = createSignal(userRank);
 
   return (
     <Table headings={["Rank", "User", "Points", ""]} style='w-[600px]'>
-      <For each={props.rankings.slice(0, upperLimit())}>
+      <For each={props.rankings.slice(0, Math.min(upperLimit(), userRank - 1))}>
         {(ranking) => (
           <tr class='border-b border-silver/10'>
             <td class='pl-4 py-4 text-silver'>{ranking.rank}</td>
@@ -36,13 +36,13 @@ const RankingTable: Component<{
           </tr>
         )}
       </For>
-      <Show when={upperLimit() < lowerLimit() - 1}>
+      <Show when={upperLimit() < lowerLimit()}>
         <tr class='border-b border-silver/10'>
           <td
             colSpan={3}
             class='pl-4 py-4 text-center'
             onClick={() =>
-              setUpperLimit((l) => Math.min(l + pageSize(), lowerLimit() - 1))
+              setUpperLimit((l) => Math.min(l + pageSize(), lowerLimit()))
             }>
             Show more
             <IoChevronDownOutline class='inline-block ml-2 text-xl' />
@@ -54,7 +54,7 @@ const RankingTable: Component<{
             colSpan={3}
             class='pl-4 py-4 text-center'
             onClick={() =>
-              setLowerLImit((l) => Math.max(l - pageSize(), upperLimit() + 1))
+              setLowerLImit((l) => Math.max(l - pageSize(), upperLimit()))
             }>
             Show more
             <IoChevronUpOutline class='inline-block ml-2 text-xl' />
@@ -62,7 +62,7 @@ const RankingTable: Component<{
         </tr>
       </Show>
 
-      <For each={props.rankings.slice(lowerLimit() - 1)}>
+      <For each={props.rankings.slice(lowerLimit())}>
         {(ranking) => (
           <tr class='border-b border-silver/10'>
             <td class='pl-4 py-4 text-silver'>{ranking.rank}</td>

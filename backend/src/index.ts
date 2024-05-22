@@ -1,6 +1,7 @@
 import express from "express";
 import ws from "ws";
 import { setup } from "./setup";
+import { test_setup } from "./test_setup";
 const cors = require("cors");
 
 import { PrismaClient } from "@prisma/client";
@@ -310,5 +311,6 @@ app.put("/games/:id/score/away", async (req, res) => {
 
 app.listen(port, async () => {
   /* await setup(); */
+  await test_setup();
   console.log(`Server is running on http://localhost:${port}`);
 });
