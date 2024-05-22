@@ -4,6 +4,7 @@ import Banner from "../components/games/Banner";
 import { Game } from "../utils/types/Game";
 import { fetchInProgressGames } from "../utils/api";
 import { A } from "@solidjs/router";
+import EmptyBanner from "../components/games/EmptyBanner";
 
 const Header: Component<{}> = (props) => {
   const [games, { mutate, refetch }] =
@@ -14,11 +15,14 @@ const Header: Component<{}> = (props) => {
       <A href='/'>
         <h3>GenDev Betting Challenge</h3>
       </A>
-      <Show when={games() != undefined}>
-        <Carousel itemWidth={400} style='!w-[700px]' buttonSize={30}>
+
+      <Carousel itemWidth={400} style='!w-[700px]' buttonSize={30}>
+        <Show
+          when={games() != undefined && games()!.length > 0}
+          fallback={<EmptyBanner />}>
           <For each={games()}>{(game) => <Banner game={game} />}</For>
-        </Carousel>
-      </Show>
+        </Show>
+      </Carousel>
     </header>
   );
 };
