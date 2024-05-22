@@ -2,7 +2,7 @@ import { Community } from "./types/Community";
 import type { Game } from "./types/Game";
 import { GameStatus } from "./types/GameStatus";
 import { Score } from "./types/Score";
-import { User } from "./types/User";
+import { UserRanking } from "./types/UserRanking";
 
 export async function fetchUpcomingGames(userName: string): Promise<Game[]> {
   const response = await fetch("http://localhost:5000/games/upcoming", {
@@ -185,17 +185,53 @@ export async function joinCommunity(username: string, communitName: string) {
 }
 
 export async function fetchCommunityRanking(
-  communitName: string
-): Promise<User[]> {
+  communitName: string,
+  userName: string
+): Promise<UserRanking[]> {
   const response = await fetch(
     `http://localhost:5000/communities/${communitName}/ranking`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "x-user-name": userName,
       },
     }
   );
+
+  const result = await response.json();
+  return result;
+}
+
+export async function pinUser(
+  userName: string,
+  pinnedUserName: string,
+  communityName: string
+) {
+  const response = await fetch(`http://localhost:5000/user/${userName}/pin`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ communityName, pinnedUserName }),
+  });
+
+  const result = await response.json();
+  return result;
+}
+
+export async function deletePin(
+  userName: string,
+  pinnedUserName: string,
+  communityName: string
+) {
+  const response = await fetch(`http://localhost:5000/user/${userName}/pin`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ communityName, pinnedUserName }),
+  });
 
   const result = await response.json();
   return result;

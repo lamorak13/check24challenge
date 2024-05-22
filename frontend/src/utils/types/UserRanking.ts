@@ -1,6 +1,5 @@
 export type UserRanking = {
-  id: string;
-  username: string;
+  name: string;
   rank: number;
   points: number;
   pinned: boolean;

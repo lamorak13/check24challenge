@@ -1,8 +1,9 @@
 import express from "express";
+import { setup } from "./setup";
 const cors = require("cors");
-/* const express = require("express"); */
 
 import { PrismaClient } from "@prisma/client";
+import { readFile } from "fs/promises";
 
 const prisma = new PrismaClient();
 const app = express();
@@ -150,23 +151,25 @@ app.post("/games/:id/bet", async (req, res) => {
   res.json(result);
 });
 
-app.post("user/:username/pin", async (req, res) => {
+app.post("/user/:username/pin", async (req, res) => {
   const result = await prisma.pin.create({
     data: {
       userName: req.params.username,
       pinnedUserName: req.body.pinnedUserName,
+      communityName: req.body.communityName,
     },
   });
 
   res.json(result);
 });
 
-app.delete("user/:username/pin", async (req, res) => {
+app.delete("/user/:username/pin", async (req, res) => {
   const result = await prisma.pin.delete({
     where: {
-      userName_pinnedUserName: {
+      userName_pinnedUserName_communityName: {
         userName: req.params.username,
         pinnedUserName: req.body.pinnedUserName,
+        communityName: req.body.communityName,
       },
     },
   });
@@ -228,22 +231,20 @@ app.get("/communities", async (req, res) => {
 });
 
 app.get("/communities/:id/ranking", async (req, res) => {
-  const result = await prisma.user.findMany({
-    where: {
-      belongsToCommunity: {
-        some: {
-          communityName: req.params.id,
-        },
-      },
-    },
-    orderBy: {
-      points: "desc",
-    },
+  const userName = req.headers["x-user-name"];
+  const sqlFromFile = await readFile("./src/queries/CommunityRanking.sql", {
+    encoding: "utf8",
   });
+
+  const result = await prisma.$queryRawUnsafe(
+    sqlFromFile,
+    userName,
+    req.params.id
+  );
   res.json(result);
 });
 
 app.listen(port, async () => {
-  /* await setup(); */
+  await setup();
   console.log(`Server is running on http://localhost:${port}`);
 });

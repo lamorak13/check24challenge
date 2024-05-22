@@ -36,6 +36,7 @@ model Game {
 model Community {
   name               String               @unique
   belongsToCommunity belongsToCommunity[]
+  Pin                Pin[]
 }
 
 model Bet {
@@ -49,12 +50,14 @@ model Bet {
 }
 
 model Pin {
-  user           User   @relation(name: "PinningUser", fields: [userName], references: [name])
+  user           User      @relation(name: "PinningUser", fields: [userName], references: [name])
   userName       String
-  pinnedUser     User   @relation(name: "PinnedUser", fields: [pinnedUserName], references: [name])
+  pinnedUser     User      @relation(name: "PinnedUser", fields: [pinnedUserName], references: [name])
   pinnedUserName String
+  community      Community @relation(fields: [communityName], references: [name])
+  communityName  String
 
-  @@id([userName, pinnedUserName])
+  @@id([userName, pinnedUserName, communityName])
 }
 
 model belongsToCommunity {

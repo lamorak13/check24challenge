@@ -12,7 +12,7 @@ const PinnedRankingTable: Component<{
         {(ranking) => (
           <tr class='border-b border-silver/10'>
             <td class='pl-4 py-4 text-silver'>{ranking.rank}</td>
-            <td class='pl-4 py-4'>{ranking.username}</td>
+            <td class='pl-4 py-4'>{ranking.name}</td>
             <td class='pl-4 py-4'>{ranking.points}</td>
             <td class='pl-4 py-4'>
               <RiMapMapPin4Line

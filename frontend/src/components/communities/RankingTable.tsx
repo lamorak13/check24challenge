@@ -3,15 +3,17 @@ import { UserRanking } from "../../utils/types/UserRanking";
 import Table from "../shared/Table";
 import { IoChevronDownOutline, IoChevronUpOutline } from "solid-icons/io";
 import { RiMapMapPin4Line } from "solid-icons/ri";
+import { useUserNameContext } from "../../routes/UserNameContext";
 
 const RankingTable: Component<{
   rankings: UserRanking[];
-  userRank: number;
-  handlePinUser: (id: string) => void;
+  handlePinUser: (r: UserRanking) => void;
 }> = (props) => {
+  const { name } = useUserNameContext();
+  const userRank = props.rankings.findIndex((r) => r.name == name());
   const [pageSize, setPageSize] = createSignal(5);
   const [upperLimit, setUpperLimit] = createSignal(3);
-  const [lowerLimit, setLowerLImit] = createSignal(props.userRank);
+  const [lowerLimit, setLowerLImit] = createSignal(userRank);
 
   return (
     <Table headings={["Rank", "User", "Points", ""]} style='w-[600px]'>
@@ -19,13 +21,15 @@ const RankingTable: Component<{
         {(ranking) => (
           <tr class='border-b border-silver/10'>
             <td class='pl-4 py-4 text-silver'>{ranking.rank}</td>
-            <td class='pl-4 py-4'>{ranking.username}</td>
+            <td class='pl-4 py-4'>{ranking.name}</td>
             <td class='pl-4 py-4'>{ranking.points}</td>
             <td class='pl-4 py-4'>
-              <button onClick={() => props.handlePinUser(ranking.id)}>
+              <button onClick={() => props.handlePinUser(ranking)}>
                 <RiMapMapPin4Line
                   size={20}
-                  class='text-dark-gray hover:text-light-blue cursor-pointer'
+                  class={`${
+                    ranking.pinned ? "text-light-blue" : "text-dark-gray"
+                  }  hover:text-light-blue cursor-pointer`}
                 />
               </button>
             </td>
@@ -62,13 +66,15 @@ const RankingTable: Component<{
         {(ranking) => (
           <tr class='border-b border-silver/10'>
             <td class='pl-4 py-4 text-silver'>{ranking.rank}</td>
-            <td class='pl-4 py-4'>{ranking.username}</td>
+            <td class='pl-4 py-4'>{ranking.name}</td>
             <td class='pl-4 py-4'>{ranking.points}</td>
             <td class='pl-4 py-4'>
-              <button onClick={() => props.handlePinUser(ranking.id)}>
+              <button onClick={() => props.handlePinUser(ranking)}>
                 <RiMapMapPin4Line
                   size={20}
-                  class='text-dark-gray hover:text-light-blue cursor-pointer'
+                  class={`${
+                    ranking.pinned ? "text-light-blue" : "text-dark-gray"
+                  }  hover:text-light-blue cursor-pointer`}
                 />
               </button>
             </td>
