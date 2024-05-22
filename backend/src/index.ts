@@ -251,6 +251,34 @@ app.get("/communities/:id/ranking", async (req, res) => {
   res.json(result);
 });
 
+app.put("/games/:id/score/home", async (req, res) => {
+  const result = await prisma.game.update({
+    where: {
+      id: req.params.id,
+    },
+    data: {
+      homescore: {
+        increment: 1,
+      },
+    },
+  });
+  res.json(result);
+});
+
+app.put("/games/:id/score/away", async (req, res) => {
+  const result = await prisma.game.update({
+    where: {
+      id: req.params.id,
+    },
+    data: {
+      awayscore: {
+        increment: 1,
+      },
+    },
+  });
+  res.json(result);
+});
+
 app.listen(port, async () => {
   /* await setup(); */
   console.log(`Server is running on http://localhost:${port}`);
