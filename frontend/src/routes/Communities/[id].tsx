@@ -1,4 +1,4 @@
-import { Component, Show, createResource } from "solid-js";
+import { Component, Show, createResource, onCleanup, onMount } from "solid-js";
 import { UserRanking } from "../../utils/types/UserRanking";
 import RankingTable from "../../components/communities/RankingTable";
 import PinnedRankingTable from "../../components/communities/PinnedRankingTable";
@@ -10,6 +10,7 @@ import {
 } from "../../utils/api";
 import { useParams } from "@solidjs/router";
 import { useUserNameContext } from "../UserNameContext";
+import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
 
 const Community: Component = () => {
   const { name } = useUserNameContext();
@@ -20,6 +21,15 @@ const Community: Component = () => {
   const [pinnedRankings, managePinnedRankings] = createResource<UserRanking[]>(
     () => fetchCommunityRankingPinnedUser(params.id, name() || "")
   );
+
+  const [subsribe, remove] = useRealtimeRefetch();
+
+  onMount(() => {
+    subsribe(managePinnedRankings.refetch);
+  });
+  onCleanup(() => {
+    subsribe(managePinnedRankings.refetch);
+  });
 
   async function handlePinUser(ranking: UserRanking) {
     if (ranking.pinned) {
@@ -51,6 +61,7 @@ const Community: Component = () => {
             communityName={params.id}
             userName={name()}
             mutate={manageRankings.mutate}
+            refetch={manageRankings.refetch}
           />
         </Show>
       </div>

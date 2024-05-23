@@ -1,9 +1,19 @@
-import { Component, For, Setter, Show, createSignal } from "solid-js";
+import {
+  Component,
+  For,
+  Setter,
+  Show,
+  createEffect,
+  createSignal,
+  onCleanup,
+  onMount,
+} from "solid-js";
 import { UserRanking } from "../../utils/types/UserRanking";
 import Table from "../shared/Table";
 import PaginationButtons from "./PaginationButtons";
 import RankingTableRow from "./RankingTableRow";
 import { fetchCommunityRankingPage } from "../../utils/api";
+import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
 
 const RankingTable: Component<{
   rankings: UserRanking[];
@@ -11,17 +21,31 @@ const RankingTable: Component<{
   mutate: Setter<UserRanking[] | undefined>;
   userName: string | undefined;
   communityName: string;
+  refetch: (
+    info?: unknown
+  ) => UserRanking[] | Promise<UserRanking[] | undefined> | null | undefined;
 }> = (props) => {
   const userRank = props.rankings.findIndex((r) => r.name == props.userName);
-
   const [pageSize, setPageSize] = createSignal(100);
   const [upperLimit, setUpperLimit] = createSignal(userRank);
   const [lowerLimit, setLowerLimit] = createSignal(userRank + 1);
 
+  async function reset() {
+    await props.refetch();
+    const rank = props.rankings.findIndex((r) => r.name == props.userName);
+    setUpperLimit(rank);
+    setLowerLimit(rank + 1);
+  }
+
+  const [subsribe, remove] = useRealtimeRefetch();
+
+  onMount(() => subsribe(reset));
+  onCleanup(() => remove(reset));
+
   async function handlePageRequest(
     from: number,
     to: number,
-    setter: Setter<number> | null
+    setters: Setter<number>[]
   ) {
     const result = await fetchCommunityRankingPage(
       props.communityName,
@@ -38,7 +62,7 @@ const RankingTable: Component<{
       ...result,
       ...rankings!.slice(insertIndex),
     ]);
-    setter && setter((n) => n + result.length);
+    setters.forEach((s) => s((n) => n + result.length));
   }
 
   return (
@@ -66,7 +90,7 @@ const RankingTable: Component<{
                 props.rankings.at(upperLimit())!.row_num - 1,
                 props.rankings.at(upperLimit() - 1)!.row_num + pageSize()
               ),
-              setUpperLimit
+              [setUpperLimit, setLowerLimit]
             )
           }
           onUpClick={() =>
@@ -76,7 +100,7 @@ const RankingTable: Component<{
                 props.rankings.at(upperLimit())!.row_num - pageSize()
               ),
               props.rankings.at(upperLimit())!.row_num - 1,
-              setLowerLimit
+              [setLowerLimit]
             )
           }
         />
@@ -106,7 +130,7 @@ const RankingTable: Component<{
                 props.rankings.at(lowerLimit())!.row_num - 1,
                 props.rankings.at(lowerLimit() - 1)!.row_num + pageSize()
               ),
-              setLowerLimit
+              [setLowerLimit]
             )
           }
           onUpClick={() =>
@@ -116,7 +140,7 @@ const RankingTable: Component<{
                 props.rankings.at(lowerLimit())!.row_num - pageSize()
               ),
               props.rankings.at(lowerLimit())!.row_num - 1,
-              null
+              []
             )
           }
         />

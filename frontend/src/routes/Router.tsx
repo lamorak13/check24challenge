@@ -9,7 +9,6 @@ const AuthLayout = lazy(() => import("./Authentication/Layout"));
 const Signin = lazy(() => import("./Authentication/Signin"));
 const Signup = lazy(() => import("./Authentication/Signup"));
 
-const Communities = lazy(() => import("./Communities/Index"));
 const Community = lazy(() => import("./Communities/[id]"));
 
 const Games = lazy(() => import("./Games/Index"));
@@ -26,10 +25,7 @@ const Router: Component = () => {
             <Route path='/signup' component={Signup} />
           </Route>
 
-          <Route path='/communities'>
-            <Route path='/' component={Communities} />
-            <Route path='/:id' component={Community} />
-          </Route>
+          <Route path='/communities/:id' component={Community} />
 
           <Route path='/games' component={Games} />
         </Route>
