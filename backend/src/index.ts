@@ -342,6 +342,50 @@ app.put("/games/:id/score/away", async (req, res) => {
   res.json(result);
 });
 
+app.get("/communities/:id/preview", async (req, res) => {
+  const userName = req.headers["x-user-name"];
+  const sqlFromFile = await readFile("./src/queries/CommunityPreview.sql", {
+    encoding: "utf8",
+  });
+
+  const result = await prisma.$queryRawUnsafe(
+    sqlFromFile,
+    userName,
+    req.params.id
+  );
+  res.json(result);
+});
+
+app.get("/communities/preview", async (req, res) => {
+  const userName = req.headers["x-user-name"];
+
+  const communities = await prisma.community.findMany({
+    where: {
+      belongsToCommunity: {
+        some: {
+          userName: typeof userName == "string" ? userName : "",
+        },
+      },
+    },
+  });
+
+  const result: { community: string; preview: unknown }[] = [];
+
+  for (const community of communities) {
+    const sqlFromFile = await readFile("./src/queries/CommunityPreview.sql", {
+      encoding: "utf8",
+    });
+
+    const preview = await prisma.$queryRawUnsafe(
+      sqlFromFile,
+      userName,
+      community.name
+    );
+    result.push({ community: community.name, preview: preview });
+  }
+  res.json(result);
+});
+
 app.listen(port, async () => {
   /* await setup(); */
   /* await test_setup(); */

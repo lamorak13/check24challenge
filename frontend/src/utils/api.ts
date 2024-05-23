@@ -199,7 +199,6 @@ export async function fetchCommunityRanking(
     }
   );
   const result = await response.json();
-  console.log(result);
   return result;
 }
 
@@ -220,7 +219,6 @@ export async function fetchCommunityRankingPage(
     }
   );
   const result = await response.json();
-  console.log(result);
   return result;
 }
 
@@ -239,7 +237,6 @@ export async function fetchCommunityRankingPinnedUser(
     }
   );
   const result = await response.json();
-  console.log(result);
   return result;
 }
 
@@ -273,6 +270,20 @@ export async function deletePin(
     body: JSON.stringify({ communityName, pinnedUserName }),
   });
 
+  const result = await response.json();
+  return result;
+}
+
+export async function fetchCommunityPreview(
+  userName: string
+): Promise<{ community: string; preview: UserRanking[] }[]> {
+  const response = await fetch("http://localhost:5000/communities/preview", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "x-user-name": userName,
+    },
+  });
   const result = await response.json();
   return result;
 }

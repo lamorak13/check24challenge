@@ -10,15 +10,15 @@ import Carousel from "../../components/shared/Carousel";
 import PreviewTable from "../../components/communities/PreviewTable";
 import CreateCpommunityCard from "../../components/communities/CreateCpommunityCard";
 import { useUserNameContext } from "../UserNameContext";
-import { Community } from "../../utils/types/Community";
-import { fetchCommunities } from "../../utils/api";
+import { fetchCommunityPreview } from "../../utils/api";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
+import { UserRanking } from "../../utils/types/UserRanking";
 
 const UserCommunitySection: Component<{}> = (props) => {
   const context = useUserNameContext();
-  const [communities, { mutate, refetch }] = createResource<Community[]>(() =>
-    fetchCommunities(context.name() || "")
-  );
+  const [previews, { mutate, refetch }] = createResource<
+    { community: string; preview: UserRanking[] }[]
+  >(() => fetchCommunityPreview(context.name() || ""));
 
   const [subsribe, remove] = useRealtimeRefetch();
 
@@ -27,15 +27,21 @@ const UserCommunitySection: Component<{}> = (props) => {
 
   return (
     <section>
-      <Show when={communities() != undefined}>
+      <Show when={previews() != undefined}>
         <Carousel itemWidth={500} buttonPosition='Botton'>
-          <For each={communities()}>
-            {(community) => <PreviewTable communityName={community.name} />}
+          <For each={previews()}>
+            {(p) => (
+              <PreviewTable
+                communityName={p.community}
+                rankings={p.preview}
+                userName={context.name() || ""}
+              />
+            )}
           </For>
-          <Show when={communities()!.length < 5}>
+          <Show when={previews()!.length < 5}>
             <CreateCpommunityCard
               refetch={refetch}
-              numberOfCommunities={communities()!.length}
+              numberOfCommunities={previews()!.length}
             />
           </Show>
         </Carousel>
