@@ -277,6 +277,39 @@ app.get("/communities/:id/ranking", async (req, res) => {
   res.json(result);
 });
 
+app.get("/communities/:id/ranking/page", async (req, res) => {
+  const userName = req.headers["x-user-name"];
+  const sqlFromFile = await readFile("./src/queries/CommunityRankingPage.sql", {
+    encoding: "utf8",
+  });
+
+  const result = await prisma.$queryRawUnsafe(
+    sqlFromFile,
+    userName,
+    req.params.id,
+    Number(req.query.from),
+    Number(req.query.to)
+  );
+  res.json(result);
+});
+
+app.get("/communities/:id/ranking/pinned", async (req, res) => {
+  const userName = req.headers["x-user-name"];
+  const sqlFromFile = await readFile(
+    "./src/queries/CommunityRankingPinned.sql",
+    {
+      encoding: "utf8",
+    }
+  );
+
+  const result = await prisma.$queryRawUnsafe(
+    sqlFromFile,
+    userName,
+    req.params.id
+  );
+  res.json(result);
+});
+
 app.put("/games/:id/score/home", async (req, res) => {
   const result = await prisma.game.update({
     where: {
@@ -311,6 +344,6 @@ app.put("/games/:id/score/away", async (req, res) => {
 
 app.listen(port, async () => {
   /* await setup(); */
-  await test_setup();
+  /* await test_setup(); */
   console.log(`Server is running on http://localhost:${port}`);
 });

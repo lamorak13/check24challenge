@@ -1,84 +1,129 @@
-import { Component, For, Show, createSignal } from "solid-js";
+import { Component, For, Setter, Show, createSignal } from "solid-js";
 import { UserRanking } from "../../utils/types/UserRanking";
 import Table from "../shared/Table";
-import { IoChevronDownOutline, IoChevronUpOutline } from "solid-icons/io";
-import { RiMapMapPin4Line } from "solid-icons/ri";
-import { useUserNameContext } from "../../routes/UserNameContext";
+import PaginationButtons from "./PaginationButtons";
+import RankingTableRow from "./RankingTableRow";
+import { fetchCommunityRankingPage } from "../../utils/api";
 
 const RankingTable: Component<{
   rankings: UserRanking[];
   handlePinUser: (r: UserRanking) => void;
+  mutate: Setter<UserRanking[] | undefined>;
+  userName: string | undefined;
+  communityName: string;
 }> = (props) => {
-  const { name } = useUserNameContext();
-  const userRank = props.rankings.findIndex((r) => r.name == name());
-  const [pageSize, setPageSize] = createSignal(23);
-  const [upperLimit, setUpperLimit] = createSignal(3);
-  const [lowerLimit, setLowerLImit] = createSignal(userRank);
+  const userRank = props.rankings.findIndex((r) => r.name == props.userName);
+
+  const [pageSize, setPageSize] = createSignal(100);
+  const [upperLimit, setUpperLimit] = createSignal(userRank);
+  const [lowerLimit, setLowerLimit] = createSignal(userRank + 1);
+
+  async function handlePageRequest(
+    from: number,
+    to: number,
+    setter: Setter<number> | null
+  ) {
+    const result = await fetchCommunityRankingPage(
+      props.communityName,
+      props.userName || "",
+      from,
+      to
+    );
+    if (result.length <= 0) return;
+
+    const maxRowNum = result.at(-1)!.row_num;
+    const insertIndex = props.rankings.findIndex((r) => r.row_num > maxRowNum);
+    props.mutate((rankings) => [
+      ...rankings!.slice(0, insertIndex),
+      ...result,
+      ...rankings!.slice(insertIndex),
+    ]);
+    setter && setter((n) => n + result.length);
+  }
 
   return (
     <Table headings={["Rank", "User", "Points", ""]} style='w-[600px]'>
-      <For each={props.rankings.slice(0, Math.min(upperLimit(), userRank - 1))}>
+      <For each={props.rankings.slice(0, upperLimit())}>
         {(ranking) => (
-          <tr class='border-b border-silver/10'>
-            <td class='pl-4 py-4 text-silver'>{ranking.rank}</td>
-            <td class='pl-4 py-4'>{ranking.name}</td>
-            <td class='pl-4 py-4'>{ranking.points}</td>
-            <td class='pl-4 py-4'>
-              <button onClick={() => props.handlePinUser(ranking)}>
-                <RiMapMapPin4Line
-                  size={20}
-                  class={`${
-                    ranking.pinned ? "text-light-blue" : "text-dark-gray"
-                  }  hover:text-light-blue cursor-pointer`}
-                />
-              </button>
-            </td>
-          </tr>
+          <RankingTableRow
+            ranking={ranking}
+            handlePinUser={props.handlePinUser}
+          />
         )}
       </For>
-      <Show when={upperLimit() < lowerLimit()}>
-        <tr class='border-b border-silver/10'>
-          <td
-            colSpan={3}
-            class='pl-4 py-4 text-center'
-            onClick={() =>
-              setUpperLimit((l) => Math.min(l + pageSize(), lowerLimit()))
-            }>
-            Show more
-            <IoChevronDownOutline class='inline-block ml-2 text-xl' />
-          </td>
-        </tr>
+      <Show
+        when={
+          props.rankings.at(upperLimit() - 1)!.row_num + 1 <
+          props.rankings.at(upperLimit())!.row_num
+        }>
+        <PaginationButtons
+          onDownClick={() =>
+            handlePageRequest(
+              props.rankings.at(upperLimit() - 1)!.row_num + 1,
+              Math.min(
+                props.rankings.at(upperLimit())!.row_num - 1,
+                props.rankings.at(upperLimit() - 1)!.row_num + pageSize()
+              ),
+              setUpperLimit
+            )
+          }
+          onUpClick={() =>
+            handlePageRequest(
+              Math.max(
+                props.rankings.at(upperLimit() - 1)!.row_num + 1,
+                props.rankings.at(upperLimit())!.row_num - pageSize()
+              ),
+              props.rankings.at(upperLimit())!.row_num - 1,
+              setLowerLimit
+            )
+          }
+        />
+      </Show>
 
-        <tr class='border-b border-silver/10'>
-          <td
-            colSpan={3}
-            class='pl-4 py-4 text-center'
-            onClick={() =>
-              setLowerLImit((l) => Math.max(l - pageSize(), upperLimit()))
-            }>
-            Show more
-            <IoChevronUpOutline class='inline-block ml-2 text-xl' />
-          </td>
-        </tr>
+      <For each={props.rankings.slice(upperLimit(), lowerLimit())}>
+        {(ranking) => (
+          <RankingTableRow
+            ranking={ranking}
+            handlePinUser={props.handlePinUser}
+          />
+        )}
+      </For>
+
+      <Show
+        when={
+          props.rankings.at(lowerLimit() - 1)!.row_num + 1 <
+          props.rankings.at(lowerLimit())!.row_num
+        }>
+        <PaginationButtons
+          onDownClick={() =>
+            handlePageRequest(
+              props.rankings.at(lowerLimit() - 1)!.row_num + 1,
+              Math.min(
+                props.rankings.at(lowerLimit())!.row_num - 1,
+                props.rankings.at(lowerLimit() - 1)!.row_num + pageSize()
+              ),
+              setLowerLimit
+            )
+          }
+          onUpClick={() =>
+            handlePageRequest(
+              Math.max(
+                props.rankings.at(lowerLimit() - 1)!.row_num + 1,
+                props.rankings.at(lowerLimit())!.row_num - pageSize()
+              ),
+              props.rankings.at(lowerLimit())!.row_num - 1,
+              null
+            )
+          }
+        />
       </Show>
 
       <For each={props.rankings.slice(lowerLimit())}>
         {(ranking) => (
-          <tr class='border-b border-silver/10'>
-            <td class='pl-4 py-4 text-silver'>{ranking.rank}</td>
-            <td class='pl-4 py-4'>{ranking.name}</td>
-            <td class='pl-4 py-4'>{ranking.points}</td>
-            <td class='pl-4 py-4'>
-              <button onClick={() => props.handlePinUser(ranking)}>
-                <RiMapMapPin4Line
-                  size={20}
-                  class={`${
-                    ranking.pinned ? "text-light-blue" : "text-dark-gray"
-                  }  hover:text-light-blue cursor-pointer`}
-                />
-              </button>
-            </td>
-          </tr>
+          <RankingTableRow
+            ranking={ranking}
+            handlePinUser={props.handlePinUser}
+          />
         )}
       </For>
     </Table>

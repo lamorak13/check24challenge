@@ -3,4 +3,5 @@ export type UserRanking = {
   rank: number;
   points: number;
   pinned: boolean;
+  row_num: number;
 };

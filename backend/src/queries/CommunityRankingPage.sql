@@ -32,11 +32,5 @@ from
             b. "communityName" = $2
     ) x
 where
-    x. "row_num" < 4
-    or x. "row_num" = (
-        Select
-            count(*)
-        from
-            "User"
-    )
-    or x. "name" = $1
+    x. "row_num" between $3
+    and $4

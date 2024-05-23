@@ -198,8 +198,48 @@ export async function fetchCommunityRanking(
       },
     }
   );
-
   const result = await response.json();
+  console.log(result);
+  return result;
+}
+
+export async function fetchCommunityRankingPage(
+  communitName: string,
+  userName: string,
+  from: number,
+  to: number
+): Promise<UserRanking[]> {
+  const response = await fetch(
+    `http://localhost:5000/communities/${communitName}/ranking/page?from=${from}&to=${to}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-user-name": userName,
+      },
+    }
+  );
+  const result = await response.json();
+  console.log(result);
+  return result;
+}
+
+export async function fetchCommunityRankingPinnedUser(
+  communitName: string,
+  userName: string
+) {
+  const response = await fetch(
+    `http://localhost:5000/communities/${communitName}/ranking/pinned`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-user-name": userName,
+      },
+    }
+  );
+  const result = await response.json();
+  console.log(result);
   return result;
 }
 
