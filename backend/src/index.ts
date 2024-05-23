@@ -1,33 +1,16 @@
-import express from "express";
-import ws from "ws";
-import { setup } from "./setup";
-import { test_setup } from "./test_setup";
-const cors = require("cors");
-
+import express, { Response } from "express";
+import { CustomRequest } from "./types";
 import { PrismaClient } from "@prisma/client";
 import { readFile } from "fs/promises";
+const cors = require("cors");
+import {
+  sendGameFinishedUpdate,
+  sendGameScoredUpdate,
+  sendGameStartedUpdate,
+} from "./websocket";
 
-const wss = new ws.Server({ port: 8080 });
-
-wss.on("connection", function connection(ws) {
-  console.log("new connection");
-
-  ws.on("close", function () {
-    console.log("Closing connection..");
-  });
-});
-
-function sendGameStartedUpdate() {
-  wss.clients.forEach((ws) => ws.send("Game Started"));
-}
-
-function sendGameFinishedUpdate() {
-  wss.clients.forEach((ws) => ws.send("Game Finished"));
-}
-
-function sendGameScoredUpdate() {
-  wss.clients.forEach((ws) => ws.send("Game Score"));
-}
+import { setup } from "./setup/setup";
+import { test_setup } from "./setup/test_setup";
 
 const prisma = new PrismaClient();
 const app = express();
@@ -59,14 +42,14 @@ app.post("/signin", async (req, res) => {
   result ? res.json(result) : res.status(400).json("No user found");
 });
 
-app.get("/games", async (req, res) => {
-  const userName = req.headers["x-user-name"];
+app.get("/games", async (req: CustomRequest, res: Response) => {
+  const userName = req.headers["x-user-name"] || "";
 
   const result = await prisma.game.findMany({
     include: {
       bet: {
         where: {
-          userName: typeof userName == "string" ? userName : "",
+          userName: userName,
         },
       },
     },
@@ -75,15 +58,15 @@ app.get("/games", async (req, res) => {
   res.json(result);
 });
 
-app.get("/games/upcoming", async (req, res) => {
-  const userName = req.headers["x-user-name"];
+app.get("/games/upcoming", async (req: CustomRequest, res: Response) => {
+  const userName = req.headers["x-user-name"] || "";
 
   const result = await prisma.game.findMany({
     where: { status: "Upcoming" },
     include: {
       bet: {
         where: {
-          userName: typeof userName == "string" ? userName : "",
+          userName: userName,
         },
       },
     },
@@ -194,27 +177,30 @@ app.delete("/user/:username/pin", async (req, res) => {
   res.json(result);
 });
 
-app.post("/communities/:communitName/join", async (req, res) => {
-  const userName = req.headers["x-user-name"];
+app.post(
+  "/communities/:communitName/join",
+  async (req: CustomRequest, res: Response) => {
+    const userName = req.headers["x-user-name"] || "";
 
-  const result = await prisma.belongsToCommunity.upsert({
-    where: {
-      userName_communityName: {
-        communityName: req.params.communitName,
-        userName: typeof userName == "string" ? userName : "",
+    const result = await prisma.belongsToCommunity.upsert({
+      where: {
+        userName_communityName: {
+          communityName: req.params.communitName,
+          userName: userName,
+        },
       },
-    },
-    update: {},
-    create: {
-      communityName: req.params.communitName,
-      userName: typeof userName == "string" ? userName : "",
-    },
-  });
-  res.json(result);
-});
+      update: {},
+      create: {
+        communityName: req.params.communitName,
+        userName: userName,
+      },
+    });
+    res.json(result);
+  }
+);
 
-app.post("/communities/create", async (req, res) => {
-  const userName = req.headers["x-user-name"];
+app.post("/communities/create", async (req: CustomRequest, res: Response) => {
+  const userName = req.headers["x-user-name"] || "";
   const { communitName } = req.body;
 
   await prisma.community.create({
@@ -226,20 +212,20 @@ app.post("/communities/create", async (req, res) => {
   const result = await prisma.belongsToCommunity.create({
     data: {
       communityName: communitName,
-      userName: typeof userName == "string" ? userName : "",
+      userName: userName,
     },
   });
   res.json(result);
 });
 
-app.get("/communities", async (req, res) => {
-  const userName = req.headers["x-user-name"];
+app.get("/communities", async (req: CustomRequest, res: Response) => {
+  const userName = req.headers["x-user-name"] || "";
 
   const result = await prisma.community.findMany({
     where: {
       belongsToCommunity: {
         some: {
-          userName: typeof userName == "string" ? userName : "",
+          userName: userName,
         },
       },
     },
@@ -247,52 +233,67 @@ app.get("/communities", async (req, res) => {
   res.json(result);
 });
 
-app.get("/communities/:id/ranking", async (req, res) => {
-  const userName = req.headers["x-user-name"];
-  const sqlFromFile = await readFile("./src/queries/CommunityRanking.sql", {
-    encoding: "utf8",
-  });
+app.get(
+  "/communities/:id/ranking",
+  async (req: CustomRequest, res: Response) => {
+    const userName = req.headers["x-user-name"] || "";
 
-  const result = await prisma.$queryRawUnsafe(
-    sqlFromFile,
-    userName,
-    req.params.id
-  );
-  res.json(result);
-});
-
-app.get("/communities/:id/ranking/page", async (req, res) => {
-  const userName = req.headers["x-user-name"];
-  const sqlFromFile = await readFile("./src/queries/CommunityRankingPage.sql", {
-    encoding: "utf8",
-  });
-
-  const result = await prisma.$queryRawUnsafe(
-    sqlFromFile,
-    userName,
-    req.params.id,
-    Number(req.query.from),
-    Number(req.query.to)
-  );
-  res.json(result);
-});
-
-app.get("/communities/:id/ranking/pinned", async (req, res) => {
-  const userName = req.headers["x-user-name"];
-  const sqlFromFile = await readFile(
-    "./src/queries/CommunityRankingPinned.sql",
-    {
+    const sqlFromFile = await readFile("./src/queries/CommunityRanking.sql", {
       encoding: "utf8",
-    }
-  );
+    });
 
-  const result = await prisma.$queryRawUnsafe(
-    sqlFromFile,
-    userName,
-    req.params.id
-  );
-  res.json(result);
-});
+    const result = await prisma.$queryRawUnsafe(
+      sqlFromFile,
+      userName,
+      req.params.id
+    );
+    res.json(result);
+  }
+);
+
+app.get(
+  "/communities/:id/ranking/page",
+  async (req: CustomRequest, res: Response) => {
+    const userName = req.headers["x-user-name"] || "";
+
+    const sqlFromFile = await readFile(
+      "./src/queries/CommunityRankingPage.sql",
+      {
+        encoding: "utf8",
+      }
+    );
+
+    const result = await prisma.$queryRawUnsafe(
+      sqlFromFile,
+      userName,
+      req.params.id,
+      Number(req.query.from),
+      Number(req.query.to)
+    );
+    res.json(result);
+  }
+);
+
+app.get(
+  "/communities/:id/ranking/pinned",
+  async (req: CustomRequest, res: Response) => {
+    const userName = req.headers["x-user-name"] || "";
+
+    const sqlFromFile = await readFile(
+      "./src/queries/CommunityRankingPinned.sql",
+      {
+        encoding: "utf8",
+      }
+    );
+
+    const result = await prisma.$queryRawUnsafe(
+      sqlFromFile,
+      userName,
+      req.params.id
+    );
+    res.json(result);
+  }
+);
 
 app.put("/games/:id/score/home", async (req, res) => {
   const result = await prisma.game.update({
@@ -326,22 +327,26 @@ app.put("/games/:id/score/away", async (req, res) => {
   res.json(result);
 });
 
-app.get("/communities/:id/preview", async (req, res) => {
-  const userName = req.headers["x-user-name"];
-  const sqlFromFile = await readFile("./src/queries/CommunityPreview.sql", {
-    encoding: "utf8",
-  });
+app.get(
+  "/communities/:id/preview",
+  async (req: CustomRequest, res: Response) => {
+    const userName = req.headers["x-user-name"] || "";
 
-  const result = await prisma.$queryRawUnsafe(
-    sqlFromFile,
-    userName,
-    req.params.id
-  );
-  res.json(result);
-});
+    const sqlFromFile = await readFile("./src/queries/CommunityPreview.sql", {
+      encoding: "utf8",
+    });
 
-app.get("/communities/preview", async (req, res) => {
-  const userName = req.headers["x-user-name"];
+    const result = await prisma.$queryRawUnsafe(
+      sqlFromFile,
+      userName,
+      req.params.id
+    );
+    res.json(result);
+  }
+);
+
+app.get("/communities/preview", async (req: CustomRequest, res: Response) => {
+  const userName = req.headers["x-user-name"] || "";
 
   const communities = await prisma.community.findMany({
     where: {
