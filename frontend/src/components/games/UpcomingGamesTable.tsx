@@ -21,12 +21,7 @@ const UpcomingGamesTable: Component<{ games: Game[]; onSubmit: () => any }> = (
         style='w-[600px] border-none'>
         <For each={props.games}>
           {(game) => (
-            <tr
-              class='border-b border-silver/10'
-              onClick={() => {
-                if (game.status == GameStatus.UPCOMING) {
-                }
-              }}>
+            <tr class='border-b border-silver/10'>
               <td class='text-silver pl-4 py-4'>
                 <DateDisplay date={game.kickoff} />
               </td>
@@ -44,7 +39,7 @@ const UpcomingGamesTable: Component<{ games: Game[]; onSubmit: () => any }> = (
               </td>
               <td class='pl-4 py-4'>
                 <Show
-                  when={!game.bet && game.status == GameStatus.UPCOMING}
+                  when={game.bet == null && game.status == GameStatus.UPCOMING}
                   fallback={<ScoreDisplay score={game.bet} />}>
                   <Pill
                     color='green'

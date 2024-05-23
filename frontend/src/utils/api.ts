@@ -1,6 +1,5 @@
 import { Community } from "./types/Community";
 import type { Game } from "./types/Game";
-import { GameStatus } from "./types/GameStatus";
 import { Score } from "./types/Score";
 import { UserRanking } from "./types/UserRanking";
 
@@ -12,24 +11,9 @@ export async function fetchUpcomingGames(userName: string): Promise<Game[]> {
       "x-user-name": userName,
     },
   });
-  const games = await response.json();
 
-  return games.map((g: any): Game => {
-    return {
-      id: g.id,
-      kickoff: new Date(g.kickoff),
-      score: { home: g.homescore, away: g.awayscore },
-      status: g.status,
-      home: g.home,
-      away: g.away,
-      bet: g.bet.length
-        ? {
-            home: g.bet[0].homescore,
-            away: g.bet[0].awayscore,
-          }
-        : undefined,
-    };
-  });
+  const games = await response.json();
+  return games.map((g: any) => mapResultToGame(g));
 }
 
 export async function fetchInProgressGames(): Promise<Game[]> {
@@ -39,39 +23,12 @@ export async function fetchInProgressGames(): Promise<Game[]> {
       "Content-Type": "application/json",
     },
   });
-  const games = await response.json();
 
-  return games.map((g: any): Game => {
-    return {
-      id: g.id,
-      kickoff: new Date(g.kickoff),
-      score: { home: g.homescore, away: g.awayscore },
-      status: g.status,
-      home: g.home,
-      away: g.away,
-      bet: g.bet.length
-        ? {
-            home: g.bet[0].homescore,
-            away: g.bet[0].awayscore,
-          }
-        : undefined,
-    };
-  });
+  const games = await response.json();
+  return games.map((g: any) => mapResultToGame(g));
 }
 
-export async function fetchAllGames(
-  username: string,
-  status?: GameStatus,
-  team?: string,
-  date?: Date,
-  bet?: boolean
-): Promise<Game[]> {
-  const queryParams = new URLSearchParams();
-  status && queryParams.set("status", status);
-  team && queryParams.set("status", team);
-  date && queryParams.set("status", date.toString());
-  bet && queryParams.set("status", String(bet));
-
+export async function fetchAllGames(username: string): Promise<Game[]> {
   const response = await fetch("http://localhost:5000/games/", {
     method: "GET",
     headers: {
@@ -79,24 +36,9 @@ export async function fetchAllGames(
       "x-user-name": username,
     },
   });
-  const games = await response.json();
 
-  return games.map((g: any): Game => {
-    return {
-      id: g.id,
-      kickoff: new Date(g.kickoff),
-      score: { home: g.homescore, away: g.awayscore },
-      status: g.status,
-      home: g.home,
-      away: g.away,
-      bet: g.bet.length
-        ? {
-            home: g.bet[0].homescore,
-            away: g.bet[0].awayscore,
-          }
-        : undefined,
-    };
-  });
+  const games = await response.json();
+  return games.map((g: any) => mapResultToGame(g));
 }
 
 export async function signInUser(username: string) {
@@ -286,4 +228,22 @@ export async function fetchCommunityPreview(
   });
   const result = await response.json();
   return result;
+}
+
+function mapResultToGame(g: any): Game {
+  return {
+    id: g.id,
+    kickoff: new Date(g.kickoff),
+    score:
+      g.status != "Upcoming" ? { home: g.homescore, away: g.awayscore } : null,
+    status: g.status,
+    home: g.home,
+    away: g.away,
+    bet: g.bet.length
+      ? {
+          home: g.bet[0].homescore,
+          away: g.bet[0].awayscore,
+        }
+      : null,
+  };
 }

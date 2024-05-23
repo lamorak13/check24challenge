@@ -1,11 +1,11 @@
 import { Component, Show } from "solid-js";
 import { Score } from "../../utils/types/Score";
 
-const ScoreDisplay: Component<{ score: Score | undefined }> = (props) => {
+const ScoreDisplay: Component<{ score: Score }> = (props) => {
   return (
     <span class='px-3 text-xl font-semibold'>
-      <Show when={props.score} fallback={"- : -"}>
-        {props.score!.away} : {props.score!.home}
+      <Show when={props.score != null} fallback={"- : -"}>
+        {props.score!.home} : {props.score!.away}
       </Show>
     </span>
   );

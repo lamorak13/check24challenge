@@ -8,5 +8,5 @@ export type Game = {
   score: Score;
   kickoff: Date;
   status: GameStatus;
-  bet: Score | undefined;
+  bet: Score;
 };

@@ -1,7 +1,6 @@
 import { Accessor, Component, Setter, createEffect } from "solid-js";
 import { Game } from "../../utils/types/Game";
 import Modal from "../shared/Modal";
-import Card from "./Card";
 import Button from "../form/Button";
 import HorizontalLine from "../shared/HorizontalLine";
 import Nation from "./Nation";
@@ -18,7 +17,10 @@ const BettingModal: Component<{
   onSubmit: () => any;
 }> = (props) => {
   const { name } = useUserNameContext();
-  const [bet, setBet] = createStore<Score>({ home: 0, away: 0 });
+  const [bet, setBet] = createStore<{ home: number; away: number }>({
+    home: 0,
+    away: 0,
+  });
 
   return (
     <Modal
@@ -33,10 +35,13 @@ const BettingModal: Component<{
           <span class='text-4xl font-semibold flex gap-5 items-center'>
             <ScoreInput
               onInput={(n) => setBet("home", !Number.isNaN(n) ? n : 0)}
-              value={bet.home!}
+              value={bet.home}
             />
             :
-            <ScoreInput onInput={(n) => setBet("away", n)} value={bet.away!} />
+            <ScoreInput
+              onInput={(n) => setBet("away", !Number.isNaN(n) ? n : 0)}
+              value={bet.away}
+            />
           </span>
           <Nation nation={props.game.away} />
         </div>
@@ -44,7 +49,6 @@ const BettingModal: Component<{
           text='Save'
           onClick={async () => {
             await postUserBet(props.game.id, bet, name()!);
-            console.log("refetching...");
             props.onSubmit();
           }}
         />

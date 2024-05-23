@@ -1,4 +1,4 @@
 export type Score = {
-  home: number | undefined;
-  away: number | undefined;
-};
+  home: number;
+  away: number;
+} | null;

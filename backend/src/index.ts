@@ -60,25 +60,9 @@ app.post("/signin", async (req, res) => {
 });
 
 app.get("/games", async (req, res) => {
-  const { status, team, date, bet } = req.query;
   const userName = req.headers["x-user-name"];
 
   const result = await prisma.game.findMany({
-    /* where: {
-      status: status ? status : undefined,
-      kickoff: {
-        lte: date ? date : undefined,
-      },
-      bet: {
-        some: {
-          userName: bet && typeof userName == "string" ? userName : undefined,
-        },
-      },
-      OR: [
-        { away: team ? team : undefined },
-        { home: team ? team : undefined },
-      ],
-    }, */
     include: {
       bet: {
         where: {
