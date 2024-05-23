@@ -38,6 +38,12 @@ const games = [
 ];
 
 export async function setup() {
+  await prisma.community.upsert({
+    where: { name: "Overall" },
+    update: {},
+    create: { name: "Overall" },
+  });
+
   for (const game of games) {
     await prisma.game.create({
       data: {

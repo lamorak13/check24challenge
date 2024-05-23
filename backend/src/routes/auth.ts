@@ -11,6 +11,13 @@ export async function signupUser(req: Request, res: Response) {
       name: name,
     },
   });
+
+  await prisma.belongsToCommunity.create({
+    data: {
+      userName: name,
+      communityName: "Overall",
+    },
+  });
   res.json(result);
 }
 

@@ -93,6 +93,7 @@ export async function getAllCommunityPreviews(
   const result: { community: string; preview: unknown }[] = [];
 
   for (const community of communities) {
+    if (community.name == "Overall") continue;
     const sqlFromFile = await readFile("./src/queries/CommunityPreview.sql", {
       encoding: "utf8",
     });
