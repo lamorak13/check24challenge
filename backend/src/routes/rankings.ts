@@ -82,6 +82,9 @@ export async function getAllCommunityPreviews(
 
   const communities = await prisma.community.findMany({
     where: {
+      name: {
+        not: "Overall",
+      },
       belongsToCommunity: {
         some: {
           userName: typeof userName == "string" ? userName : "",
@@ -93,7 +96,6 @@ export async function getAllCommunityPreviews(
   const result: { community: string; preview: unknown }[] = [];
 
   for (const community of communities) {
-    if (community.name == "Overall") continue;
     const sqlFromFile = await readFile("./src/queries/CommunityPreview.sql", {
       encoding: "utf8",
     });
