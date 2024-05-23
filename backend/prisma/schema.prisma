@@ -16,6 +16,7 @@ datasource db {
 model User {
   name               String               @unique
   points             Int                  @default(0)
+  registration_date  DateTime             @default(now())
   Bet                Bet[]                @relation(name: "BettingUser")
   pinnedUsers        Pin[]                @relation("PinningUser")
   pinnedBy           Pin[]                @relation("PinnedUser")

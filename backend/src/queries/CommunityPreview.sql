@@ -5,7 +5,8 @@ With ranks as (
         Cast(
             rank() over(
                 order by
-                    "points" desc
+                    "points" desc,
+                    "registration_date" asc
             ) as Int
         ),
         Cast(row_number() over() as Int) row_num,

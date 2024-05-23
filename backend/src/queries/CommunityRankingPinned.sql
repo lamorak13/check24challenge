@@ -4,7 +4,8 @@ Select
     Cast(
         rank() over(
             order by
-                "points" desc
+                "points" desc,
+                "registration_date" asc
         ) as Int
     ),
     true as pinned
