@@ -1,12 +1,4 @@
-import {
-  Component,
-  Show,
-  createResource,
-  createSignal,
-  onCleanup,
-  onMount,
-} from "solid-js";
-import { GameStatus } from "../../utils/types/GameStatus";
+import { Component, Show, createResource, onCleanup, onMount } from "solid-js";
 import GameTable from "../../components/games/GameTable";
 import { Game } from "../../utils/types/Game";
 import { fetchAllGames } from "../../utils/api";
@@ -14,9 +6,9 @@ import { useUserNameContext } from "../UserNameContext";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
 
 const Games: Component<{}> = () => {
-  const context = useUserNameContext();
+  const { name } = useUserNameContext();
   const [games, { mutate, refetch }] = createResource<Game[]>(() =>
-    fetchAllGames(context.name() || "")
+    fetchAllGames(name())
   );
 
   const [subsribe, remove] = useRealtimeRefetch();

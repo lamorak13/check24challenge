@@ -6,7 +6,7 @@ import { A, useNavigate } from "@solidjs/router";
 import { signUpUser } from "../../utils/api";
 import { useUserNameContext } from "../UserNameContext";
 
-const Signup: Component<{}> = (props) => {
+const Signup: Component<{}> = () => {
   const navigate = useNavigate();
   const [userInput, setUserInput] = createSignal("");
   const { setName } = useUserNameContext();

@@ -3,7 +3,7 @@ import { Component } from "solid-js";
 
 const Layout: Component<RouteSectionProps<unknown>> = (props) => {
   return (
-    <section class='grid justify-center items-center h-[calc(100vh-140px)]'>
+    <section class='grid justify-center items-center h-[100vh]'>
       <div class='flex flex-col gap-2 py-16 px-12 min-w-[500px] custom-gradient'>
         {props.children}
       </div>

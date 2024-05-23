@@ -3,7 +3,6 @@ import {
   For,
   Setter,
   Show,
-  createEffect,
   createSignal,
   onCleanup,
   onMount,
@@ -19,7 +18,7 @@ const RankingTable: Component<{
   rankings: UserRanking[];
   handlePinUser: (r: UserRanking) => void;
   mutate: Setter<UserRanking[] | undefined>;
-  userName: string | undefined;
+  userName: string;
   communityName: string;
   refetch: (
     info?: unknown
@@ -49,7 +48,7 @@ const RankingTable: Component<{
   ) {
     const result = await fetchCommunityRankingPage(
       props.communityName,
-      props.userName || "",
+      props.userName,
       from,
       to
     );

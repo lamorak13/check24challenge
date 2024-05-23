@@ -9,7 +9,7 @@ import { useUserNameContext } from "../UserNameContext";
 const Signin: Component<{}> = () => {
   const navigate = useNavigate();
   const [userInput, setUserInput] = createSignal("");
-  const { name, setName } = useUserNameContext();
+  const { setName } = useUserNameContext();
 
   return (
     <>

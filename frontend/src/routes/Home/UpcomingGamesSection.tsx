@@ -1,11 +1,4 @@
-import {
-  Component,
-  Show,
-  createResource,
-  onCleanup,
-  onMount,
-  useContext,
-} from "solid-js";
+import { Component, Show, createResource, onCleanup, onMount } from "solid-js";
 import { A } from "@solidjs/router";
 import { RiArrowsArrowDropRightLine } from "solid-icons/ri";
 import UpcomingGamesTable from "../../components/games/UpcomingGamesTable";
@@ -14,10 +7,10 @@ import { fetchUpcomingGames } from "../../utils/api.ts";
 import { useUserNameContext } from "../UserNameContext.tsx";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch.ts";
 
-const UpcomingGamesSection: Component<{}> = (props) => {
-  const context = useUserNameContext();
+const UpcomingGamesSection: Component<{}> = () => {
+  const { name } = useUserNameContext();
   const [games, { mutate, refetch }] = createResource<Game[]>(() =>
-    fetchUpcomingGames(context.name() || "")
+    fetchUpcomingGames(name())
   );
 
   const [subsribe, remove] = useRealtimeRefetch();

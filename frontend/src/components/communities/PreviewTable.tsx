@@ -1,9 +1,6 @@
 import { Component, For } from "solid-js";
 import { UserRanking } from "../../utils/types/UserRanking";
-import {
-  RiArrowsArrowDropLeftLine,
-  RiArrowsArrowDropRightLine,
-} from "solid-icons/ri";
+import { RiArrowsArrowDropRightLine } from "solid-icons/ri";
 import Table from "../shared/Table";
 import { A } from "@solidjs/router";
 

@@ -1,10 +1,9 @@
-import { Accessor, Component, Setter, createEffect } from "solid-js";
+import { Accessor, Component, Setter } from "solid-js";
 import { Game } from "../../utils/types/Game";
 import Modal from "../shared/Modal";
 import Button from "../form/Button";
 import HorizontalLine from "../shared/HorizontalLine";
 import Nation from "./Nation";
-import { Score } from "../../utils/types/Score";
 import ScoreInput from "../form/ScoreInput";
 import { createStore } from "solid-js/store";
 import { postUserBet } from "../../utils/api";
@@ -48,7 +47,7 @@ const BettingModal: Component<{
         <Button
           text='Save'
           onClick={async () => {
-            await postUserBet(props.game.id, bet, name()!);
+            await postUserBet(props.game.id, bet, name());
             props.onSubmit();
           }}
         />

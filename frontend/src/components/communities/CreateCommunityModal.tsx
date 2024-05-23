@@ -11,7 +11,7 @@ const CreateCommunityModal: Component<{
   setShow: Setter<boolean>;
   onSubmit: () => any;
 }> = (props) => {
-  const context = useUserNameContext();
+  const { name } = useUserNameContext();
   const [groupName, setGroupName] = createSignal("");
 
   return (
@@ -30,7 +30,7 @@ const CreateCommunityModal: Component<{
         <Button
           text='Create group'
           onClick={async () => {
-            await createCommunity(context.name() || "", groupName());
+            await createCommunity(name(), groupName());
             props.onSubmit();
           }}
         />

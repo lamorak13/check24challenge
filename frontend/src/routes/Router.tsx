@@ -20,14 +20,14 @@ const Router: Component = () => {
         <Route path='/' component={GeneralLayout}>
           <Route path='/' component={Home} />
 
-          <Route path='/' component={AuthLayout}>
-            <Route path='/signin' component={Signin} />
-            <Route path='/signup' component={Signup} />
-          </Route>
-
           <Route path='/communities/:id' component={Community} />
 
           <Route path='/games' component={Games} />
+        </Route>
+
+        <Route path='/' component={AuthLayout}>
+          <Route path='/signin' component={Signin} />
+          <Route path='/signup' component={Signup} />
         </Route>
       </BaseRouter>
     </UserNameProvider>

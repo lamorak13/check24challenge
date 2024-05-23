@@ -16,10 +16,10 @@ const Community: Component = () => {
   const { name } = useUserNameContext();
   const params = useParams();
   const [rankings, manageRankings] = createResource<UserRanking[]>(() =>
-    fetchCommunityRanking(params.id, name() || "")
+    fetchCommunityRanking(params.id, name())
   );
   const [pinnedRankings, managePinnedRankings] = createResource<UserRanking[]>(
-    () => fetchCommunityRankingPinnedUser(params.id, name() || "")
+    () => fetchCommunityRankingPinnedUser(params.id, name())
   );
 
   const [subsribe, remove] = useRealtimeRefetch();
@@ -33,9 +33,9 @@ const Community: Component = () => {
 
   async function handlePinUser(ranking: UserRanking) {
     if (ranking.pinned) {
-      await deletePin(name() || "", ranking.name, params.id);
+      await deletePin(name(), ranking.name, params.id);
     } else {
-      await pinUser(name() || "", ranking.name, params.id);
+      await pinUser(name(), ranking.name, params.id);
     }
     managePinnedRankings.refetch();
   }

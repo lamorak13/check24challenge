@@ -8,14 +8,17 @@ import {
 } from "solid-js";
 
 interface ContextType {
-  name: Accessor<string | undefined>;
-  setName: Setter<string | undefined>;
+  name: Accessor<string>;
+  setName: Setter<string>;
 }
 
-const UserNameContext = createContext<ContextType>();
+const UserNameContext = createContext<ContextType>({
+  name: () => "",
+  setName: () => {},
+});
 
 export function UserNameProvider(props: { children: JSX.Element }) {
-  const [name, setName] = createSignal<string | undefined>(undefined);
+  const [name, setName] = createSignal<string>("");
 
   return (
     <UserNameContext.Provider

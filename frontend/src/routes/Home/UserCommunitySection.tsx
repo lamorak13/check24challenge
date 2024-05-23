@@ -14,11 +14,11 @@ import { fetchCommunityPreview } from "../../utils/api";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
 import { UserRanking } from "../../utils/types/UserRanking";
 
-const UserCommunitySection: Component<{}> = (props) => {
-  const context = useUserNameContext();
+const UserCommunitySection: Component<{}> = () => {
+  const { name } = useUserNameContext();
   const [previews, { mutate, refetch }] = createResource<
     { community: string; preview: UserRanking[] }[]
-  >(() => fetchCommunityPreview(context.name() || ""));
+  >(() => fetchCommunityPreview(name()));
 
   const [subsribe, remove] = useRealtimeRefetch();
 
@@ -34,7 +34,7 @@ const UserCommunitySection: Component<{}> = (props) => {
               <PreviewTable
                 communityName={p.community}
                 rankings={p.preview}
-                userName={context.name() || ""}
+                userName={name()}
               />
             )}
           </For>
