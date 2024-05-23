@@ -19,6 +19,7 @@ import {
 } from "./routes/communities";
 import {
   getAllCommunityPreviews,
+  getCommunityPreview,
   getCommunityRanking,
   getCommunityRankingForPinnedUsers,
   getCommunityRankingPage,
@@ -71,9 +72,9 @@ app.put("/games/:id/score/home", scoreGoalForHome);
 
 app.put("/games/:id/score/away", scoreGoalForAway);
 
-app.get("/communities/:id/preview", getCommunityRanking);
+app.get("/communities/:id/preview", getCommunityPreview);
 
-app.get("/communities/preview", getAllCommunityPreviews);
+app.get("/communities/previews", getAllCommunityPreviews);
 
 app.listen(port, async () => {
   /* await setup(); */

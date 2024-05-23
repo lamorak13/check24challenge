@@ -216,16 +216,34 @@ export async function deletePin(
   return result;
 }
 
-export async function fetchCommunityPreview(
+export async function fetchCommunityPreviews(
   userName: string
 ): Promise<{ community: string; preview: UserRanking[] }[]> {
-  const response = await fetch("http://localhost:5000/communities/preview", {
+  const response = await fetch("http://localhost:5000/communities/previews", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       "x-user-name": userName,
     },
   });
+  const result = await response.json();
+  return result;
+}
+
+export async function fetchCommunityPreview(
+  userName: string,
+  communityName: string
+): Promise<UserRanking[]> {
+  const response = await fetch(
+    `http://localhost:5000/communities/${communityName}/preview`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-user-name": userName,
+      },
+    }
+  );
   const result = await response.json();
   return result;
 }
