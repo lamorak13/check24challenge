@@ -15,13 +15,11 @@ import EmptyBanner from "../components/games/EmptyBanner";
 import { useRealtimeRefetch } from "../utils/useRealtimeRefetch";
 import { RiUserFacesAccountCircleLine } from "solid-icons/ri";
 
-const Header: Component<{}> = (props) => {
-  const [games, { mutate, refetch }] =
-    createResource<Game[]>(fetchInProgressGames);
+const Header: Component<{}> = () => {
+  const [games, { refetch }] = createResource<Game[]>(fetchInProgressGames);
   const navigate = useNavigate();
 
   const [subsribe, remove] = useRealtimeRefetch();
-
   onMount(() => subsribe(refetch));
   onCleanup(() => remove(refetch));
 

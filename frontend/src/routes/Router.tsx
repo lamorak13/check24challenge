@@ -4,13 +4,10 @@ import { UserNameProvider } from "./UserNameContext";
 
 const GeneralLayout = lazy(() => import("./Layout"));
 const Home = lazy(() => import("./Home/Home"));
-
 const AuthLayout = lazy(() => import("./Authentication/Layout"));
 const Signin = lazy(() => import("./Authentication/Signin"));
 const Signup = lazy(() => import("./Authentication/Signup"));
-
 const Community = lazy(() => import("./Communities/[id]"));
-
 const Games = lazy(() => import("./Games/Index"));
 
 const Router: Component = () => {

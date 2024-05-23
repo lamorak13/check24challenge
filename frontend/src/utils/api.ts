@@ -1,4 +1,3 @@
-import { Community } from "./types/Community";
 import type { Game } from "./types/Game";
 import { Score } from "./types/Score";
 import { UserRanking } from "./types/UserRanking";
@@ -94,18 +93,6 @@ export async function createCommunity(username: string, communitName: string) {
     body: JSON.stringify({ communitName }),
   });
 
-  const result = await response.json();
-  return result;
-}
-
-export async function fetchCommunities(username: string): Promise<Community[]> {
-  const response = await fetch(`http://localhost:5000/communities/`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "x-user-name": username,
-    },
-  });
   const result = await response.json();
   return result;
 }
