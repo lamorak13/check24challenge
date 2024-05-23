@@ -10,13 +10,15 @@ import Carousel from "../components/shared/Carousel";
 import Banner from "../components/games/Banner";
 import { Game } from "../utils/types/Game";
 import { fetchInProgressGames } from "../utils/api";
-import { A } from "@solidjs/router";
+import { A, useNavigate } from "@solidjs/router";
 import EmptyBanner from "../components/games/EmptyBanner";
 import { useRealtimeRefetch } from "../utils/useRealtimeRefetch";
+import { RiUserFacesAccountCircleLine } from "solid-icons/ri";
 
 const Header: Component<{}> = (props) => {
   const [games, { mutate, refetch }] =
     createResource<Game[]>(fetchInProgressGames);
+  const navigate = useNavigate();
 
   const [subsribe, remove] = useRealtimeRefetch();
 
@@ -25,9 +27,17 @@ const Header: Component<{}> = (props) => {
 
   return (
     <header class='flex justify-between px-[5%] items-center py-5 border-b-2 border-b-silver/10'>
-      <A href='/'>
-        <h3>GenDev Betting Challenge</h3>
-      </A>
+      <div class='flex items-center'>
+        <button class='mr-8' onClick={() => navigate("/signin")}>
+          <RiUserFacesAccountCircleLine
+            size={40}
+            class='block text-white/80 hover:text-silver'
+          />
+        </button>
+        <A href='/'>
+          <h3>GenDev Betting Challenge</h3>
+        </A>
+      </div>
 
       <Carousel itemWidth={400} style='!w-[700px]' buttonSize={30}>
         <Show
