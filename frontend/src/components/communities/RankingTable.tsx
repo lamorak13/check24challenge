@@ -53,8 +53,10 @@ const RankingTable: Component<{
       </For>
       <Show
         when={
+          props.rankings.at(upperLimit()) &&
+          props.rankings.at(upperLimit() - 1) &&
           props.rankings.at(upperLimit() - 1)!.row_num + 1 <
-          props.rankings.at(upperLimit())!.row_num
+            props.rankings.at(upperLimit())!.row_num
         }>
         <PaginationButtons
           onDownClick={() =>
@@ -91,8 +93,10 @@ const RankingTable: Component<{
 
       <Show
         when={
+          props.rankings.at(lowerLimit()) &&
+          props.rankings.at(lowerLimit() - 1) &&
           props.rankings.at(lowerLimit() - 1)!.row_num + 1 <
-          props.rankings.at(lowerLimit())!.row_num
+            props.rankings.at(lowerLimit())!.row_num
         }>
         <PaginationButtons
           onDownClick={() =>
