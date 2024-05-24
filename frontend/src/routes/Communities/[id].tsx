@@ -11,6 +11,7 @@ import {
 import { useParams } from "@solidjs/router";
 import { useUserNameContext } from "../UserNameContext";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
+import SearchForUser from "./SearchForUser";
 
 const Community: Component = () => {
   const { name } = useUserNameContext();
@@ -38,6 +39,10 @@ const Community: Component = () => {
   return (
     <section class='flex justify-between'>
       <div>
+        <SearchForUser
+          handlePinUser={handlePinUser}
+          communityName={params.id}
+        />
         <h3 class='mb-5'>Pinned Users</h3>
         <Show when={pinnedRankings() != undefined}>
           <PinnedRankingTable

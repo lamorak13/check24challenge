@@ -59,6 +59,29 @@ export async function getCommunityRankingForPinnedUsers(
   res.json(result);
 }
 
+export async function getCommunitySearchedUsers(
+  req: CustomRequest,
+  res: Response
+) {
+  const userName = req.headers["x-user-name"] || "";
+  const searchParam = req.query.name || "";
+
+  const sqlFromFile = await readFile(
+    "./src/queries/CommunitySearchForUser.sql",
+    {
+      encoding: "utf8",
+    }
+  );
+
+  const result = await prisma.$queryRawUnsafe(
+    sqlFromFile,
+    userName,
+    req.params.id,
+    searchParam
+  );
+  res.json(result);
+}
+
 export async function getCommunityPreview(req: CustomRequest, res: Response) {
   const userName = req.headers["x-user-name"] || "";
 

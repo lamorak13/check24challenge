@@ -1,14 +1,28 @@
-import { Component, Show, createResource, onCleanup, onMount } from "solid-js";
+import {
+  Component,
+  Show,
+  createResource,
+  createSignal,
+  onCleanup,
+  onMount,
+} from "solid-js";
 import GameTable from "../../components/games/GameTable";
-import { Game } from "../../utils/types/Game";
 import { fetchAllGames } from "../../utils/api";
 import { useUserNameContext } from "../UserNameContext";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
+import SearchForGames from "./SearchForGames";
+import { GameQuery } from "../../utils/types/GameQuery";
 
 const Games: Component<{}> = () => {
   const { name } = useUserNameContext();
-  const [games, { refetch }] = createResource<Game[]>(() =>
-    fetchAllGames(name())
+  const [query, setQuery] = createSignal<GameQuery>({
+    kickoff: "",
+    team: "",
+    bet: false,
+    status: "",
+  });
+  const [games, { refetch }] = createResource(query, (query: GameQuery) =>
+    fetchAllGames(query, name())
   );
 
   const [subsribe, remove] = useRealtimeRefetch();
@@ -16,9 +30,12 @@ const Games: Component<{}> = () => {
   onCleanup(() => remove(refetch));
 
   return (
-    <Show when={games() != undefined}>
-      <GameTable games={games()!} onSubmit={refetch} />
-    </Show>
+    <>
+      <SearchForGames setQuery={setQuery} />
+      <Show when={games() != undefined}>
+        <GameTable games={games()!} onSubmit={refetch} />
+      </Show>
+    </>
   );
 };
 

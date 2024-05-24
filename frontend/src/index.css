@@ -36,3 +36,15 @@ input[type="number"] {
   -moz-appearance: textfield;
   -webkit-appearance: textfield;
 }
+
+::-webkit-calendar-picker-indicator {
+  display: hidden;
+}
+
+input {
+  color-scheme: dark;
+}
+
+input[type="checkbox"] {
+  background-color: red;
+}

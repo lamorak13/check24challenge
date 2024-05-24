@@ -1,4 +1,5 @@
 import type { Game } from "./types/Game";
+import { GameQuery } from "./types/GameQuery";
 import { Score } from "./types/Score";
 import { UserRanking } from "./types/UserRanking";
 
@@ -27,8 +28,17 @@ export async function fetchInProgressGames(): Promise<Game[]> {
   return games.map((g: any) => mapResultToGame(g));
 }
 
-export async function fetchAllGames(username: string): Promise<Game[]> {
-  const response = await fetch("http://localhost:5000/games/", {
+export async function fetchAllGames(
+  query: GameQuery,
+  username: string
+): Promise<Game[]> {
+  const searchParams = new URLSearchParams();
+  searchParams.set("team", query.team);
+  query.kickoff != "" && searchParams.set("kickoff", query.kickoff.toString());
+  query.status != "" && searchParams.set("status", query.status);
+  query.bet && searchParams.set("bet", "true");
+
+  const response = await fetch("http://localhost:5000/games?" + searchParams, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -157,6 +167,25 @@ export async function fetchCommunityRankingPinnedUser(
 ) {
   const response = await fetch(
     `http://localhost:5000/communities/${communitName}/ranking/pinned`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-user-name": userName,
+      },
+    }
+  );
+  const result = await response.json();
+  return result;
+}
+
+export async function fetchCommunitySearchForUser(
+  query: string,
+  communitName: string,
+  userName: string
+): Promise<UserRanking[]> {
+  const response = await fetch(
+    `http://localhost:5000/communities/${communitName}/ranking/search?name=${query}`,
     {
       method: "GET",
       headers: {

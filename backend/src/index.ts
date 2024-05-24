@@ -23,6 +23,7 @@ import {
   getCommunityRanking,
   getCommunityRankingForPinnedUsers,
   getCommunityRankingPage,
+  getCommunitySearchedUsers,
 } from "./routes/rankings";
 import { scoreGoalForAway, scoreGoalForHome } from "./routes/admin";
 
@@ -67,6 +68,8 @@ app.get("/communities/:id/ranking", getCommunityRanking);
 app.get("/communities/:id/ranking/page", getCommunityRankingPage);
 
 app.get("/communities/:id/ranking/pinned", getCommunityRankingForPinnedUsers);
+
+app.get("/communities/:id/ranking/search", getCommunitySearchedUsers);
 
 app.put("/games/:id/score/home", scoreGoalForHome);
 
