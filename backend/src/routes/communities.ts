@@ -27,18 +27,18 @@ export async function joinCommunity(req: CustomRequest, res: Response) {
 
 export async function createCommunity(req: CustomRequest, res: Response) {
   const userName = req.headers["x-user-name"] || "";
-  const { communitName } = req.body;
+  const { communityName } = req.body;
 
   try {
     await prisma.community.create({
       data: {
-        name: communitName,
+        name: communityName,
       },
     });
 
     const result = await prisma.belongsToCommunity.create({
       data: {
-        communityName: communitName,
+        communityName: communityName,
         userName: userName,
       },
     });

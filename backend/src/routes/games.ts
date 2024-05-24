@@ -7,6 +7,7 @@ import {
 } from "../utils/websocket";
 import { readFile } from "fs/promises";
 import { GameStatus } from "@prisma/client";
+import { updateRankingsQuery } from "../queries/UpdateRankings";
 
 export async function getAllGames(req: CustomRequest, res: Response) {
   const userName = req.headers["x-user-name"] || "";
@@ -142,12 +143,13 @@ export async function finishGame(req: Request, res: Response) {
         status: "Finished",
       },
     });
-
-    const sqlFromFile = await readFile("./src/queries/UpdateRanking.sql", {
+    /* const sqlFromFile = await readFile("./src/queries/UpdateRanking.sql", {
       encoding: "utf8",
     });
 
-    const result = await prisma.$queryRawUnsafe(sqlFromFile, req.params.id);
+    const result = await prisma.$executeRawUnsafe(sqlFromFile, req.params.id); */
+
+    const result = await updateRankingsQuery(req.params.id);
 
     sendGameFinishedUpdate();
     res.json(result);
