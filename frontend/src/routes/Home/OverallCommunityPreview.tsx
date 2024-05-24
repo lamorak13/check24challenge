@@ -2,7 +2,7 @@ import { Component, Show, createResource, onCleanup, onMount } from "solid-js";
 import { useUserNameContext } from "../UserNameContext";
 import { UserRanking } from "../../utils/types/UserRanking";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
-import { fetchCommunityPreview } from "../../utils/api";
+import { fetchCommunityPreview } from "../../utils/api/rankings";
 import PreviewTable from "../../components/communities/PreviewTable";
 
 const OverallCommunityPreview: Component<{}> = () => {

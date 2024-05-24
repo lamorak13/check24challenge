@@ -3,6 +3,9 @@ import Input from "../../components/form/Input";
 import { GameStatus } from "../../utils/types/GameStatus";
 import Button from "../../components/form/Button";
 import { GameQuery } from "../../utils/types/GameQuery";
+import DatePicker from "../../components/form/DatePicker";
+import Checkbox from "../../components/form/Checkbox";
+import Select from "../../components/form/Select";
 
 const SearchForGames: Component<{ setQuery: Setter<GameQuery> }> = (props) => {
   const [kickoff, setKickoff] = createSignal<Date | "">("");
@@ -29,62 +32,45 @@ const SearchForGames: Component<{ setQuery: Setter<GameQuery> }> = (props) => {
         <label for='status' class='mb-2 text-silver uppercase text-sm'>
           Game Status
         </label>
-        <select
+        <Select
           id='status'
-          name='status'
-          class=' bg-white/10 border-beige/10 border-2 rounded-base py-3 px-5 placeholder-white flex-grow'
+          defaultOption
+          defaultOptionText='All'
           value={status()}
-          onChange={(e) =>
+          onChange={(value) =>
             setStatus(
-              Object.values(GameStatus).includes(e.target.value as GameStatus)
-                ? (e.target.value as GameStatus)
+              Object.values(GameStatus).includes(value as GameStatus)
+                ? (value as GameStatus)
                 : ""
             )
-          }>
-          <option value={""} class='bg-black'>
-            All
-          </option>
-          <option value={GameStatus.UPCOMING} class='bg-black'>
-            Upcoming
-          </option>
-          <option value={GameStatus.IN_PROGRESS} class='bg-black'>
-            In progress
-          </option>
-          <option value={GameStatus.FINISHED} class='bg-black'>
-            Finished
-          </option>
-        </select>
+          }
+          options={[
+            { text: "Upcoming", value: GameStatus.UPCOMING },
+            { text: "In progress", value: GameStatus.IN_PROGRESS },
+            { text: "Finished", value: GameStatus.FINISHED },
+          ]}
+        />
       </div>
 
       <div class='flex flex-col justify-between'>
         <label for='date' class='block mb-2 text-silver uppercase text-sm'>
           Kickoff Date
         </label>
-        <input
+        <DatePicker
           id='date'
-          type='date'
-          value={
-            kickoff() == ""
-              ? ""
-              : (kickoff() as Date).toISOString().split("T")[0]
-          }
-          onChange={(e) =>
-            setKickoff(e.target.value == "" ? "" : new Date(e.target.value))
-          }
-          class=' bg-white/10 border-beige/10 border-2 rounded-base py-3 px-5 placeholder-white flex-grow'
+          value={kickoff()}
+          setValue={(value) => setKickoff(value == "" ? "" : new Date(value))}
         />
       </div>
 
       <div>
-        <label for='team' class='block mb-6 text-silver uppercase text-sm'>
+        <label for='bet' class='block mb-6 text-silver uppercase text-sm'>
           Only show bets
         </label>
-        <input
+        <Checkbox
           id='bet'
-          type='checkbox'
-          checked={isBetOn()}
-          onClick={() => setIsBetOn((b) => !b)}
-          class='w-[20px] aspect-square'
+          isChecked={isBetOn()}
+          onChange={() => setIsBetOn((b) => !b)}
         />
       </div>
       <Button

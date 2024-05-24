@@ -7,7 +7,7 @@ import {
   onMount,
 } from "solid-js";
 import GameTable from "../../components/games/GameTable";
-import { fetchAllGames } from "../../utils/api";
+import { fetchAllGames } from "../../utils/api/games";
 import { useUserNameContext } from "../UserNameContext";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
 import SearchForGames from "./SearchForGames";

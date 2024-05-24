@@ -9,7 +9,7 @@ import {
 import Carousel from "../components/shared/Carousel";
 import Banner from "../components/games/Banner";
 import { Game } from "../utils/types/Game";
-import { fetchInProgressGames } from "../utils/api";
+import { fetchInProgressGames } from "../utils/api/games";
 import { A, useNavigate } from "@solidjs/router";
 import EmptyBanner from "../components/games/EmptyBanner";
 import { useRealtimeRefetch } from "../utils/useRealtimeRefetch";

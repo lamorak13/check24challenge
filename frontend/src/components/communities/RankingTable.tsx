@@ -11,7 +11,7 @@ import { UserRanking } from "../../utils/types/UserRanking";
 import Table from "../shared/Table";
 import PaginationButtons from "./PaginationButtons";
 import RankingTableRow from "./RankingTableRow";
-import { fetchCommunityRankingPage } from "../../utils/api";
+import { fetchCommunityRankingPage } from "../../utils/api/rankings";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
 
 const RankingTable: Component<{

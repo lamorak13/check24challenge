@@ -3,7 +3,7 @@ import { Component, createSignal } from "solid-js";
 import HorizontalLine from "../../components/shared/HorizontalLine";
 import Button from "../../components/form/Button";
 import Input from "../../components/form/Input";
-import { signInUser } from "../../utils/api";
+import { signInUser } from "../../utils/api/auth";
 import { useUserNameContext } from "../UserNameContext";
 
 const Signin: Component<{}> = () => {

@@ -2,7 +2,7 @@ import { Component, Show, createResource, createSignal } from "solid-js";
 import PinnedRankingTable from "../../components/communities/PinnedRankingTable";
 import { UserRanking } from "../../utils/types/UserRanking";
 import { useUserNameContext } from "../UserNameContext";
-import { fetchCommunitySearchForUser } from "../../utils/api";
+import { fetchCommunitySearchForUser } from "../../utils/api/rankings";
 import Input from "../../components/form/Input";
 import Button from "../../components/form/Button";
 

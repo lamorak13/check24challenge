@@ -3,7 +3,7 @@ import { A } from "@solidjs/router";
 import { RiArrowsArrowDropRightLine } from "solid-icons/ri";
 import UpcomingGamesTable from "../../components/games/UpcomingGamesTable.tsx";
 import { Game } from "../../utils/types/Game.ts";
-import { fetchUpcomingGames } from "../../utils/api.ts";
+import { fetchUpcomingGames } from "../../utils/api/games.ts";
 import { useUserNameContext } from "../UserNameContext.tsx";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch.ts";
 

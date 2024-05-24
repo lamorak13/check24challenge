@@ -6,7 +6,7 @@ import HorizontalLine from "../shared/HorizontalLine";
 import Nation from "./Nation";
 import ScoreInput from "../form/ScoreInput";
 import { createStore } from "solid-js/store";
-import { postUserBet } from "../../utils/api";
+import { postUserBet } from "../../utils/api/games";
 import { useUserNameContext } from "../../routes/UserNameContext";
 
 const BettingModal: Component<{

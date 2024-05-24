@@ -2,12 +2,11 @@ import { Component, Show, createResource, onCleanup, onMount } from "solid-js";
 import { UserRanking } from "../../utils/types/UserRanking";
 import RankingTable from "../../components/communities/RankingTable";
 import PinnedRankingTable from "../../components/communities/PinnedRankingTable";
+import { deletePin, pinUser } from "../../utils/api/pins";
 import {
-  deletePin,
   fetchCommunityRanking,
   fetchCommunityRankingPinnedUser,
-  pinUser,
-} from "../../utils/api";
+} from "../../utils/api/rankings";
 import { useParams } from "@solidjs/router";
 import { useUserNameContext } from "../UserNameContext";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";

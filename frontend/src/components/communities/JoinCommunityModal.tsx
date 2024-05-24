@@ -4,7 +4,7 @@ import Button from "../form/Button";
 import HorizontalLine from "../shared/HorizontalLine";
 import Modal from "../shared/Modal";
 import { useUserNameContext } from "../../routes/UserNameContext";
-import { joinCommunity } from "../../utils/api";
+import { joinCommunity } from "../../utils/api/communities";
 
 const JoinCommunityModal: Component<{
   show: Accessor<boolean>;

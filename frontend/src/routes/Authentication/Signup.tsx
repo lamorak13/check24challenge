@@ -3,7 +3,7 @@ import HorizontalLine from "../../components/shared/HorizontalLine";
 import Input from "../../components/form/Input";
 import Button from "../../components/form/Button";
 import { A, useNavigate } from "@solidjs/router";
-import { signUpUser } from "../../utils/api";
+import { signUpUser } from "../../utils/api/auth";
 import { useUserNameContext } from "../UserNameContext";
 
 const Signup: Component<{}> = () => {

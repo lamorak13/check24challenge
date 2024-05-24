@@ -3,7 +3,7 @@ import Input from "../form/Input";
 import Button from "../form/Button";
 import HorizontalLine from "../shared/HorizontalLine";
 import Modal from "../shared/Modal";
-import { createCommunity } from "../../utils/api";
+import { createCommunity } from "../../utils/api/communities";
 import { useUserNameContext } from "../../routes/UserNameContext";
 
 const CreateCommunityModal: Component<{

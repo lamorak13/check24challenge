@@ -10,7 +10,7 @@ import Carousel from "../../components/shared/Carousel";
 import PreviewTable from "../../components/communities/PreviewTable";
 import CommunityCard from "../../components/communities/CommunityCard";
 import { useUserNameContext } from "../UserNameContext";
-import { fetchCommunityPreviews } from "../../utils/api";
+import { fetchCommunityPreviews } from "../../utils/api/rankings";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
 import { UserRanking } from "../../utils/types/UserRanking";
 
