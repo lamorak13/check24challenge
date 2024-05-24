@@ -8,7 +8,7 @@ import { GameStatus } from "../../utils/types/GameStatus";
 
 const Banner: Component<{ game: Game }> = (props) => {
   const statusMapping: Record<GameStatus, "green" | "blue" | "beige"> = {
-    "In progress": "green",
+    In_progress: "green",
     Finished: "beige",
     Upcoming: "blue",
   };
@@ -19,13 +19,13 @@ const Banner: Component<{ game: Game }> = (props) => {
         <DateDisplay date={props.game.kickoff} />
       </span>
       <span class='uppercase font-semibold text-lg tracking-wider'>
-        {getFlagEmoji(props.game.home, "text-2xl mr-2")}
+        {getFlagEmoji(props.game.home, "text-2xl mr-3")}
         {props.game.home}
       </span>
       <ScoreDisplay score={props.game.score} />
-      <span class='uppercase font-semibold text-lg tracking-wider'>
+      <span class='uppercase font-semibold text-lg tracking-wider flex items-center'>
         {props.game.away}
-        {getFlagEmoji(props.game.away, "text-2xl ml-2")}
+        {getFlagEmoji(props.game.away, "text-2xl ml-3")}
       </span>
       <Pill color={statusMapping[props.game.status]} text={props.game.status} />
     </div>

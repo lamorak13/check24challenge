@@ -37,7 +37,11 @@ const Header: Component<{}> = () => {
         </A>
       </div>
 
-      <Carousel itemWidth={400} style='!w-[700px]' buttonSize={30}>
+      <Carousel
+        itemWidth={400}
+        style='!w-[700px]'
+        buttonSize={30}
+        buttonPosition='Side'>
         <Show
           when={games() != undefined && games()!.length > 0}
           fallback={<EmptyBanner />}>

@@ -8,16 +8,16 @@ import CarouselButton from "./CarouselButton";
 const Carousel: Component<{
   itemWidth: number;
   children: JSX.Element[] | JSX.Element;
+  buttonPosition: "Bottom" | "Side";
   style?: string;
   buttonSize?: number;
-  buttonPosition?: "Botton" | "Side";
 }> = (props) => {
   let carousel: HTMLDivElement | undefined;
 
   return (
     <>
       <div class='flex w-fit items-center'>
-        <Show when={!props.buttonPosition || props.buttonPosition == "Side"}>
+        <Show when={props.buttonPosition == "Side"}>
           <CarouselButton
             buttonSize={props.buttonSize}
             onClick={() => (carousel!.scrollLeft -= props.itemWidth)}
@@ -31,7 +31,7 @@ const Carousel: Component<{
           {props.children}
         </div>
 
-        <Show when={!props.buttonPosition || props.buttonPosition == "Side"}>
+        <Show when={props.buttonPosition == "Side"}>
           <CarouselButton
             buttonSize={props.buttonSize}
             onClick={() => (carousel!.scrollLeft += props.itemWidth)}
@@ -40,7 +40,7 @@ const Carousel: Component<{
         </Show>
       </div>
 
-      <Show when={props.buttonPosition == "Botton"}>
+      <Show when={props.buttonPosition == "Bottom"}>
         <div class='flex justify-center gap-8 mt-5'>
           <CarouselButton
             buttonSize={props.buttonSize}

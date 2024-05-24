@@ -8,7 +8,7 @@ import {
 } from "solid-js";
 import Carousel from "../../components/shared/Carousel";
 import PreviewTable from "../../components/communities/PreviewTable";
-import CreateCpommunityCard from "../../components/communities/CreateCpommunityCard";
+import CommunityCard from "../../components/communities/CommunityCard";
 import { useUserNameContext } from "../UserNameContext";
 import { fetchCommunityPreviews } from "../../utils/api";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
@@ -16,7 +16,7 @@ import { UserRanking } from "../../utils/types/UserRanking";
 
 const UserCommunitySection: Component<{}> = () => {
   const { name } = useUserNameContext();
-  const [previews, { mutate, refetch }] = createResource<
+  const [previews, { refetch }] = createResource<
     { community: string; preview: UserRanking[] }[]
   >(() => fetchCommunityPreviews(name()));
 
@@ -26,7 +26,7 @@ const UserCommunitySection: Component<{}> = () => {
 
   return (
     <Show when={previews() != undefined}>
-      <Carousel itemWidth={500} buttonPosition='Botton'>
+      <Carousel itemWidth={500} buttonPosition='Bottom'>
         <For each={previews()}>
           {(p) => (
             <PreviewTable
@@ -37,7 +37,7 @@ const UserCommunitySection: Component<{}> = () => {
           )}
         </For>
         <Show when={previews()!.length < 5}>
-          <CreateCpommunityCard
+          <CommunityCard
             refetch={refetch}
             numberOfCommunities={previews()!.length}
           />

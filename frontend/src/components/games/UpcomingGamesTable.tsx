@@ -27,14 +27,14 @@ const UpcomingGamesTable: Component<{ games: Game[]; onSubmit: () => any }> = (
               </td>
               <td class='uppercase font-semibold text-lg tracking-wider pl-4 py-4'>
                 <div class=' flex items-center'>
-                  {getFlagEmoji(game.home, "text-2xl mr-2")}
+                  {getFlagEmoji(game.home, "text-2xl mr-3")}
                   {game.home}
                 </div>
               </td>
               <td class='uppercase font-semibold text-lg tracking-wider pl-4 py-4 flex'>
                 <div class=' flex items-center'>
                   {game.away}
-                  {getFlagEmoji(game.away, "text-2xl ml-2")}
+                  {getFlagEmoji(game.away, "text-2xl ml-3")}
                 </div>
               </td>
               <td class='pl-4 py-4'>

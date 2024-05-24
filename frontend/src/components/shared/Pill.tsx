@@ -17,7 +17,7 @@ const Pill: Component<{
       class={`text-sm rounded-3xl py-[2px] px-5 border-2 min-w-[120px] text-center ${
         colorMapping[props.color]
       } ${props.onClick && "cursor-pointer"}`}>
-      {props.text}
+      {props.text.replace("_", " ")}
     </span>
   );
 };

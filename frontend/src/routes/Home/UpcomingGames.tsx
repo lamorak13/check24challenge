@@ -9,12 +9,11 @@ import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch.ts";
 
 const UpcomingGames: Component<{}> = () => {
   const { name } = useUserNameContext();
-  const [games, { mutate, refetch }] = createResource<Game[]>(() =>
+  const [games, { refetch }] = createResource<Game[]>(() =>
     fetchUpcomingGames(name())
   );
 
   const [subsribe, remove] = useRealtimeRefetch();
-
   onMount(() => subsribe(refetch));
   onCleanup(() => remove(refetch));
 

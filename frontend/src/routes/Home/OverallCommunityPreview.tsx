@@ -7,12 +7,11 @@ import PreviewTable from "../../components/communities/PreviewTable";
 
 const OverallCommunityPreview: Component<{}> = () => {
   const { name } = useUserNameContext();
-  const [preview, { mutate, refetch }] = createResource<UserRanking[]>(() =>
+  const [preview, { refetch }] = createResource<UserRanking[]>(() =>
     fetchCommunityPreview(name(), "Overall")
   );
 
   const [subsribe, remove] = useRealtimeRefetch();
-
   onMount(() => subsribe(refetch));
   onCleanup(() => remove(refetch));
 

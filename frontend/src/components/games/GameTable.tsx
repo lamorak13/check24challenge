@@ -15,7 +15,7 @@ const GameTable: Component<{ games: Game[]; onSubmit: () => any }> = (
   const [currentGame, setCurrentGame] = createSignal(props.games[0]);
 
   const statusMapping: Record<GameStatus, "green" | "blue" | "beige"> = {
-    "In progress": "green",
+    In_progress: "green",
     Finished: "beige",
     Upcoming: "blue",
   };
@@ -32,12 +32,16 @@ const GameTable: Component<{ games: Game[]; onSubmit: () => any }> = (
                 <DateDisplay date={game.kickoff} />
               </td>
               <td class='uppercase font-semibold text-lg tracking-wider pl-4 py-4'>
-                {getFlagEmoji(game.home, "text-2xl mr-2")}
-                {game.home}
+                <div class=' flex items-center'>
+                  {getFlagEmoji(game.home, "text-2xl mr-3")}
+                  {game.home}
+                </div>
               </td>
               <td class='uppercase font-semibold text-lg tracking-wider pl-4 py-4'>
-                {game.away}
-                {getFlagEmoji(game.away, "text-2xl ml-2")}
+                <div class=' flex items-center'>
+                  {game.away}
+                  {getFlagEmoji(game.away, "text-2xl ml-3")}
+                </div>
               </td>
               <td class='pl-4 py-4'>
                 <Show

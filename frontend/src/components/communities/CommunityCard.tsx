@@ -4,7 +4,7 @@ import HorizontalLine from "../shared/HorizontalLine";
 import CreateCommunityModal from "./CreateCommunityModal";
 import JoinCommunityModal from "./JoinCommunityModal";
 
-const CreateCpommunityCard: Component<{
+const CommunityCard: Component<{
   refetch: () => any;
   numberOfCommunities: number;
 }> = (props) => {
@@ -48,4 +48,4 @@ const CreateCpommunityCard: Component<{
   );
 };
 
-export default CreateCpommunityCard;
+export default CommunityCard;

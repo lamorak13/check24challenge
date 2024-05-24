@@ -26,7 +26,7 @@ const PreviewTable: Component<{
           {(ranking) => (
             <tr
               class={`border-b border-silver/10 ${
-                ranking.name == props.userName && "bg-light-blue/40"
+                ranking.name == props.userName && "bg-light-blue/60"
               }`}>
               <td class='pl-4 py-2 text-silver'>{ranking.rank}</td>
               <td class='pl-4 py-2 text-silver'>{ranking.name}</td>

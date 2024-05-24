@@ -23,13 +23,8 @@ const Community: Component = () => {
   );
 
   const [subsribe, remove] = useRealtimeRefetch();
-
-  onMount(() => {
-    subsribe(managePinnedRankings.refetch);
-  });
-  onCleanup(() => {
-    subsribe(managePinnedRankings.refetch);
-  });
+  onMount(() => subsribe(managePinnedRankings.refetch));
+  onCleanup(() => remove(managePinnedRankings.refetch));
 
   async function handlePinUser(ranking: UserRanking) {
     if (ranking.pinned) {
