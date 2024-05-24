@@ -11,6 +11,7 @@ const Carousel: Component<{
   buttonPosition: "Bottom" | "Side";
   style?: string;
   buttonSize?: number;
+  id?: string;
 }> = (props) => {
   let carousel: HTMLDivElement | undefined;
 
@@ -26,6 +27,7 @@ const Carousel: Component<{
         </Show>
 
         <div
+          id={props.id}
           ref={carousel}
           class={`px-[50px] flex items-stretch gap-[75px] w-[500px] overflow-x-hidden scroll-smooth snap-mandatory snap-x ${props.style}`}>
           {props.children}

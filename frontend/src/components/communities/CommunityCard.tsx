@@ -11,6 +11,12 @@ const CommunityCard: Component<{
   const [showCreatePopup, setShowCreatePopup] = createSignal(false);
   const [showJoinModal, setShowJoinModal] = createSignal(false);
 
+  function refetchAndReset() {
+    props.refetch();
+    const carousel = document.getElementById("CommunityCarousel");
+    if (carousel) carousel.scrollLeft = 0;
+  }
+
   return (
     <div class=''>
       <h3 class='mb-8'>Get together with your friends!</h3>
@@ -35,12 +41,12 @@ const CommunityCard: Component<{
           <JoinCommunityModal
             show={showJoinModal}
             setShow={setShowJoinModal}
-            onSubmit={props.refetch}
+            onSubmit={refetchAndReset}
           />
           <CreateCommunityModal
             show={showCreatePopup}
             setShow={setShowCreatePopup}
-            onSubmit={props.refetch}
+            onSubmit={refetchAndReset}
           />
         </div>
       </div>

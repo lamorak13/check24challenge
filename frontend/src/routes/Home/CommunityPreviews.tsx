@@ -26,7 +26,7 @@ const UserCommunitySection: Component<{}> = () => {
 
   return (
     <Show when={previews() != undefined}>
-      <Carousel itemWidth={500} buttonPosition='Bottom'>
+      <Carousel id='CommunityCarousel' itemWidth={500} buttonPosition='Bottom'>
         <For each={previews()}>
           {(p) => (
             <PreviewTable
