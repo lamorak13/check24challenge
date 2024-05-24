@@ -33,7 +33,7 @@ const Community: Component = () => {
 
   return (
     <section class='flex justify-between'>
-      <div>
+      <div class='sticky top-[150px] h-fit'>
         <SearchForUser
           handlePinUser={handlePinUser}
           communityName={params.id}

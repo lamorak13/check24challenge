@@ -21,7 +21,7 @@ const Layout: Component<RouteSectionProps<unknown>> = (props) => {
   return (
     <>
       <Header />
-      <main class='px-[5%] py-5'>{props.children}</main>
+      <main class='px-[5%] py-5 pt-[130px]'>{props.children}</main>
       <Show when={name() == ""}>
         <Navigate href={"/signin"} />
       </Show>

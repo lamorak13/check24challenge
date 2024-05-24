@@ -24,30 +24,32 @@ const Header: Component<{}> = () => {
   onCleanup(() => remove(refetch));
 
   return (
-    <header class='flex justify-between px-[5%] items-center py-5 border-b-2 border-b-silver/10'>
-      <div class='flex items-center'>
-        <button class='mr-8' onClick={() => navigate("/signin")}>
-          <RiUserFacesAccountCircleLine
-            size={40}
-            class='block text-white/80 hover:text-silver'
-          />
-        </button>
-        <A href='/'>
-          <h3>GenDev Betting Challenge</h3>
-        </A>
-      </div>
+    <header class='fixed bg-black z-10 w-full'>
+      <div class='flex justify-between px-[5%] items-center py-5 border-b-2 border-b-silver/10 z-10'>
+        <div class='flex items-center'>
+          <button class='mr-8' onClick={() => navigate("/signin")}>
+            <RiUserFacesAccountCircleLine
+              size={40}
+              class='block text-white/80 hover:text-silver'
+            />
+          </button>
+          <A href='/'>
+            <h3>GenDev Betting Challenge</h3>
+          </A>
+        </div>
 
-      <Carousel
-        itemWidth={400}
-        style='!w-[700px]'
-        buttonSize={30}
-        buttonPosition='Side'>
-        <Show
-          when={games() != undefined && games()!.length > 0}
-          fallback={<EmptyBanner />}>
-          <For each={games()}>{(game) => <Banner game={game} />}</For>
-        </Show>
-      </Carousel>
+        <Carousel
+          itemWidth={400}
+          style='!w-[700px]'
+          buttonSize={30}
+          buttonPosition='Side'>
+          <Show
+            when={games() != undefined && games()!.length > 0}
+            fallback={<EmptyBanner />}>
+            <For each={games()}>{(game) => <Banner game={game} />}</For>
+          </Show>
+        </Carousel>
+      </div>
     </header>
   );
 };
