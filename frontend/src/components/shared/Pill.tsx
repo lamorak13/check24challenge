@@ -1,7 +1,7 @@
 import { Component } from "solid-js";
 
 const Pill: Component<{
-  color: "green" | "blue" | "beige";
+  color: "green" | "blue" | "beige" | "yellow";
   text: string;
   onClick?: () => void;
 }> = (props) => {
@@ -9,6 +9,7 @@ const Pill: Component<{
     green: "text-green border-green bg-green/10",
     beige: "text-beige border-beige bg-beige/10",
     blue: "text-light-blue border-light-blue bg-light-blue/10",
+    yellow: "text-yellow border-yellow bg-yellow/10",
   };
 
   return (

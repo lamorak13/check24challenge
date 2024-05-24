@@ -12,6 +12,7 @@ module.exports = {
                 red: '#9E2A2B',
                 green: '#209264',
                 black: '#0F172A',
+                yellow: "#DD972A"
             },
             borderRadius: {
                 base: '10px',

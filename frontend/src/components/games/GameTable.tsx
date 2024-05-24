@@ -14,8 +14,8 @@ const GameTable: Component<{ games: Game[]; onSubmit: () => any }> = (
   const [openBettingModal, setOpenBettingModal] = createSignal(false);
   const [currentGame, setCurrentGame] = createSignal(props.games[0]);
 
-  const statusMapping: Record<GameStatus, "green" | "blue" | "beige"> = {
-    In_progress: "green",
+  const statusMapping: Record<GameStatus, "yellow" | "blue" | "beige"> = {
+    In_progress: "yellow",
     Finished: "beige",
     Upcoming: "blue",
   };

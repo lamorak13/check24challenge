@@ -7,8 +7,8 @@ import DateDisplay from "./DateDisplay";
 import { GameStatus } from "../../utils/types/GameStatus";
 
 const Banner: Component<{ game: Game }> = (props) => {
-  const statusMapping: Record<GameStatus, "green" | "blue" | "beige"> = {
-    In_progress: "green",
+  const statusMapping: Record<GameStatus, "yellow" | "blue" | "beige"> = {
+    In_progress: "yellow",
     Finished: "beige",
     Upcoming: "blue",
   };
