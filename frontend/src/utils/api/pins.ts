@@ -11,8 +11,7 @@ export async function pinUser(
     body: JSON.stringify({ communityName, pinnedUserName }),
   });
 
-  const result = await response.json();
-  return result;
+  return await response.json();
 }
 
 export async function deletePin(
@@ -28,6 +27,5 @@ export async function deletePin(
     body: JSON.stringify({ communityName, pinnedUserName }),
   });
 
-  const result = await response.json();
-  return result;
+  return await response.json();
 }

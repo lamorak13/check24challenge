@@ -1,25 +1,23 @@
-export async function signInUser(username: string) {
+export async function signInUser(userName: string) {
   const response = await fetch("http://localhost:5000/signin", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name: username }),
+    body: JSON.stringify({ name: userName }),
   });
 
-  const result = await response.json();
-  return result;
+  return await response.json();
 }
 
-export async function signUpUser(username: string) {
+export async function signUpUser(userName: string) {
   const response = await fetch("http://localhost:5000/signup", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name: username }),
+    body: JSON.stringify({ name: userName }),
   });
 
-  const result = await response.json();
-  return result;
+  return await response.json();
 }

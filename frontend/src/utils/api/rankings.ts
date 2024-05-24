@@ -14,8 +14,7 @@ export async function fetchCommunityRanking(
       },
     }
   );
-  const result = await response.json();
-  return result;
+  return await response.json();
 }
 
 export async function fetchCommunityRankingPage(
@@ -34,8 +33,7 @@ export async function fetchCommunityRankingPage(
       },
     }
   );
-  const result = await response.json();
-  return result;
+  return await response.json();
 }
 
 export async function fetchCommunityRankingPinnedUser(
@@ -52,8 +50,7 @@ export async function fetchCommunityRankingPinnedUser(
       },
     }
   );
-  const result = await response.json();
-  return result;
+  return await response.json();
 }
 
 export async function fetchCommunitySearchForUser(
@@ -71,8 +68,7 @@ export async function fetchCommunitySearchForUser(
       },
     }
   );
-  const result = await response.json();
-  return result;
+  return await response.json();
 }
 
 export async function fetchCommunityPreviews(
@@ -85,8 +81,7 @@ export async function fetchCommunityPreviews(
       "x-user-name": userName,
     },
   });
-  const result = await response.json();
-  return result;
+  return await response.json();
 }
 
 export async function fetchCommunityPreview(
@@ -103,6 +98,5 @@ export async function fetchCommunityPreview(
       },
     }
   );
-  const result = await response.json();
-  return result;
+  return await response.json();
 }

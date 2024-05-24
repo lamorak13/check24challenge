@@ -1,29 +1,27 @@
-export async function createCommunity(username: string, communitName: string) {
+export async function createCommunity(userName: string, communityName: string) {
   const response = await fetch(`http://localhost:5000/communities/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-user-name": username,
+      "x-user-name": userName,
     },
-    body: JSON.stringify({ communitName }),
+    body: JSON.stringify({ communityName }),
   });
 
-  const result = await response.json();
-  return result;
+  return await response.json();
 }
 
-export async function joinCommunity(username: string, communitName: string) {
+export async function joinCommunity(userName: string, communityName: string) {
   const response = await fetch(
-    `http://localhost:5000/communities/${communitName}/join`,
+    `http://localhost:5000/communities/${communityName}/join`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-user-name": username,
+        "x-user-name": userName,
       },
     }
   );
 
-  const result = await response.json();
-  return result;
+  return await response.json();
 }

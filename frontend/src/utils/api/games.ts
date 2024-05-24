@@ -29,7 +29,7 @@ export async function fetchInProgressGames(): Promise<Game[]> {
 
 export async function fetchAllGames(
   query: GameQuery,
-  username: string
+  userName: string
 ): Promise<Game[]> {
   const searchParams = new URLSearchParams();
   searchParams.set("team", query.team);
@@ -41,7 +41,7 @@ export async function fetchAllGames(
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "x-user-name": username,
+      "x-user-name": userName,
     },
   });
 
@@ -70,16 +70,15 @@ function mapResultToGame(g: any): Game {
 export async function postUserBet(
   gameId: string,
   score: Score,
-  username: string
+  userName: string
 ) {
   const response = await fetch(`http://localhost:5000/games/${gameId}/bet`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ user: username, score }),
+    body: JSON.stringify({ user: userName, score }),
   });
 
-  const result = await response.json();
-  return result;
+  return await response.json();
 }
