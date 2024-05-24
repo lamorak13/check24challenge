@@ -17,8 +17,6 @@ export async function getGames(req: CustomRequest, res: Response) {
   };
   const kickoffDate = new Date(kickoff as string);
 
-  console.log(req.query, kickoffDate, isDate(kickoffDate));
-
   const result = await prisma.game.findMany({
     where: {
       kickoff: {
@@ -81,7 +79,7 @@ export async function getInprogressGames(req: Request, res: Response) {
     include: {
       bet: {
         where: {
-          userName: "test",
+          userName: "",
         },
       },
     },
