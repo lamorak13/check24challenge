@@ -15,9 +15,7 @@ const RankingTableRow: Component<{
         <button onClick={() => props.handlePinUser(props.ranking)}>
           <RiMapMapPin4Line
             size={20}
-            class={`${
-              props.ranking.pinned ? "text-light-blue" : "text-dark-gray"
-            }  hover:text-light-blue cursor-pointer`}
+            class={`text-dark-gray hover:text-light-blue cursor-pointer`}
           />
         </button>
       </td>

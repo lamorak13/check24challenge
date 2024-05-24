@@ -11,7 +11,7 @@ import {
   getUpcomingGames,
   startGame,
 } from "./routes/games";
-import { deletePin, pinUser } from "./routes/pin";
+import { deletePin, pinUser, togglePin } from "./routes/pin";
 import {
   createCommunity,
   getUserCommunities,
@@ -56,6 +56,8 @@ app.post("/games/:id/bet", betOnGame);
 app.post("/user/:username/pin", pinUser);
 
 app.delete("/user/:username/pin", deletePin);
+
+app.put("/user/:username/pin", togglePin);
 
 app.post("/communities/:communitName/join", joinCommunity);
 

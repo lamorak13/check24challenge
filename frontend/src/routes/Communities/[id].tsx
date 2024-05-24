@@ -1,8 +1,8 @@
 import { Component, Show, createResource, onCleanup, onMount } from "solid-js";
 import { UserRanking } from "../../utils/types/UserRanking";
 import RankingTable from "../../components/communities/RankingTable";
-import PinnedRankingTable from "../../components/communities/PinnedRankingTable";
-import { deletePin, pinUser } from "../../utils/api/pins";
+import SimpleRankingTable from "../../components/communities/SimpleRankingTable";
+import { togglePin } from "../../utils/api/pins";
 import {
   fetchCommunityRanking,
   fetchCommunityRankingPinnedUser,
@@ -27,11 +27,7 @@ const Community: Component = () => {
   onCleanup(() => remove(managePinnedRankings.refetch));
 
   async function handlePinUser(ranking: UserRanking) {
-    if (ranking.pinned) {
-      await deletePin(name(), ranking.name, params.id);
-    } else {
-      await pinUser(name(), ranking.name, params.id);
-    }
+    await togglePin(name(), ranking.name, params.id);
     managePinnedRankings.refetch();
   }
 
@@ -44,7 +40,7 @@ const Community: Component = () => {
         />
         <h3 class='mb-5'>Pinned Users</h3>
         <Show when={pinnedRankings() != undefined}>
-          <PinnedRankingTable
+          <SimpleRankingTable
             rankings={pinnedRankings()!}
             handlePinUser={handlePinUser}
           />

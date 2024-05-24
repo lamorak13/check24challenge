@@ -26,3 +26,15 @@ export async function deletePin(req: Request, res: Response) {
 
   res.json(result);
 }
+
+export async function togglePin(req: Request, res: Response) {
+  const isPinPresent = await prisma.pin.findFirst({
+    where: {
+      userName: req.params.username,
+      pinnedUserName: req.body.pinnedUserName,
+      communityName: req.body.communityName,
+    },
+  });
+
+  isPinPresent == null ? await pinUser(req, res) : await deletePin(req, res);
+}

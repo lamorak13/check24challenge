@@ -65,7 +65,7 @@ const RankingTable: Component<{
   }
 
   return (
-    <Table headings={["Rank", "User", "Points", ""]} style='w-[600px]'>
+    <Table headings={["Rank", "User", "Points", ""]} style='w-[700px]'>
       <For each={props.rankings.slice(0, upperLimit())}>
         {(ranking) => (
           <RankingTableRow

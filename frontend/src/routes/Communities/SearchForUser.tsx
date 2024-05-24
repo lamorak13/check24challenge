@@ -1,5 +1,5 @@
 import { Component, Show, createResource, createSignal } from "solid-js";
-import PinnedRankingTable from "../../components/communities/PinnedRankingTable";
+import SimpleRankingTable from "../../components/communities/SimpleRankingTable";
 import { UserRanking } from "../../utils/types/UserRanking";
 import { useUserNameContext } from "../UserNameContext";
 import { fetchCommunitySearchForUser } from "../../utils/api/rankings";
@@ -29,7 +29,7 @@ const SearchForUser: Component<{
         <Button text='Search' onClick={() => setQuery(input())} />
       </div>
       <Show when={foundRankings() != undefined}>
-        <PinnedRankingTable
+        <SimpleRankingTable
           rankings={foundRankings()!}
           handlePinUser={props.handlePinUser}
         />

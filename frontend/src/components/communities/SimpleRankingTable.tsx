@@ -3,12 +3,12 @@ import { UserRanking } from "../../utils/types/UserRanking";
 import Table from "../shared/Table";
 import RankingTableRow from "./RankingTableRow";
 
-const PinnedRankingTable: Component<{
+const SimpleRankingTable: Component<{
   rankings: UserRanking[];
   handlePinUser: (r: UserRanking) => void;
 }> = (props) => {
   return (
-    <Table headings={["Rank", "User", "Points", ""]} style='w-[600px]'>
+    <Table headings={["Rank", "User", "Points", ""]} style='w-[500px]'>
       <For each={props.rankings}>
         {(ranking) => (
           <RankingTableRow
@@ -21,4 +21,4 @@ const PinnedRankingTable: Component<{
   );
 };
 
-export default PinnedRankingTable;
+export default SimpleRankingTable;
