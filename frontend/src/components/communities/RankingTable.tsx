@@ -13,6 +13,7 @@ import PaginationButtons from "./PaginationButtons";
 import RankingTableRow from "./RankingTableRow";
 import { fetchCommunityRankingPage } from "../../utils/api/rankings";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
+import Select from "../form/Select";
 
 const RankingTable: Component<{
   rankings: UserRanking[];
@@ -25,7 +26,7 @@ const RankingTable: Component<{
   ) => UserRanking[] | Promise<UserRanking[] | undefined> | null | undefined;
 }> = (props) => {
   const userRank = props.rankings.findIndex((r) => r.name == props.userName);
-  const [pageSize, setPageSize] = createSignal(100);
+  const [pageSize, setPageSize] = createSignal(10);
   const [upperLimit, setUpperLimit] = createSignal(userRank);
   const [lowerLimit, setLowerLimit] = createSignal(userRank + 1);
 
@@ -63,95 +64,117 @@ const RankingTable: Component<{
   }
 
   return (
-    <Table headings={["Rank", "User", "Points", ""]} style='w-[700px]'>
-      <For each={props.rankings.slice(0, upperLimit())}>
-        {(ranking) => (
-          <RankingTableRow
-            ranking={ranking}
-            handlePinUser={props.handlePinUser}
+    <div>
+      <div class='flex justify-between items-end mb-5'>
+        <h2 class='text-3xl'>All Users</h2>
+        <div class='flex flex-col justify-between items-end'>
+          <label for='status' class='mb-2 text-silver uppercase text-sm'>
+            Page Size
+          </label>
+          <Select
+            id='size'
+            value={pageSize().toString()}
+            options={[
+              { text: "10", value: "10" },
+              { text: "25", value: "25" },
+              { text: "50", value: "50" },
+              { text: "100", value: "100" },
+            ]}
+            defaultOption={false}
+            onChange={(n) => setPageSize(Number(n))}
           />
-        )}
-      </For>
-      <Show
-        when={
-          props.rankings.at(upperLimit()) &&
-          props.rankings.at(upperLimit() - 1) &&
-          props.rankings.at(upperLimit() - 1)!.row_num + 1 <
-            props.rankings.at(upperLimit())!.row_num
-        }>
-        <PaginationButtons
-          onDownClick={() =>
-            handlePageRequest(
-              props.rankings.at(upperLimit() - 1)!.row_num + 1,
-              Math.min(
-                props.rankings.at(upperLimit())!.row_num - 1,
-                props.rankings.at(upperLimit() - 1)!.row_num + pageSize()
-              ),
-              [setUpperLimit, setLowerLimit]
-            )
-          }
-          onUpClick={() =>
-            handlePageRequest(
-              Math.max(
+        </div>
+      </div>
+      <Table headings={["Rank", "User", "Points", ""]} style='w-[700px]'>
+        <For each={props.rankings.slice(0, upperLimit())}>
+          {(ranking) => (
+            <RankingTableRow
+              ranking={ranking}
+              handlePinUser={props.handlePinUser}
+            />
+          )}
+        </For>
+        <Show
+          when={
+            props.rankings.at(upperLimit()) &&
+            props.rankings.at(upperLimit() - 1) &&
+            props.rankings.at(upperLimit() - 1)!.row_num + 1 <
+              props.rankings.at(upperLimit())!.row_num
+          }>
+          <PaginationButtons
+            onDownClick={() =>
+              handlePageRequest(
                 props.rankings.at(upperLimit() - 1)!.row_num + 1,
-                props.rankings.at(upperLimit())!.row_num - pageSize()
-              ),
-              props.rankings.at(upperLimit())!.row_num - 1,
-              [setLowerLimit]
-            )
-          }
-        />
-      </Show>
-
-      <For each={props.rankings.slice(upperLimit(), lowerLimit())}>
-        {(ranking) => (
-          <RankingTableRow
-            ranking={ranking}
-            handlePinUser={props.handlePinUser}
+                Math.min(
+                  props.rankings.at(upperLimit())!.row_num - 1,
+                  props.rankings.at(upperLimit() - 1)!.row_num + pageSize()
+                ),
+                [setUpperLimit, setLowerLimit]
+              )
+            }
+            onUpClick={() =>
+              handlePageRequest(
+                Math.max(
+                  props.rankings.at(upperLimit() - 1)!.row_num + 1,
+                  props.rankings.at(upperLimit())!.row_num - pageSize()
+                ),
+                props.rankings.at(upperLimit())!.row_num - 1,
+                [setLowerLimit]
+              )
+            }
           />
-        )}
-      </For>
+        </Show>
 
-      <Show
-        when={
-          props.rankings.at(lowerLimit()) &&
-          props.rankings.at(lowerLimit() - 1) &&
-          props.rankings.at(lowerLimit() - 1)!.row_num + 1 <
-            props.rankings.at(lowerLimit())!.row_num
-        }>
-        <PaginationButtons
-          onDownClick={() =>
-            handlePageRequest(
-              props.rankings.at(lowerLimit() - 1)!.row_num + 1,
-              Math.min(
-                props.rankings.at(lowerLimit())!.row_num - 1,
-                props.rankings.at(lowerLimit() - 1)!.row_num + pageSize()
-              ),
-              [setLowerLimit]
-            )
-          }
-          onUpClick={() =>
-            handlePageRequest(
-              Math.max(
+        <For each={props.rankings.slice(upperLimit(), lowerLimit())}>
+          {(ranking) => (
+            <RankingTableRow
+              ranking={ranking}
+              handlePinUser={props.handlePinUser}
+            />
+          )}
+        </For>
+
+        <Show
+          when={
+            props.rankings.at(lowerLimit()) &&
+            props.rankings.at(lowerLimit() - 1) &&
+            props.rankings.at(lowerLimit() - 1)!.row_num + 1 <
+              props.rankings.at(lowerLimit())!.row_num
+          }>
+          <PaginationButtons
+            onDownClick={() =>
+              handlePageRequest(
                 props.rankings.at(lowerLimit() - 1)!.row_num + 1,
-                props.rankings.at(lowerLimit())!.row_num - pageSize()
-              ),
-              props.rankings.at(lowerLimit())!.row_num - 1,
-              []
-            )
-          }
-        />
-      </Show>
-
-      <For each={props.rankings.slice(lowerLimit())}>
-        {(ranking) => (
-          <RankingTableRow
-            ranking={ranking}
-            handlePinUser={props.handlePinUser}
+                Math.min(
+                  props.rankings.at(lowerLimit())!.row_num - 1,
+                  props.rankings.at(lowerLimit() - 1)!.row_num + pageSize()
+                ),
+                [setLowerLimit]
+              )
+            }
+            onUpClick={() =>
+              handlePageRequest(
+                Math.max(
+                  props.rankings.at(lowerLimit() - 1)!.row_num + 1,
+                  props.rankings.at(lowerLimit())!.row_num - pageSize()
+                ),
+                props.rankings.at(lowerLimit())!.row_num - 1,
+                []
+              )
+            }
           />
-        )}
-      </For>
-    </Table>
+        </Show>
+
+        <For each={props.rankings.slice(lowerLimit())}>
+          {(ranking) => (
+            <RankingTableRow
+              ranking={ranking}
+              handlePinUser={props.handlePinUser}
+            />
+          )}
+        </For>
+      </Table>
+    </div>
   );
 };
 

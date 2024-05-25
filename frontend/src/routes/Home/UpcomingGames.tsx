@@ -19,8 +19,8 @@ const UpcomingGames: Component<{}> = () => {
 
   return (
     <section class='w-fit'>
-      <div class='flex justify-between'>
-        <h3 class='mb-5'>Upcoming Games</h3>
+      <div class='flex justify-between items-end mb-5'>
+        <h2 class=' text-2xl '>Upcoming Games</h2>
         <A href='/games' class='no-underline'>
           <span>Look at all games</span>
           <RiArrowsArrowDropRightLine class='inline-block' size={30} />

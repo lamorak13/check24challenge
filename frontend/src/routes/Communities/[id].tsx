@@ -47,19 +47,16 @@ const Community: Component = () => {
         </Show>
       </div>
 
-      <div>
-        <h3 class='mb-5'>All Users</h3>
-        <Show when={rankings() != undefined}>
-          <RankingTable
-            rankings={rankings()!}
-            handlePinUser={handlePinUser}
-            communityName={params.id}
-            userName={name()}
-            mutate={manageRankings.mutate}
-            refetch={manageRankings.refetch}
-          />
-        </Show>
-      </div>
+      <Show when={rankings() != undefined}>
+        <RankingTable
+          rankings={rankings()!}
+          handlePinUser={handlePinUser}
+          communityName={params.id}
+          userName={name()}
+          mutate={manageRankings.mutate}
+          refetch={manageRankings.refetch}
+        />
+      </Show>
     </section>
   );
 };
