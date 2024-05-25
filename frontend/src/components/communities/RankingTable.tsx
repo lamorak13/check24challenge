@@ -48,7 +48,6 @@ const RankingTable: Component<{
   ) {
     const result = await fetchCommunityRankingPage(
       props.communityName,
-      props.userName,
       from,
       to
     );

@@ -5,11 +5,16 @@ With ranks as (
         Cast(
             rank() over(
                 order by
+                    "points" desc
+            ) as Int
+        ),
+        Cast(
+            row_number() over(
+                order by
                     "points" desc,
                     "registration_date" asc
             ) as Int
-        ),
-        Cast(row_number() over() as Int) row_num
+        ) row_num
     from
         "User" u
         join "belongsToCommunity" b on u. "name" = b. "userName"

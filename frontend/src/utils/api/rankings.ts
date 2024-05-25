@@ -19,7 +19,6 @@ export async function fetchCommunityRanking(
 
 export async function fetchCommunityRankingPage(
   communitName: string,
-  userName: string,
   from: number,
   to: number
 ): Promise<UserRanking[]> {
@@ -27,10 +26,6 @@ export async function fetchCommunityRankingPage(
     `http://localhost:5000/communities/${communitName}/ranking/page?from=${from}&to=${to}`,
     {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-name": userName,
-      },
     }
   );
   return await response.json();
@@ -55,17 +50,12 @@ export async function fetchCommunityRankingPinnedUser(
 
 export async function fetchCommunitySearchForUser(
   query: string,
-  communitName: string,
-  userName: string
+  communitName: string
 ): Promise<UserRanking[]> {
   const response = await fetch(
     `http://localhost:5000/communities/${communitName}/ranking/search?name=${query}`,
     {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-name": userName,
-      },
     }
   );
   return await response.json();

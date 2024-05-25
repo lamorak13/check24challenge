@@ -14,7 +14,7 @@ const SearchForUser: Component<{
   const [input, setInput] = createSignal("");
   const [query, setQuery] = createSignal<string | null>(null);
   const [foundRankings] = createResource(query, (query: string) =>
-    fetchCommunitySearchForUser(query, props.communityName, name())
+    fetchCommunitySearchForUser(query, props.communityName)
   );
 
   return (

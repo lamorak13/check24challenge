@@ -83,6 +83,6 @@ app.get("/communities/previews", getAllRankingPreviews);
 
 app.listen(port, async () => {
   /* await setup(); */
-  /* await test_setup(); */
+  await test_setup();
   console.log(`Server is running on http://localhost:${port}`);
 });

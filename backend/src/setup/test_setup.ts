@@ -89,9 +89,9 @@ const games = [
 export async function test_setup() {
   // Create the "Hellrider" community if it doesn't exist
   const community = await prisma.community.upsert({
-    where: { name: "Hellrider" },
+    where: { name: "Overall" },
     update: {},
-    create: { name: "Hellrider" },
+    create: { name: "Overall" },
   });
 
   // Create games
@@ -117,7 +117,7 @@ export async function test_setup() {
         name: `${firstName} ${lastName} ${i}`,
         points,
         belongsToCommunity: {
-          create: { communityName: "Hellrider" },
+          create: { communityName: "Overall" },
         },
       },
     });
