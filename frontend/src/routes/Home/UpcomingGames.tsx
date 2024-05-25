@@ -13,9 +13,9 @@ const UpcomingGames: Component<{}> = () => {
     fetchUpcomingGames(name())
   );
 
-  const [subsribe, remove] = useRealtimeRefetch();
+  const [subsribe, unsubscribe] = useRealtimeRefetch();
   onMount(() => subsribe(refetch));
-  onCleanup(() => remove(refetch));
+  onCleanup(() => unsubscribe(refetch));
 
   return (
     <section class='w-fit'>

@@ -20,9 +20,9 @@ const UserCommunitySection: Component<{}> = () => {
     { community: string; preview: UserRanking[] }[]
   >(() => fetchCommunityPreviews(name()));
 
-  const [subsribe, remove] = useRealtimeRefetch();
+  const [subsribe, unsubscribe] = useRealtimeRefetch();
   onMount(() => subsribe(refetch));
-  onCleanup(() => remove(refetch));
+  onCleanup(() => unsubscribe(refetch));
 
   return (
     <Show when={previews() != undefined}>

@@ -18,7 +18,7 @@ const CommunityCard: Component<{
   }
 
   return (
-    <div class=''>
+    <div>
       <h3 class='mb-8'>Get together with your friends!</h3>
       <div class='rounded-base border-2 border-silver/15 px-5 py-8 w-[400px] flex-shrink-0 snap-center'>
         <h3 class='text-silver text-center mb-6'>

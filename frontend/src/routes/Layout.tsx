@@ -3,7 +3,8 @@ import Header from "./Header";
 import { Navigate, RouteSectionProps } from "@solidjs/router";
 import { useUserNameContext } from "./UserNameContext";
 import { ServerMessage } from "../utils/types/ServerMessage";
-import { fetchers } from "../utils/useRealtimeRefetch";
+import { runSubsriber } from "../utils/useRealtimeRefetch";
+import NotificationContainer from "../components/shared/NotificationContainer";
 
 const Layout: Component<RouteSectionProps<unknown>> = (props) => {
   const { name } = useUserNameContext();
@@ -12,7 +13,7 @@ const Layout: Component<RouteSectionProps<unknown>> = (props) => {
     const socket = new WebSocket("ws://localhost:8080");
     socket.onmessage = (event) => {
       if (event.data in ServerMessage) {
-        fetchers.forEach((f) => f());
+        runSubsriber(event.data);
       }
     };
     onCleanup(() => socket.close());
@@ -25,6 +26,7 @@ const Layout: Component<RouteSectionProps<unknown>> = (props) => {
       <Show when={name() == ""}>
         <Navigate href={"/signin"} />
       </Show>
+      <NotificationContainer />
     </>
   );
 };

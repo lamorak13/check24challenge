@@ -11,9 +11,9 @@ const OverallCommunityPreview: Component<{}> = () => {
     fetchCommunityPreview(name(), "Overall")
   );
 
-  const [subsribe, remove] = useRealtimeRefetch();
+  const [subsribe, unsubscribe] = useRealtimeRefetch();
   onMount(() => subsribe(refetch));
-  onCleanup(() => remove(refetch));
+  onCleanup(() => unsubscribe(refetch));
 
   return (
     <Show when={preview() != undefined}>

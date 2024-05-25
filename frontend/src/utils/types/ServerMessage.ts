@@ -1,5 +1,5 @@
 export enum ServerMessage {
-  "Game Started",
-  "Game Finished",
-  "Game Score",
+  "Game Started" = "Game Started",
+  "Game Finished" = "Game Finished",
+  "Game Score" = "Game Score",
 }

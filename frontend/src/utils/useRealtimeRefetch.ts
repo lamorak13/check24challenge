@@ -1,11 +1,19 @@
-export const fetchers = new Set<() => any>();
+import { ServerMessage } from "./types/ServerMessage";
 
-function addFetcher(f: () => any) {
-  fetchers.add(f);
+const subscribees = new Set<(s: ServerMessage) => any>();
+
+export function runSubsriber(type: ServerMessage) {
+  subscribees.forEach((f) => {
+    f(type);
+  });
 }
 
-function removeFetcher(f: () => any) {
-  fetchers.delete(f);
+function subscribe(f: (s: ServerMessage) => any) {
+  subscribees.add(f);
 }
 
-export const useRealtimeRefetch = () => [addFetcher, removeFetcher];
+function unsubscribe(f: (s: ServerMessage) => any) {
+  subscribees.delete(f);
+}
+
+export const useRealtimeRefetch = () => [subscribe, unsubscribe];

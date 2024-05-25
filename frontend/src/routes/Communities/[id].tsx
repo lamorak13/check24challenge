@@ -22,9 +22,9 @@ const Community: Component = () => {
     () => fetchCommunityRankingPinnedUser(params.id, name())
   );
 
-  const [subsribe, remove] = useRealtimeRefetch();
+  const [subsribe, unsubscribe] = useRealtimeRefetch();
   onMount(() => subsribe(managePinnedRankings.refetch));
-  onCleanup(() => remove(managePinnedRankings.refetch));
+  onCleanup(() => unsubscribe(managePinnedRankings.refetch));
 
   async function handlePinUser(ranking: UserRanking) {
     await togglePin(name(), ranking.name, params.id);

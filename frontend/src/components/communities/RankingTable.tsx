@@ -36,10 +36,9 @@ const RankingTable: Component<{
     setLowerLimit(rank + 1);
   }
 
-  const [subsribe, remove] = useRealtimeRefetch();
-
+  const [subsribe, unsubscribe] = useRealtimeRefetch();
   onMount(() => subsribe(reset));
-  onCleanup(() => remove(reset));
+  onCleanup(() => unsubscribe(reset));
 
   async function handlePageRequest(
     from: number,

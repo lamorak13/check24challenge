@@ -19,9 +19,9 @@ const Header: Component<{}> = () => {
   const [games, { refetch }] = createResource<Game[]>(fetchInProgressGames);
   const navigate = useNavigate();
 
-  const [subsribe, remove] = useRealtimeRefetch();
+  const [subsribe, unsubscribe] = useRealtimeRefetch();
   onMount(() => subsribe(refetch));
-  onCleanup(() => remove(refetch));
+  onCleanup(() => unsubscribe(refetch));
 
   return (
     <header class='fixed bg-black z-10 w-full'>
