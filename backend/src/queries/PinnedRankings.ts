@@ -15,8 +15,7 @@ export const getPinnedRankinsgQuery = (
                     "points" desc,
                     "registration_date" asc
             ) as Int
-        ),
-        true as pinned
+        )
     from
         "User" u
         join "belongsToCommunity" b on u. "name" = b. "userName"

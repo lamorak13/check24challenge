@@ -22,20 +22,7 @@ export const getRankingPageQuery = (
                             "registration_date" asc
                     ) as Int
                 ),
-                Cast(row_number() over() as Int) row_num,
-                Case
-                    when exists (
-                        Select
-                            1
-                        from
-                            "Pin" p
-                        where
-                            p. "userName" = ${userName}
-                            and p. "pinnedUserName" = u. "name"
-                            and p. "communityName" = ${communityName}
-                    ) then true
-                    else false
-                End as pinned
+                Cast(row_number() over() as Int) row_num
             from
                 "User" u
                 join "belongsToCommunity" b on u. "name" = b. "userName"
