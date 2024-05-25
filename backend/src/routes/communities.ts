@@ -29,6 +29,10 @@ export async function createCommunity(req: CustomRequest, res: Response) {
   const userName = req.headers["x-user-name"] || "";
   const { communityName } = req.body;
 
+  if (communityName == "") {
+    res.status(400).json({ error: "Could not craete community" });
+    return;
+  }
   try {
     await prisma.community.create({
       data: {

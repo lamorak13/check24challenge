@@ -4,6 +4,11 @@ import { prisma } from "../utils/prisma";
 export async function signupUser(req: Request, res: Response) {
   const name = req.body.name;
 
+  if (name == "") {
+    res.status(400).json({ error: "Could not create user" });
+    return;
+  }
+
   try {
     const result = await prisma.user.upsert({
       where: { name: name },

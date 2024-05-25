@@ -24,8 +24,10 @@ const Signin: Component<{}> = () => {
         text='Sign in'
         onClick={async () => {
           const { name } = await signInUser(userInput());
-          setName(name);
-          navigate("/", { replace: true });
+          if (name) {
+            setName(name);
+            navigate("/", { replace: true });
+          }
         }}
       />
       <p class='text-lg mt-5'>
