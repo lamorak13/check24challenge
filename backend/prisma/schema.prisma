@@ -41,13 +41,14 @@ model Community {
 }
 
 model Bet {
-  id        String @id @default(uuid()) @db.Uuid
   homescore Int
   awayscore Int
   game      Game   @relation(name: "GameOfBet", fields: [gameId], references: [id])
   gameId    String @db.Uuid
   user      User   @relation(name: "BettingUser", fields: [userName], references: [name])
   userName  String
+
+  @@id([gameId, userName])
 }
 
 model Pin {
