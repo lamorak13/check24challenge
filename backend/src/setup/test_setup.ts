@@ -88,15 +88,22 @@ const games = [
 
 export async function test_setup() {
   // Create the "Hellrider" community if it doesn't exist
-  const community = await prisma.community.upsert({
+  await prisma.community.upsert({
     where: { name: "Overall" },
     update: {},
     create: { name: "Overall" },
   });
 
+  let betGame = await prisma.game.create({
+    data: {
+      home: games[0].home,
+      away: games[0].away,
+      kickoff: new Date(games[0].kickoff),
+    },
+  });
   // Create games
   for (const game of games) {
-    await prisma.game.create({
+    prisma.game.create({
       data: {
         home: game.home,
         away: game.away,
@@ -107,15 +114,11 @@ export async function test_setup() {
 
   // Generate users
   const users = [];
-  for (let i = 0; i < 100; i++) {
-    const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
-    const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-    users.push(`${firstName} ${lastName} ${i}`);
-    const points = Math.floor(Math.random() * 21); // Random points between 0 and 20
-    const user = await prisma.user.create({
+  for (let i = 0; i < 100000; i++) {
+    users.push(`${i}`);
+    prisma.user.create({
       data: {
-        name: `${firstName} ${lastName} ${i}`,
-        points,
+        name: `${i}`,
         belongsToCommunity: {
           create: { communityName: "Overall" },
         },
@@ -125,7 +128,7 @@ export async function test_setup() {
 
   // Generate bets for each user
   for (const user of users) {
-    // Select around 3 random games
+    /*  // Select around 3 random games
     const randomGames: any = [];
     while (randomGames.length < 3) {
       const randomIndex = Math.floor(Math.random() * games.length);
@@ -133,26 +136,15 @@ export async function test_setup() {
       if (!randomGames.includes(randomGame)) {
         randomGames.push(randomGame);
       }
-    }
+    }*/
 
-    // Create a bet for each selected game
-    for (const game of randomGames) {
-      await prisma.bet.create({
-        data: {
-          homescore: Math.floor(Math.random() * 5), // Random homescore between 0 and 4
-          awayscore: Math.floor(Math.random() * 5), // Random awayscore between 0 and 4
-          gameId: await prisma.game
-            .findFirst({
-              where: {
-                home: game.home,
-                away: game.away,
-                kickoff: new Date(game.kickoff),
-              },
-            })
-            .then((g) => g!.id),
-          userName: user,
-        },
-      });
-    }
+    prisma.bet.create({
+      data: {
+        homescore: Math.floor(Math.random() * 5), // Random homescore between 0 and 4
+        awayscore: Math.floor(Math.random() * 5), // Random awayscore between 0 and 4
+        gameId: betGame!.id,
+        userName: user,
+      },
+    });
   }
 }

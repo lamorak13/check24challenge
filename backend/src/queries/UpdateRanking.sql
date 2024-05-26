@@ -13,7 +13,7 @@ with cp as (
         "Bet" b,
         "Game" g
     where
-        g. "id" = $1
+        g. "id" = uudi($1)
         and b. "gameId" = g. "id"
 )
 Update

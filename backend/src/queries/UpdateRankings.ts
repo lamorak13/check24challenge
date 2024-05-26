@@ -18,7 +18,7 @@ export const updateRankingsQuery = (gameId: string) =>
             "Bet" b,
             "Game" g
         where
-            g. "id" = ${gameId}
+            g. "id" = uuid(${gameId})
             and b. "gameId" = g. "id"
     )
     Update
