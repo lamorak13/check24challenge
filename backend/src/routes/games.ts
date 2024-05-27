@@ -26,9 +26,12 @@ export async function getAllGames(req: CustomRequest, res: Response) {
         status:
           (status as string) in GameStatus ? (status as GameStatus) : undefined,
         bet: {
-          some: {
-            userName: bet == "true" ? userName : undefined,
-          },
+          some:
+            bet == "true"
+              ? {
+                  userName: userName,
+                }
+              : undefined,
         },
         OR: [
           {
