@@ -1,7 +1,7 @@
 import { Component, For } from "solid-js";
 import { UserRanking } from "../../utils/types/UserRanking";
 import Table from "../shared/Table";
-import RankingTableRow from "./RankingTableRow";
+import SimpleRankingTableRow from "./SimpleRankingTableRow";
 
 const SimpleRankingTable: Component<{
   rankings: UserRanking[];
@@ -11,7 +11,7 @@ const SimpleRankingTable: Component<{
     <Table headings={["Rank", "User", "Points", ""]} style='w-[500px]'>
       <For each={props.rankings}>
         {(ranking) => (
-          <RankingTableRow
+          <SimpleRankingTableRow
             ranking={ranking}
             handlePinUser={props.handlePinUser}
           />

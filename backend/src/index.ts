@@ -1,5 +1,6 @@
 import express from "express";
 const cors = require("cors");
+const cron = require("node-cron");
 
 import { signinUser, signupUser } from "./routes/auth";
 import {
@@ -29,6 +30,7 @@ import { scoreGoalForAway, scoreGoalForHome } from "./routes/admin";
 
 import { setup } from "./setup/setup";
 import { test_setup } from "./setup/test_setup";
+import { resetDelta } from "./queries/CronDeltaReset";
 
 const app = express();
 const port = 5000;
@@ -84,5 +86,6 @@ app.get("/communities/previews", getAllRankingPreviews);
 app.listen(port, async () => {
   /* await setup(); */
   /* await test_setup(); */
+  cron.schedule("0 0 * * *", async () => await resetDelta());
   console.log(`Server is running on http://localhost:${port}`);
 });

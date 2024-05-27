@@ -3,6 +3,7 @@ import {
   For,
   Setter,
   Show,
+  createEffect,
   createSignal,
   onCleanup,
   onMount,
@@ -63,6 +64,8 @@ const RankingTable: Component<{
     setters.forEach((s) => s((n) => n + result.length));
   }
 
+  createEffect(() => console.log(props.rankings));
+
   return (
     <div>
       <div class='flex justify-between items-end mb-5'>
@@ -85,10 +88,13 @@ const RankingTable: Component<{
           />
         </div>
       </div>
-      <Table headings={["Rank", "User", "Points", ""]} style='w-[700px]'>
+      <Table
+        headings={["Rank", "User", "Points", "Bets", "PpB", "+/-", ""]}
+        style='w-[800px]'>
         <For each={props.rankings.slice(0, upperLimit())}>
           {(ranking) => (
             <RankingTableRow
+              userName={props.userName}
               ranking={ranking}
               handlePinUser={props.handlePinUser}
             />
@@ -128,6 +134,7 @@ const RankingTable: Component<{
         <For each={props.rankings.slice(upperLimit(), lowerLimit())}>
           {(ranking) => (
             <RankingTableRow
+              userName={props.userName}
               ranking={ranking}
               handlePinUser={props.handlePinUser}
             />
@@ -168,6 +175,7 @@ const RankingTable: Component<{
         <For each={props.rankings.slice(lowerLimit())}>
           {(ranking) => (
             <RankingTableRow
+              userName={props.userName}
               ranking={ranking}
               handlePinUser={props.handlePinUser}
             />

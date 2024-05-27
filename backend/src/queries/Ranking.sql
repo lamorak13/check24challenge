@@ -5,6 +5,12 @@ from
         Select
             u. "name",
             u. "points",
+            u. "bets",
+            u. "delta",
+            Case
+                when u. "bets" = 0 then 0.0
+                else (u. "points" / Cast(u. "bets" as float))
+            End as "ppb",
             Cast(
                 rank() over(
                     order by

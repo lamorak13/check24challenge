@@ -26,11 +26,13 @@ const PreviewTable: Component<{
           {(ranking) => (
             <tr
               class={`border-b border-silver/10 ${
-                ranking.name == props.userName && "bg-light-blue/60"
+                ranking.name == props.userName
+                  ? "bg-light-blue/40 text-white!"
+                  : "text-silver"
               }`}>
-              <td class='pl-4 py-2 text-silver'>{ranking.rank}</td>
-              <td class='pl-4 py-2 text-silver'>{ranking.name}</td>
-              <td class='pl-4 py-2 text-silver'>{ranking.points}</td>
+              <td class='pl-4 py-2'>{ranking.rank}</td>
+              <td class='pl-4 py-2'>{ranking.name}</td>
+              <td class='pl-4 py-2'>{ranking.points}</td>
             </tr>
           )}
         </For>

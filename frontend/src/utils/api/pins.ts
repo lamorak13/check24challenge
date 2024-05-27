@@ -8,7 +8,10 @@ export async function pinUser(
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ communityName, pinnedUserName }),
+    body: JSON.stringify({
+      communityName: decodeURI(communityName),
+      pinnedUserName,
+    }),
   });
 
   return await response.json();
@@ -24,7 +27,10 @@ export async function deletePin(
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ communityName, pinnedUserName }),
+    body: JSON.stringify({
+      communityName: decodeURI(communityName),
+      pinnedUserName,
+    }),
   });
 
   return await response.json();
@@ -40,7 +46,10 @@ export async function togglePin(
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ communityName, pinnedUserName }),
+    body: JSON.stringify({
+      communityName: decodeURI(communityName),
+      pinnedUserName,
+    }),
   });
 
   return await response.json();

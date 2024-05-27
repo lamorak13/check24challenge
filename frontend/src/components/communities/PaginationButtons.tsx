@@ -9,7 +9,7 @@ const PaginationButtons: Component<{
     <>
       <tr class='border-b border-silver/10'>
         <td
-          colSpan={3}
+          colSpan={6}
           class='pl-4 py-4 text-center'
           onClick={props.onDownClick}>
           Show more
@@ -17,7 +17,7 @@ const PaginationButtons: Component<{
         </td>
       </tr>
       <tr class='border-b border-silver/10'>
-        <td colSpan={3} class='pl-4 py-4 text-center' onClick={props.onUpClick}>
+        <td colSpan={6} class='pl-4 py-4 text-center' onClick={props.onUpClick}>
           Show more
           <IoChevronUpOutline class='inline-block ml-2 text-xl' />
         </td>

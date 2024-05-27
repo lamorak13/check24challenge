@@ -19,7 +19,9 @@ with cp as (
 Update
     "User" u
 set
-    points = u. "points" + cp. "points"
+    points = u. "points" + cp. "points",
+    delta = u. "delta" + cp. "points",
+    bets = u. "bets" + 1
 from
     cp
 where
