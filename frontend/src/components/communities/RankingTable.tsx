@@ -15,6 +15,7 @@ import RankingTableRow from "./RankingTableRow";
 import { fetchCommunityRankingPage } from "../../utils/api/rankings";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
 import Select from "../form/Select";
+import { ServerMessage } from "../../utils/types/ServerMessage";
 
 const RankingTable: Component<{
   rankings: UserRanking[];
@@ -39,8 +40,8 @@ const RankingTable: Component<{
   }
 
   const [subsribe, unsubscribe] = useRealtimeRefetch();
-  onMount(() => subsribe(reset));
-  onCleanup(() => unsubscribe(reset));
+  onMount(() => subsribe(reset, [ServerMessage["Game Finished"]]));
+  onCleanup(() => unsubscribe(reset, [ServerMessage["Game Finished"]]));
 
   async function handlePageRequest(
     from: number,

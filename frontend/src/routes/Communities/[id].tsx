@@ -11,6 +11,7 @@ import { useParams } from "@solidjs/router";
 import { useUserNameContext } from "../UserNameContext";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
 import SearchForUser from "./SearchForUser";
+import { ServerMessage } from "../../utils/types/ServerMessage";
 
 const Community: Component = () => {
   const { name } = useUserNameContext();
@@ -23,8 +24,12 @@ const Community: Component = () => {
   );
 
   const [subsribe, unsubscribe] = useRealtimeRefetch();
-  onMount(() => subsribe(managePinnedRankings.refetch));
-  onCleanup(() => unsubscribe(managePinnedRankings.refetch));
+  onMount(() =>
+    subsribe(managePinnedRankings.refetch, [ServerMessage["Game Finished"]])
+  );
+  onCleanup(() =>
+    unsubscribe(managePinnedRankings.refetch, [ServerMessage["Game Finished"]])
+  );
 
   async function handlePinUser(ranking: UserRanking) {
     await togglePin(name(), ranking.name, params.id);

@@ -4,6 +4,7 @@ import { UserRanking } from "../../utils/types/UserRanking";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
 import { fetchCommunityPreview } from "../../utils/api/rankings";
 import PreviewTable from "../../components/communities/PreviewTable";
+import { ServerMessage } from "../../utils/types/ServerMessage";
 
 const OverallCommunityPreview: Component<{}> = () => {
   const { name } = useUserNameContext();
@@ -12,8 +13,8 @@ const OverallCommunityPreview: Component<{}> = () => {
   );
 
   const [subsribe, unsubscribe] = useRealtimeRefetch();
-  onMount(() => subsribe(refetch));
-  onCleanup(() => unsubscribe(refetch));
+  onMount(() => subsribe(refetch, [ServerMessage["Game Finished"]]));
+  onCleanup(() => unsubscribe(refetch, [ServerMessage["Game Finished"]]));
 
   return (
     <Show when={preview() != undefined}>

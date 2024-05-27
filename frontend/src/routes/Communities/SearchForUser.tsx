@@ -1,21 +1,33 @@
-import { Component, Show, createResource, createSignal } from "solid-js";
+import {
+  Component,
+  Show,
+  createResource,
+  createSignal,
+  onCleanup,
+  onMount,
+} from "solid-js";
 import SimpleRankingTable from "../../components/communities/SimpleRankingTable";
 import { UserRanking } from "../../utils/types/UserRanking";
 import { useUserNameContext } from "../UserNameContext";
 import { fetchCommunitySearchForUser } from "../../utils/api/rankings";
 import Input from "../../components/form/Input";
 import Button from "../../components/form/Button";
+import { ServerMessage } from "../../utils/types/ServerMessage";
+import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
 
 const SearchForUser: Component<{
   handlePinUser: (ranking: UserRanking) => void;
   communityName: string;
 }> = (props) => {
-  const { name } = useUserNameContext();
   const [input, setInput] = createSignal("");
   const [query, setQuery] = createSignal<string | null>(null);
-  const [foundRankings] = createResource(query, (query: string) =>
+  const [foundRankings, { refetch }] = createResource(query, (query: string) =>
     fetchCommunitySearchForUser(query, props.communityName)
   );
+
+  const [subsribe, unsubscribe] = useRealtimeRefetch();
+  onMount(() => subsribe(refetch, [ServerMessage["Game Finished"]]));
+  onCleanup(() => unsubscribe(refetch, [ServerMessage["Game Finished"]]));
 
   return (
     <div class='mb-10'>
