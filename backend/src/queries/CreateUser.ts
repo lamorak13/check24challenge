@@ -10,8 +10,8 @@ export const createUserQuery = (userName: string) =>
       `Insert into "belongsToCommunity" values ($1, 'Overall')`,
       userName
     ),
-    /* prisma.$executeRawUnsafe(
+    prisma.$executeRawUnsafe(
       `Refresh Materialized view concurrently "User_Ranking_Overall" with data`,
       userName
-    ), */
+    ),
   ]);

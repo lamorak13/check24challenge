@@ -15,7 +15,7 @@ export const createCommunityQuery = (userName: string, communityName: string) =>
       `
       Create Materialized View "User_Ranking_${communityName}" as
 
-      Select u. "name", u. "points", u. "bets", u. "delta", b."communityName",
+      Select u. "name", u. "points", u. "bets", u. "delta", u. "registration_date",
           Case when u. "bets" = 0 then 0.0 else (u. "points" / Cast(u. "bets" as float)) End as "ppb",
           Cast(rank() over(order by "points" desc) as Int),
           Cast(row_number() over(order by "points" desc, "registration_date" asc) as Int) row_num

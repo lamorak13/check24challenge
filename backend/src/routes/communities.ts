@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { prisma } from "../utils/prisma";
 import { CustomRequest } from "../utils/types";
-import { createCommunityQuery } from "../queries/CerateCommunity";
+import { createCommunityQuery } from "../queries/CreateCommunity";
 import { joinCommunityQuery } from "../queries/JoinCommunity";
 
 export async function joinCommunity(req: CustomRequest, res: Response) {
