@@ -27,9 +27,8 @@ export async function signupUser(req: Request, res: Response) {
     }); */
     const [user] = await createUserQuery(name);
     console.log(user);
-    res.status(201).json({ name: name });
+    res.status(201).json(user);
   } catch (error) {
-    console.log(error);
     res.status(400).json({ error: "Could not create user" });
   }
 }
@@ -45,7 +44,6 @@ export async function signinUser(req: Request, res: Response) {
     });
     result ? res.json(result) : res.status(400).json("No user found");
   } catch (error) {
-    console.log(error);
     res.status(400).json({ error: "Could not sign in user" });
   }
 }

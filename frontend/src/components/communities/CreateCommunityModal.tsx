@@ -4,14 +4,14 @@ import Button from "../form/Button";
 import HorizontalLine from "../shared/HorizontalLine";
 import Modal from "../shared/Modal";
 import { createCommunity } from "../../utils/api/communities";
-import { useUserNameContext } from "../../routes/UserNameContext";
+import { useUserContext } from "../../routes/UserNameContext";
 
 const CreateCommunityModal: Component<{
   show: Accessor<boolean>;
   setShow: Setter<boolean>;
   onSubmit: () => any;
 }> = (props) => {
-  const { name } = useUserNameContext();
+  const { user } = useUserContext();
   const [groupName, setGroupName] = createSignal("");
 
   return (
@@ -30,7 +30,7 @@ const CreateCommunityModal: Component<{
         <Button
           text='Create group'
           onClick={async () => {
-            await createCommunity(name(), groupName());
+            await createCommunity(user().name, groupName());
             props.onSubmit();
           }}
         />

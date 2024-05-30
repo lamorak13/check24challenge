@@ -4,13 +4,13 @@ import { RiArrowsArrowDropRightLine } from "solid-icons/ri";
 import UpcomingGamesTable from "../../components/games/UpcomingGamesTable.tsx";
 import { Game } from "../../utils/types/Game.ts";
 import { fetchUpcomingGames } from "../../utils/api/games.ts";
-import { useUserNameContext } from "../UserNameContext.tsx";
+import { useUserContext } from "../UserNameContext.tsx";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch.ts";
 
 const UpcomingGames: Component<{}> = () => {
-  const { name } = useUserNameContext();
+  const { user } = useUserContext();
   const [games, { refetch }] = createResource<Game[]>(() =>
-    fetchUpcomingGames(name())
+    fetchUpcomingGames(user().name)
   );
 
   const [subsribe, unsubscribe] = useRealtimeRefetch();

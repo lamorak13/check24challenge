@@ -1,5 +1,5 @@
 import { Component, Show, createResource, onCleanup, onMount } from "solid-js";
-import { useUserNameContext } from "../UserNameContext";
+import { useUserContext } from "../UserNameContext";
 import { UserRanking } from "../../utils/types/UserRanking";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
 import { fetchCommunityPreview } from "../../utils/api/rankings";
@@ -7,9 +7,9 @@ import PreviewTable from "../../components/communities/PreviewTable";
 import { ServerMessage } from "../../utils/types/ServerMessage";
 
 const OverallCommunityPreview: Component<{}> = () => {
-  const { name } = useUserNameContext();
+  const { user } = useUserContext();
   const [preview, { refetch }] = createResource<UserRanking[]>(() =>
-    fetchCommunityPreview(name(), "Overall")
+    fetchCommunityPreview(user().name, "Overall")
   );
 
   const [subsribe, unsubscribe] = useRealtimeRefetch();
@@ -21,7 +21,7 @@ const OverallCommunityPreview: Component<{}> = () => {
       <PreviewTable
         communityName={"Overall"}
         rankings={preview()!}
-        userName={name()}
+        userName={user().name}
       />
     </Show>
   );

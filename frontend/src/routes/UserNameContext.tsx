@@ -7,28 +7,40 @@ import {
   useContext,
 } from "solid-js";
 
+type User = {
+  name: string;
+  points: number;
+  registration_date: Date;
+};
+
 interface ContextType {
-  name: Accessor<string>;
-  setName: Setter<string>;
+  user: Accessor<User>;
+  setUser: Setter<User>;
 }
 
-const UserNameContext = createContext<ContextType>({
-  name: () => "",
-  setName: () => {},
+const UserContext = createContext<ContextType>({
+  user: () => {
+    return { name: "", points: 0, registration_date: new Date() };
+  },
+  setUser: () => {},
 });
 
-export function UserNameProvider(props: { children: JSX.Element }) {
-  const [name, setName] = createSignal<string>("");
+export function UserProvider(props: { children: JSX.Element }) {
+  const [user, setUser] = createSignal<User>({
+    name: "",
+    points: 0,
+    registration_date: new Date(),
+  });
 
   return (
-    <UserNameContext.Provider
+    <UserContext.Provider
       value={{
-        name,
-        setName,
+        user,
+        setUser,
       }}>
       {props.children}
-    </UserNameContext.Provider>
+    </UserContext.Provider>
   );
 }
 
-export const useUserNameContext = () => useContext(UserNameContext)!;
+export const useUserContext = () => useContext(UserContext)!;

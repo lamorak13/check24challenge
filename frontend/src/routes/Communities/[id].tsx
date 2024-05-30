@@ -8,19 +8,19 @@ import {
   fetchCommunityRankingPinnedUser,
 } from "../../utils/api/rankings";
 import { useParams } from "@solidjs/router";
-import { useUserNameContext } from "../UserNameContext";
+import { useUserContext } from "../UserNameContext";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
 import SearchForUser from "./SearchForUser";
 import { ServerMessage } from "../../utils/types/ServerMessage";
 
 const Community: Component = () => {
-  const { name } = useUserNameContext();
+  const { user } = useUserContext();
   const params = useParams();
   const [rankings, manageRankings] = createResource<UserRanking[]>(() =>
-    fetchCommunityRanking(params.id, name())
+    fetchCommunityRanking(params.id, user().name)
   );
   const [pinnedRankings, managePinnedRankings] = createResource<UserRanking[]>(
-    () => fetchCommunityRankingPinnedUser(params.id, name())
+    () => fetchCommunityRankingPinnedUser(params.id, user().name)
   );
 
   const [subsribe, unsubscribe] = useRealtimeRefetch();
@@ -32,7 +32,7 @@ const Community: Component = () => {
   );
 
   async function handlePinUser(ranking: UserRanking) {
-    await togglePin(name(), ranking.name, params.id);
+    await togglePin(user().name, ranking.name, params.id);
     managePinnedRankings.refetch();
   }
 
@@ -57,7 +57,7 @@ const Community: Component = () => {
           rankings={rankings()!}
           handlePinUser={handlePinUser}
           communityName={params.id}
-          userName={name()}
+          userName={user().name}
           mutate={manageRankings.mutate}
           refetch={manageRankings.refetch}
         />

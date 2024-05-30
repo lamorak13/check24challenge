@@ -7,7 +7,7 @@ import Nation from "./Nation";
 import ScoreInput from "../form/ScoreInput";
 import { createStore } from "solid-js/store";
 import { postUserBet } from "../../utils/api/games";
-import { useUserNameContext } from "../../routes/UserNameContext";
+import { useUserContext } from "../../routes/UserNameContext";
 
 const BettingModal: Component<{
   game: Game;
@@ -15,7 +15,7 @@ const BettingModal: Component<{
   setShow: Setter<boolean>;
   onSubmit: () => any;
 }> = (props) => {
-  const { name } = useUserNameContext();
+  const { user } = useUserContext();
   const [bet, setBet] = createStore<{ home: number; away: number }>({
     home: 0,
     away: 0,
@@ -47,7 +47,7 @@ const BettingModal: Component<{
         <Button
           text='Save'
           onClick={async () => {
-            await postUserBet(props.game.id, bet, name());
+            await postUserBet(props.game.id, bet, user().name);
             props.onSubmit();
           }}
         />

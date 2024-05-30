@@ -1,6 +1,6 @@
 import { Route, Router as BaseRouter } from "@solidjs/router";
 import { Component, lazy } from "solid-js";
-import { UserNameProvider } from "./UserNameContext";
+import { UserProvider } from "./UserNameContext";
 
 const GeneralLayout = lazy(() => import("./Layout"));
 const Home = lazy(() => import("./Home/Home"));
@@ -12,7 +12,7 @@ const Games = lazy(() => import("./Games/Index"));
 
 const Router: Component = () => {
   return (
-    <UserNameProvider>
+    <UserProvider>
       <BaseRouter>
         <Route path='/' component={GeneralLayout}>
           <Route path='/' component={Home} />
@@ -27,7 +27,7 @@ const Router: Component = () => {
           <Route path='/signup' component={Signup} />
         </Route>
       </BaseRouter>
-    </UserNameProvider>
+    </UserProvider>
   );
 };
 

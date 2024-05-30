@@ -4,12 +4,12 @@ import Input from "../../components/form/Input";
 import Button from "../../components/form/Button";
 import { A, useNavigate } from "@solidjs/router";
 import { signUpUser } from "../../utils/api/auth";
-import { useUserNameContext } from "../UserNameContext";
+import { useUserContext } from "../UserNameContext";
 
 const Signup: Component<{}> = () => {
   const navigate = useNavigate();
   const [userInput, setUserInput] = createSignal("");
-  const { setName } = useUserNameContext();
+  const { setUser } = useUserContext();
 
   return (
     <>
@@ -23,9 +23,9 @@ const Signup: Component<{}> = () => {
       <Button
         text='Create account'
         onClick={async () => {
-          const { name } = await signUpUser(userInput());
-          if (name) {
-            setName(name);
+          const users = await signUpUser(userInput());
+          if (users.length > 0) {
+            setUser(users[0]);
             navigate("/", { replace: true });
           }
         }}

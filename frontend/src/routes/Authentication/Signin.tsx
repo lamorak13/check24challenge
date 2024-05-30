@@ -4,12 +4,12 @@ import HorizontalLine from "../../components/shared/HorizontalLine";
 import Button from "../../components/form/Button";
 import Input from "../../components/form/Input";
 import { signInUser } from "../../utils/api/auth";
-import { useUserNameContext } from "../UserNameContext";
+import { useUserContext } from "../UserNameContext";
 
 const Signin: Component<{}> = () => {
   const navigate = useNavigate();
   const [userInput, setUserInput] = createSignal("");
-  const { setName } = useUserNameContext();
+  const { setUser } = useUserContext();
 
   return (
     <>
@@ -23,9 +23,9 @@ const Signin: Component<{}> = () => {
       <Button
         text='Sign in'
         onClick={async () => {
-          const { name } = await signInUser(userInput());
-          if (name) {
-            setName(name);
+          const user = await signInUser(userInput());
+          if (user) {
+            setUser(user);
             navigate("/", { replace: true });
           }
         }}

@@ -9,17 +9,17 @@ import {
 import Carousel from "../../components/shared/Carousel";
 import PreviewTable from "../../components/communities/PreviewTable";
 import CommunityCard from "../../components/communities/CommunityCard";
-import { useUserNameContext } from "../UserNameContext";
+import { useUserContext } from "../UserNameContext";
 import { fetchCommunityPreviews } from "../../utils/api/rankings";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
 import { UserRanking } from "../../utils/types/UserRanking";
 import { ServerMessage } from "../../utils/types/ServerMessage";
 
 const UserCommunitySection: Component<{}> = () => {
-  const { name } = useUserNameContext();
+  const { user } = useUserContext();
   const [previews, { refetch }] = createResource<
     { community: string; preview: UserRanking[] }[]
-  >(() => fetchCommunityPreviews(name()));
+  >(() => fetchCommunityPreviews(user().name));
 
   const [subsribe, unsubscribe] = useRealtimeRefetch();
   onMount(() => subsribe(refetch, [ServerMessage["Game Finished"]]));
@@ -33,7 +33,7 @@ const UserCommunitySection: Component<{}> = () => {
             <PreviewTable
               communityName={p.community}
               rankings={p.preview}
-              userName={name()}
+              userName={user().name}
             />
           )}
         </For>

@@ -8,13 +8,13 @@ import {
 } from "solid-js";
 import GameTable from "../../components/games/GameTable";
 import { fetchAllGames } from "../../utils/api/games";
-import { useUserNameContext } from "../UserNameContext";
+import { useUserContext } from "../UserNameContext";
 import { useRealtimeRefetch } from "../../utils/useRealtimeRefetch";
 import SearchForGames from "./SearchForGames";
 import { GameQuery } from "../../utils/types/GameQuery";
 
 const Games: Component<{}> = () => {
-  const { name } = useUserNameContext();
+  const { user } = useUserContext();
   const [query, setQuery] = createSignal<GameQuery>({
     kickoff: "",
     team: "",
@@ -22,7 +22,7 @@ const Games: Component<{}> = () => {
     status: "",
   });
   const [games, { refetch }] = createResource(query, (query: GameQuery) =>
-    fetchAllGames(query, name())
+    fetchAllGames(query, user().name)
   );
 
   const [subsribe, unsubscribe] = useRealtimeRefetch();

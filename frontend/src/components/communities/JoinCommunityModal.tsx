@@ -3,7 +3,7 @@ import Input from "../form/Input";
 import Button from "../form/Button";
 import HorizontalLine from "../shared/HorizontalLine";
 import Modal from "../shared/Modal";
-import { useUserNameContext } from "../../routes/UserNameContext";
+import { useUserContext } from "../../routes/UserNameContext";
 import { joinCommunity } from "../../utils/api/communities";
 
 const JoinCommunityModal: Component<{
@@ -11,7 +11,7 @@ const JoinCommunityModal: Component<{
   setShow: Setter<boolean>;
   onSubmit: () => any;
 }> = (props) => {
-  const { name } = useUserNameContext();
+  const { user } = useUserContext();
   const [groupName, setGroupName] = createSignal("");
 
   return (
@@ -30,7 +30,7 @@ const JoinCommunityModal: Component<{
         <Button
           text='Join now'
           onClick={async () => {
-            await joinCommunity(name(), groupName());
+            await joinCommunity(user().name, groupName());
             props.onSubmit();
           }}
         />
