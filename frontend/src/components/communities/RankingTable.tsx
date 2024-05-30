@@ -3,7 +3,6 @@ import {
   For,
   Setter,
   Show,
-  createEffect,
   createSignal,
   onCleanup,
   onMount,
@@ -64,9 +63,6 @@ const RankingTable: Component<{
     ]);
     setters.forEach((s) => s((n) => n + result.length));
   }
-
-  createEffect(() => console.log(props.rankings));
-
   return (
     <div>
       <div class='flex justify-between items-end mb-5'>

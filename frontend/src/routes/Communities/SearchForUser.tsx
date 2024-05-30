@@ -8,7 +8,6 @@ import {
 } from "solid-js";
 import SimpleRankingTable from "../../components/communities/SimpleRankingTable";
 import { UserRanking } from "../../utils/types/UserRanking";
-import { useUserNameContext } from "../UserNameContext";
 import { fetchCommunitySearchForUser } from "../../utils/api/rankings";
 import Input from "../../components/form/Input";
 import Button from "../../components/form/Button";

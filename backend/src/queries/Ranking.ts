@@ -1,47 +1,23 @@
-import { Prisma } from "@prisma/client";
 import { prisma } from "../utils/prisma";
 
 export const getRankingQuery = (userName: string, communityName: string) =>
-  prisma.$queryRaw(Prisma.sql`
+  prisma.$queryRawUnsafe(
+    `
     Select
         *
     from
-        (
-            Select
-                u. "name",
-                u. "points",
-                u. "bets",
-                u. "delta",
-                Case
-                    when u. "bets" = 0 then 0.0
-                    else (u. "points" / Cast(u. "bets" as float))
-                End as "ppb",
-                Cast(
-                    rank() over(
-                        order by
-                            "points" desc
-                    ) as Int
-                ),
-                Cast(
-                    row_number() over(
-                        order by
-                            "points" desc,
-                            "registration_date" asc
-                    ) as Int
-                ) row_num
-            from
-                "User" u
-                join "belongsToCommunity" b on u. "name" = b. "userName"
-            where
-                b. "communityName" = ${communityName}
-        ) x
+        "User_Ranking_${communityName}" r
     where
-        x. "row_num" < 4
-        or x. "row_num" = (
+        r. "row_num" < 4
+        or r. "row_num" = (
             Select
                 count(*)
             from
-                "User"
+                "User_Ranking_${communityName}"
         )
-        or x. "name" = ${userName}
-`);
+        or r. "name" = $1
+    order by
+        "row_num"
+`,
+    userName
+  );

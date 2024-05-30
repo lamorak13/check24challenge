@@ -1,37 +1,15 @@
-import { Prisma } from "@prisma/client";
 import { prisma } from "../utils/prisma";
 
 export const getPinnedRankinsgQuery = (
   userName: string,
   communityName: string
 ) =>
-  prisma.$queryRaw(Prisma.sql`
+  prisma.$queryRawUnsafe(
+    `
     Select
         *
     from
-        (
-            Select
-                u. "name",
-                u. "points",
-                Cast(
-                    rank() over(
-                        order by
-                            "points" desc
-                    ) as Int
-                ),
-                Cast(
-                    row_number() over(
-                        order by
-                            "points" desc,
-                            "registration_date" asc
-                    ) as Int
-                ) row_num
-            from
-                "User" u
-                join "belongsToCommunity" b on u. "name" = b. "userName"
-            where
-                b. "communityName" = ${communityName}
-        ) x
+        "User_Ranking_${communityName}" r
     where
         exists (
             Select
@@ -39,8 +17,13 @@ export const getPinnedRankinsgQuery = (
             from
                 "Pin" p
             where
-                p. "userName" = ${userName}
-                and p. "pinnedUserName" = x. "name"
-                and p. "communityName" = ${communityName}
+                p. "userName" = $1
+                and p. "pinnedUserName" = r. "name"
+                and p. "communityName" = $2
         )
-  `);
+    order by
+        "row_num"
+  `,
+    userName,
+    communityName
+  );

@@ -1,57 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-// List of common first names
-const firstNames = [
-  "Emma",
-  "Liam",
-  "Olivia",
-  "Noah",
-  "Ava",
-  "Elijah",
-  "Sophia",
-  "Oliver",
-  "Isabella",
-  "Lucas",
-  "Mia",
-  "James",
-  "Charlotte",
-  "William",
-  "Amelia",
-  "Benjamin",
-  "Harper",
-  "Henry",
-  "Evelyn",
-  "Alexander",
-];
-
-// List of common last names
-const lastNames = [
-  "Smith",
-  "Johnson",
-  "Williams",
-  "Brown",
-  "Jones",
-  "Garcia",
-  "Miller",
-  "Davis",
-  "Rodriguez",
-  "Martinez",
-  "Hernandez",
-  "Lopez",
-  "Gonzalez",
-  "Wilson",
-  "Anderson",
-  "Thomas",
-  "Taylor",
-  "Moore",
-  "Jackson",
-  "White",
-];
+const bettingGame = {
+  home: "GER",
+  away: "SCO",
+  kickoff: "2024-06-14 19:00:00",
+};
 
 // List of games
 const games = [
-  { home: "GER", away: "SCO", kickoff: "2024-06-14 19:00:00" },
   { home: "HUN", away: "SUI", kickoff: "2024-06-15 13:00:00" },
   { home: "ESP", away: "CRO", kickoff: "2024-06-15 16:00:00" },
   { home: "ITA", away: "ALB", kickoff: "2024-06-15 19:00:00" },
@@ -96,14 +53,14 @@ export async function test_setup() {
 
   let betGame = await prisma.game.create({
     data: {
-      home: games[0].home,
-      away: games[0].away,
-      kickoff: new Date(games[0].kickoff),
+      home: bettingGame.home,
+      away: bettingGame.away,
+      kickoff: new Date(bettingGame.kickoff),
     },
   });
   // Create games
   for (const game of games) {
-    prisma.game.create({
+    await prisma.game.create({
       data: {
         home: game.home,
         away: game.away,
@@ -114,11 +71,12 @@ export async function test_setup() {
 
   // Generate users
   const users = [];
-  for (let i = 0; i < 100000; i++) {
-    users.push(`${i}`);
-    prisma.user.create({
+  for (let i = 0; i < 2000000; i++) {
+    const name = `${Math.random().toString(36).substring(2, 20)} ${i}`;
+    users.push(name);
+    await prisma.user.create({
       data: {
-        name: `${i}`,
+        name: name,
         belongsToCommunity: {
           create: { communityName: "Overall" },
         },
@@ -128,17 +86,7 @@ export async function test_setup() {
 
   // Generate bets for each user
   for (const user of users) {
-    /*  // Select around 3 random games
-    const randomGames: any = [];
-    while (randomGames.length < 3) {
-      const randomIndex = Math.floor(Math.random() * games.length);
-      const randomGame = games[randomIndex];
-      if (!randomGames.includes(randomGame)) {
-        randomGames.push(randomGame);
-      }
-    }*/
-
-    prisma.bet.create({
+    await prisma.bet.create({
       data: {
         homescore: Math.floor(Math.random() * 5), // Random homescore between 0 and 4
         awayscore: Math.floor(Math.random() * 5), // Random awayscore between 0 and 4

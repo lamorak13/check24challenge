@@ -2,7 +2,8 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "../utils/prisma";
 
 export const updateRankingsQuery = (gameId: string) =>
-  prisma.$executeRaw(Prisma.sql`
+  prisma.$transaction([
+    prisma.$executeRaw(Prisma.sql`
     with cp as (
         Select
             Case
@@ -31,4 +32,6 @@ export const updateRankingsQuery = (gameId: string) =>
         cp
     where
         u. "name" = cp. "name"
-`);
+    `),
+    prisma.$queryRawUnsafe(`select RefreshAllMaterializedViewsConcurrently()`),
+  ]);
