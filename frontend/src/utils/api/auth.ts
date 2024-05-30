@@ -4,7 +4,7 @@ type User = {
   registration_date: Date;
 };
 
-export async function signInUser(userName: string): Promise<User> {
+export async function signInUser(userName: string): Promise<User | null> {
   const response = await fetch("http://localhost:5000/signin", {
     method: "POST",
     headers: {
@@ -13,10 +13,12 @@ export async function signInUser(userName: string): Promise<User> {
     body: JSON.stringify({ name: userName }),
   });
 
+  if (response.status != 200) return null;
+
   return await response.json();
 }
 
-export async function signUpUser(userName: string): Promise<User[]> {
+export async function signUpUser(userName: string): Promise<User[] | null> {
   const response = await fetch("http://localhost:5000/signup", {
     method: "POST",
     headers: {
@@ -24,6 +26,8 @@ export async function signUpUser(userName: string): Promise<User[]> {
     },
     body: JSON.stringify({ name: userName }),
   });
+
+  if (response.status != 201) return null;
 
   return await response.json();
 }

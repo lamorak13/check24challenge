@@ -42,7 +42,9 @@ export async function signinUser(req: Request, res: Response) {
         name: name,
       },
     });
-    result ? res.json(result) : res.status(400).json("No user found");
+    result
+      ? res.json(result)
+      : res.status(400).json({ error: "No user found" });
   } catch (error) {
     res.status(400).json({ error: "Could not sign in user" });
   }

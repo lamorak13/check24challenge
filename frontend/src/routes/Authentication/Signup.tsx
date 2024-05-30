@@ -24,7 +24,7 @@ const Signup: Component<{}> = () => {
         text='Create account'
         onClick={async () => {
           const users = await signUpUser(userInput());
-          if (users.length > 0) {
+          if (users && users.length > 0) {
             setUser(users[0]);
             navigate("/", { replace: true });
           }
