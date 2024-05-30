@@ -28,14 +28,18 @@ const RankingTable: Component<{
 }> = (props) => {
   const userRank = props.rankings.findIndex((r) => r.name == props.userName);
   const [pageSize, setPageSize] = createSignal(10);
-  const [upperLimit, setUpperLimit] = createSignal(userRank);
-  const [lowerLimit, setLowerLimit] = createSignal(userRank + 1);
+  const [upperLimit, setUpperLimit] = createSignal(
+    userRank <= 3 ? 3 : userRank
+  );
+  const [lowerLimit, setLowerLimit] = createSignal(
+    userRank <= 3 ? 4 : userRank + 1
+  );
 
   async function reset() {
     await props.refetch();
     const rank = props.rankings.findIndex((r) => r.name == props.userName);
-    setUpperLimit(rank);
-    setLowerLimit(rank + 1);
+    setUpperLimit(rank <= 3 ? 3 : rank);
+    setLowerLimit(rank <= 3 ? 4 : rank + 1);
   }
 
   const [subsribe, unsubscribe] = useRealtimeRefetch();
