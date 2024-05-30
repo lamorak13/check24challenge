@@ -51,6 +51,40 @@ export async function test_setup() {
     create: { name: "Overall" },
   });
 
+  await prisma.$executeRaw`
+      Create Materialized View "User_Ranking_Overall" as
+
+      Select u. "name", u. "points", u. "bets", u. "delta", u. "registration_date",
+          Case when u. "bets" = 0 then 0.0 else (u. "points" / Cast(u. "bets" as float)) End as "ppb",
+          Cast(rank() over(order by "points" desc) as Int),
+          Cast(row_number() over(order by "points" desc, "registration_date" asc) as Int) row_num
+      from "User" u
+      join "belongsToCommunity" b on u. "name" = b. "userName"
+      where b."communityName" = 'Overall'
+
+      With Data
+    `;
+
+  await prisma.$executeRaw`Create unique index "User_Ranking_Overall_Index" on "User_Ranking_Overall" ("name")`;
+
+  await prisma.$executeRaw`
+    CREATE OR REPLACE FUNCTION RefreshAllMaterializedViewsConcurrently(schema_arg TEXT DEFAULT 'public')
+    RETURNS INT AS $$
+        DECLARE
+            r RECORD;
+        BEGIN
+            RAISE NOTICE 'Refreshing materialized view in schema %', schema_arg;
+            FOR r IN SELECT matviewname FROM pg_matviews WHERE schemaname = schema_arg
+            LOOP
+                RAISE NOTICE 'Refreshing %.%', schema_arg, r.matviewname;
+                EXECUTE 'REFRESH MATERIALIZED VIEW CONCURRENTLY "' || schema_arg || '"."' || r.matviewname || '"';
+            END LOOP;
+
+            RETURN 1;
+        END
+    $$ LANGUAGE plpgsql;
+  `;
+
   let betGame = await prisma.game.create({
     data: {
       home: bettingGame.home,
