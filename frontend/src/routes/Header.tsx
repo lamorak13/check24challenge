@@ -30,10 +30,10 @@ const Header: Component<{}> = () => {
           <button class='mr-8' onClick={() => navigate("/signin")}>
             <RiUserFacesAccountCircleLine
               size={40}
-              class='block text-white/80 hover:text-silver'
+              class='block text-silver/30 hover:text-silver'
             />
           </button>
-          <A href='/'>
+          <A href='/' class='text-yellow no-underline'>
             <h3>GenDev Betting Challenge</h3>
           </A>
         </div>
