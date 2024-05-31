@@ -8,7 +8,10 @@ Users are awarded points based on how correct their bets are. There is also the 
 ## UI Demo
 To demonstrate the user interface and all included featuers I recorded a short video of a local installation.
 Since part of the focus of the project was on performance, I loaded 2 million users and bets in the databse to showcase the application's performance in a more realistic scenario.
-Cick here to look at the video
+
+- [Part 1](https://www.loom.com/share/e714bd6b0bf848d8b2c42ac72598df75?sid=09ddfc3e-0a31-4bcc-ae80-6b00270b16fa) (Introduction of the application)
+- [Part 2](https://www.loom.com/share/e70fd2d8b71347a1a83ca7efa4b9f736?sid=2554fc72-1b08-4f3e-b1d3-868599d26fc3) (Starting a game and scoring)
+- [Part 3](https://www.loom.com/share/a74d1c6ba5dd409b8455dffc88dba622?sid=f42b8ac4-93c8-477b-ae0a-4ce134c77c9a) (Taking a look at updated rankings)
 
 ## Implementation
 ### Frontend 🎨
@@ -75,7 +78,7 @@ app.listen(port, async () => {
 There are 3 endpoints that can be used to simulate real game events: 
 
 - `curl -X PUT http://localhost:5000/games/:gameId/start` -> starts a game
-- `curl -X PUT http://localhost:5000/games/:gameId/home/score` (or away/score) -> scores a goal for the corresponding team
+- `curl -X PUT http://localhost:5000/games/:gameId/score/home` (or away) -> scores a goal for the corresponding team
 - `curl -X PUT http://localhost:5000/games/:gameId/finish` -> ends the game
 
 ## Improvements/future features
