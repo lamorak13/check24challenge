@@ -74,9 +74,9 @@ app.listen(port, async () => {
 ### Admin actions
 There are 3 endpoints that can be used to simulate real game events: 
 
-- curl -X PUT http://localhost:5000/games/:gameId/start -> starts a game
-- curl -X PUT http://localhost:5000/games/:gameId/home/score (or away/score) -> scores a goal for the corresponding team
-- curl -X PUT http://localhost:5000/games/:gameId/finish -> ends the game
+- `curl -X PUT http://localhost:5000/games/:gameId/start` -> starts a game
+- `curl -X PUT http://localhost:5000/games/:gameId/home/score` (or away/score) -> scores a goal for the corresponding team
+- `curl -X PUT http://localhost:5000/games/:gameId/finish` -> ends the game
 
 ## Improvements/future features
 As with all applications, there is always room for improvement. 
