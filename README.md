@@ -49,11 +49,13 @@ Besides tables for games, users and communities, the database also stores a mate
 ### Prerequisits
 - local docker installation
 - node
+- Add the following .env variable to the backend folder: `DATABASE_URL="postgresql://admin:root@localhost:5432/postgres?schema=public"`. This tells Prisma which database to connect to.
+- In the backend, run `npx prisma db push`. This will migrate the current db schema to the postgres instance.
 
 ### Run the project
 To run the application, you need to do the following: 
 - run `docker-compose up` in the root directoy to start the postgres database and pgAdmin (an open source program to manage postgres isntances).
-- run `npm i` and `npm start` in backend to start the server. You should see "Server is running on http://localhost:5000" in the console
+- run `npm i` and `npm start` in backend to start the server. You should see "Server is running on http://localhost:5000" in the console.
 - run `npm i` and `npm start` in frontend to start the SPA
 
 ### Automtatic setup scripts
